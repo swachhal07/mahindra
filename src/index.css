@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@theme {
+  --color-mahindra-red: rgb(221, 5, 44);
+  --color-mahindra-darkRed: rgb(175, 4, 35);
+  --color-mahindra-black: #f5f6f9;
+  --color-mahindra-darkGray: #eaecef;
+  --color-mahindra-lightGray: #ffffff;
+  --font-sans: 'Outfit', sans-serif;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: #f5f6f9;
+  color: #1d1d1f;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(221, 5, 44);
+}
+
+/* Animation utilities */
+@keyframes pulseGlow {
+  0%, 100 {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.05);
+  }
+}
+
+.glow-animation {
+  animation: pulseGlow 6s infinite ease-in-out;
+}

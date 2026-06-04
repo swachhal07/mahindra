@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Showcase from './pages/Showcase';
-import AgriTech from './pages/AgriTech';
+import AboutUs from './pages/AboutUs';
 import Booking from './pages/Booking';
 
 export default function App() {
@@ -21,8 +21,8 @@ export default function App() {
         return <Home setCurrentPage={setCurrentPage} />;
       case 'showcase':
         return <Showcase setCurrentPage={setCurrentPage} />;
-      case 'agri-tech':
-        return <AgriTech setCurrentPage={setCurrentPage} />;
+      case 'about':
+        return <AboutUs setCurrentPage={setCurrentPage} />;
       case 'booking':
         return <Booking />;
       default:
@@ -43,7 +43,7 @@ export default function App() {
       </main>
 
       {/* Footer Area */}
-      <Footer setCurrentPage={setCurrentPage} />
+      <Footer setCurrentPage={setCurrentPage} currentPage={currentPage} />
     </div>
   );
 }

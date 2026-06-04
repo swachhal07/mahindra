@@ -48,3 +48,18 @@ body {
 .glow-animation {
   animation: pulseGlow 6s infinite ease-in-out;
 }
+
+@keyframes livePulse {
+  0%, 100% {
+    box-shadow: 0 0 4px 1px rgba(221, 5, 44, 0.6);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 10px 4px rgba(221, 5, 44, 0.2);
+    opacity: 0.5;
+  }
+}
+
+.live-dot {
+  animation: livePulse 1.5s ease-in-out infinite;
+}

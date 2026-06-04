@@ -1,87 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
-// Paper-grain texture: cream tones baked directly into the noise so no blend mode is needed.
-// Paint becomes a plain bitmap blit — no per-pixel blend computation when content reflows.
-// Single feTurbulence with 4 octaves captures both fine fibers and coarse specks in one pass.
-const PAPER_TEXTURE = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' seed='5' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0.22 0.78  0 0 0 0.22 0.76  0 0 0 0.22 0.72  0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
-const PAPER_BG_STYLE = {
-  backgroundColor: '#FAF7F2',
-  backgroundImage: PAPER_TEXTURE,
-  backgroundSize: '600px 600px',
-  backgroundRepeat: 'repeat',
-};
-
-// Topographic contour path generated via marching squares over a heightmap of Gaussian peaks.
-// Produces real iso-contours: closed loops around peaks, flowing lines through slopes.
-const TOPO_CONTOUR_PATH = (() => {
-  const peaks = [
-    { x: 230,  y: 220, h: 1.4, r: 230 },
-    { x: 720,  y: 320, h: 1.5, r: 260 },
-    { x: 1230, y: 240, h: 1.2, r: 200 },
-    { x: 420,  y: 720, h: 1.3, r: 240 },
-    { x: 1050, y: 700, h: 1.4, r: 250 },
-  ];
-  const heightAt = (x, y) => {
-    let h = 0;
-    for (const p of peaks) {
-      const dx = x - p.x, dy = y - p.y;
-      h += p.h * Math.exp(-(dx * dx + dy * dy) / (p.r * p.r));
-    }
-    return h;
-  };
-
-  const W = 1440, H = 900, cell = 14;
-  const cols = Math.ceil(W / cell);
-  const rows = Math.ceil(H / cell);
-  const grid = new Float32Array((cols + 1) * (rows + 1));
-  for (let r = 0; r <= rows; r++) {
-    for (let c = 0; c <= cols; c++) {
-      grid[r * (cols + 1) + c] = heightAt(c * cell, r * cell);
-    }
-  }
-
-  const levels = [0.06, 0.13, 0.21, 0.30, 0.40, 0.51, 0.63, 0.76, 0.90, 1.05];
-  let d = '';
-  for (const level of levels) {
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const x0 = c * cell, y0 = r * cell;
-        const tl = grid[r * (cols + 1) + c];
-        const tr = grid[r * (cols + 1) + c + 1];
-        const br = grid[(r + 1) * (cols + 1) + c + 1];
-        const bl = grid[(r + 1) * (cols + 1) + c];
-        const code = (tl > level ? 8 : 0) | (tr > level ? 4 : 0) | (br > level ? 2 : 0) | (bl > level ? 1 : 0);
-        if (code === 0 || code === 15) continue;
-        const top    = () => [x0 + cell * (level - tl) / (tr - tl), y0];
-        const right  = () => [x0 + cell, y0 + cell * (level - tr) / (br - tr)];
-        const bottom = () => [x0 + cell * (level - bl) / (br - bl), y0 + cell];
-        const left   = () => [x0, y0 + cell * (level - tl) / (bl - tl)];
-        let pairs;
-        switch (code) {
-          case 1:  pairs = [[left(), bottom()]]; break;
-          case 2:  pairs = [[bottom(), right()]]; break;
-          case 3:  pairs = [[left(), right()]]; break;
-          case 4:  pairs = [[top(), right()]]; break;
-          case 5:  pairs = [[top(), right()], [left(), bottom()]]; break;
-          case 6:  pairs = [[top(), bottom()]]; break;
-          case 7:  pairs = [[top(), left()]]; break;
-          case 8:  pairs = [[top(), left()]]; break;
-          case 9:  pairs = [[top(), bottom()]]; break;
-          case 10: pairs = [[top(), left()], [bottom(), right()]]; break;
-          case 11: pairs = [[top(), right()]]; break;
-          case 12: pairs = [[left(), right()]]; break;
-          case 13: pairs = [[bottom(), right()]]; break;
-          case 14: pairs = [[left(), bottom()]]; break;
-        }
-        for (const [[x1, y1], [x2, y2]] of pairs) {
-          d += `M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}`;
-        }
-      }
-    }
-  }
-  return d;
-})();
 import { ArrowRight, ChevronLeft, ChevronRight, Compass, Zap, Milestone, Star, Quote } from 'lucide-react';
+import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
+import { PAPER_BG_STYLE } from '../utils/paperTexture';
 import untitledDesign4 from '../assets/Untitled design (4).jpg';
 import blazoCargo from '../assets/mahindra-blazo-x-35-cargo.avif';
 import blazoTipper from '../assets/blazo_tipper_upscaled.png';
@@ -223,11 +143,9 @@ export default function Home({ setCurrentPage }) {
           />
         ))}
 
-
-
         {/* Overlays */}
-        <div className="absolute inset-0 bg-black/55 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 z-10" />
+        <div className="absolute inset-0 bg-black/35 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10" />
 
         {/* Navbar spacer */}
         <div className="h-[68px] w-full flex-shrink-0 relative z-20" />
@@ -238,9 +156,16 @@ export default function Home({ setCurrentPage }) {
             {/* Tag badge */}
             <div
               key={`tag-${slide.id}`}
-              className="inline-block bg-mahindra-red text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded"
-              style={{ animation: 'slideUp 0.6s ease forwards' }}
+              className="inline-flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-white/20"
+              style={{
+                animation: 'slideUp 0.6s ease forwards',
+                background: 'rgba(255, 255, 255, 0.08)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)',
+              }}
             >
+              <span className="live-dot w-2 h-2 rounded-full bg-mahindra-red flex-shrink-0"></span>
               {slide.tag}
             </div>
 
@@ -285,43 +210,6 @@ export default function Home({ setCurrentPage }) {
               >
                 {slide.secondary.label}
               </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom row: stats + dot nav */}
-        <div className="w-full z-20 py-6 relative">
-          {/* Dot navigation */}
-          <div className="flex justify-center gap-2 mb-6">
-            {slides.map((s, i) => (
-              <button
-                key={s.id}
-                id={`slide-dot-${i}`}
-                onClick={() => goTo(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className="transition-all duration-300 rounded-full"
-                style={{
-                  width: i === current ? '28px' : '8px',
-                  height: '8px',
-                  background: i === current ? '#e8002d' : 'rgba(255,255,255,0.35)',
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Stats */}
-          <div className="flex justify-center gap-16 sm:gap-24">
-            <div className="text-center">
-              <span className="text-white text-3xl sm:text-4xl font-extrabold block">100+</span>
-              <span className="text-gray-400 text-xs sm:text-sm mt-1 block font-medium">Countries Present</span>
-            </div>
-            <div className="text-center">
-              <span className="text-white text-3xl sm:text-4xl font-extrabold block">260K+</span>
-              <span className="text-gray-400 text-xs sm:text-sm mt-1 block font-medium">Employees Globally</span>
-            </div>
-            <div className="text-center">
-              <span className="text-white text-3xl sm:text-4xl font-extrabold block">150K+</span>
-              <span className="text-gray-400 text-xs sm:text-sm mt-1 block font-medium">Tons Hauled Yearly</span>
             </div>
           </div>
         </div>
@@ -779,7 +667,7 @@ export default function Home({ setCurrentPage }) {
       </section>
 
       {/* ── FAQ Section ── */}
-      <section className="py-24 bg-[#FAF7F2] text-gray-800 border-t border-gray-100" id="faq-section">
+      <section className="py-24 text-gray-800 border-t border-gray-100 bg-[#FAF7F2]" id="faq-section">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16 space-y-4">
@@ -801,7 +689,7 @@ export default function Home({ setCurrentPage }) {
               return (
                 <div
                   key={index}
-                  className="border border-gray-200 rounded-xl overflow-hidden bg-white transition-all duration-300 hover:border-gray-300"
+                  className="border border-gray-200 rounded-xl overflow-hidden bg-white transition-colors duration-300 hover:border-gray-300"
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : index)}
@@ -813,14 +701,13 @@ export default function Home({ setCurrentPage }) {
                     </span>
                   </button>
                   <div
-                    className="transition-all duration-300 ease-in-out overflow-hidden"
-                    style={{
-                      maxHeight: isOpen ? '250px' : '0px',
-                      opacity: isOpen ? 1 : 0,
-                    }}
+                    className="grid transition-[grid-template-rows] duration-300 ease-in-out"
+                    style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
                   >
-                    <div className="p-6 pt-0 text-gray-650 text-sm sm:text-base leading-relaxed font-normal border-t border-gray-150 bg-neutral-50/50">
-                      {faq.answer}
+                    <div className="overflow-hidden">
+                      <div className="p-6 pt-0 text-gray-650 text-sm sm:text-base leading-relaxed font-normal border-t border-gray-150 bg-neutral-50/50">
+                        {faq.answer}
+                      </div>
                     </div>
                   </div>
                 </div>

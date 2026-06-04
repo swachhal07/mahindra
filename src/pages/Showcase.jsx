@@ -101,26 +101,26 @@ export default function Showcase({ setCurrentPage }) {
     <div className="pb-20 bg-mahindra-black text-gray-800 min-h-screen">
       {/* Dark Hero Banner */}
       <section
-        className="relative pt-28 pb-16 text-center overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #1a0508 50%, #0a0a0f 100%)' }}
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{
+          background: 'radial-gradient(ellipse 110% 90% at 90% 20%, rgba(150,35,35,0.45) 0%, rgba(100,20,20,0.28) 25%, rgba(50,10,10,0.15) 50%, rgba(15,3,3,0.05) 75%, rgba(0,0,0,0) 95%), radial-gradient(ellipse 80% 60% at 10% 5%, rgba(100,25,25,0.22) 0%, rgba(40,8,8,0.08) 45%, rgba(0,0,0,0) 80%), #000',
+        }}
       >
-        {/* Subtle red glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] rounded-full pointer-events-none" style={{ background: 'rgba(221,5,44,0.08)', filter: 'blur(80px)' }} />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgb(221,5,44)' }}>
-            <span className="w-6 h-px" style={{ background: 'rgb(221,5,44)' }} />
+        {/* Navbar spacer */}
+        <div className="absolute top-0 left-0 right-0 h-[88px]" />
+
+        <div className="relative z-10 text-center px-6 lg:px-10 pt-[140px] pb-24 max-w-6xl mx-auto w-full">
+          <p className="text-[rgb(213,59,59)] text-xs sm:text-sm font-bold uppercase tracking-[0.35em] mb-8">
             Mahindra Fleet
-            <span className="w-6 h-px" style={{ background: 'rgb(221,5,44)' }} />
-          </span>
-          <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white mb-4">
-            EXPLORE THE SHOWCASE
+          </p>
+          <h1 className="font-black uppercase tracking-tight leading-[1.02] text-5xl sm:text-6xl lg:text-7xl">
+            <span className="text-white">Explore the</span><br />
+            <span className="text-[rgb(213,59,59)]">Showcase.</span>
           </h1>
-          <p className="text-white/55 max-w-2xl mx-auto text-base leading-relaxed">
-            From award-winning safety to offroad adventures and electric high-performance drivetrains, find the Mahindra vehicle that is built to elevate your journey.
+          <p className="text-neutral-400 text-base sm:text-lg mt-10 max-w-2xl mx-auto leading-relaxed">
+            From heavy commercial trucks to last-mile movers and earthmoving machinery, find the Mahindra built for your work.
           </p>
         </div>
-        {/* Bottom fade into page bg */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, #f5f6f9)' }} />
       </section>
 
       {/* Filter Buttons */}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Compass, ShieldAlert, Award, FileText, CheckCircle2, Trash2 } from 'lucide-react';
+import { Calendar, Compass, ShieldAlert, Award, FileText, CheckCircle2, Trash2, Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Map, MapMarker, MarkerContent, MarkerPopup, MapControls, Buildings3D } from '../components/Map';
 
 export default function Booking() {
   const [bookings, setBookings] = useState([]);
@@ -84,34 +85,69 @@ export default function Booking() {
   };
 
   return (
-    <div className="pb-20 bg-mahindra-black text-gray-800 min-h-screen">
+    <div className="pb-20 bg-white text-gray-800 min-h-screen">
       {/* Dark Hero Banner */}
       <section
-        className="relative pt-28 pb-16 text-center overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #1a0508 50%, #0a0a0f 100%)' }}
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{
+          background: 'radial-gradient(ellipse 110% 90% at 90% 20%, rgba(150,35,35,0.45) 0%, rgba(100,20,20,0.28) 25%, rgba(50,10,10,0.15) 50%, rgba(15,3,3,0.05) 75%, rgba(0,0,0,0) 95%), radial-gradient(ellipse 80% 60% at 10% 5%, rgba(100,25,25,0.22) 0%, rgba(40,8,8,0.08) 45%, rgba(0,0,0,0) 80%), #000',
+        }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] rounded-full pointer-events-none" style={{ background: 'rgba(221,5,44,0.08)', filter: 'blur(80px)' }} />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgb(221,5,44)' }}>
-            <span className="w-6 h-px" style={{ background: 'rgb(221,5,44)' }} />
-            Experience Center
-            <span className="w-6 h-px" style={{ background: 'rgb(221,5,44)' }} />
-          </span>
-          <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white mb-4">
-            BOOK YOUR TEST DRIVE
+        {/* Navbar spacer */}
+        <div className="absolute top-0 left-0 right-0 h-[88px]" />
+
+        <div className="relative z-10 text-center px-6 lg:px-10 pt-[140px] pb-24 max-w-6xl mx-auto w-full">
+          <p className="text-[rgb(213,59,59)] text-xs sm:text-sm font-bold uppercase tracking-[0.35em] mb-8">
+            Get in Touch
+          </p>
+          <h1 className="font-black uppercase tracking-tight leading-[1.02] text-5xl sm:text-6xl lg:text-7xl">
+            <span className="text-white">Get a Quote.</span><br />
+            <span className="text-[rgb(213,59,59)]">Get a Schedule.</span>
           </h1>
-          <p className="text-white/55 max-w-2xl mx-auto text-base leading-relaxed">
-            Schedule a personalized track experience or a premium highway test drive with Mahindra's expert product advisors.
+          <p className="text-neutral-400 text-base sm:text-lg mt-10 max-w-2xl mx-auto leading-relaxed">
+            Tell us about your fleet or your project. We will walk you through the right Mahindra, write a clear quote, and lock in a schedule you can plan around.
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, #f5f6f9)' }} />
       </section>
 
-      {/* Main Grid: Form and Active Bookings */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          
-          {/* Booking Form */}
+      {/* Reach Us + Form */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+
+          {/* Left — Reach Us Info */}
+          <div className="lg:col-span-5">
+            <p className="text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.3em] mb-5">
+              Reach Us
+            </p>
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6">
+              Call, email,<br />or send the form.
+            </h2>
+            <p className="text-gray-500 text-base leading-relaxed mb-10">
+              We respond to every inquiry within one business day. Our Mahindra team covers Nepal end-to-end — sales, service, and parts under one roof.
+            </p>
+
+            <div className="space-y-5 border-t border-gray-200 pt-6">
+              {[
+                { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Kathmandu Office', value: '+977 1-4444-555' },
+                { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Pokhara Office', value: '+977 61-555-666' },
+                { icon: <Mail className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Email', value: 'info@dugarautoclinic.com' },
+                { icon: <MapPin className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Office', value: 'MV Dugar Building, Kathmandu, Nepal' },
+                { icon: <Clock className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Hours', value: 'Sun – Fri, 9:00 AM – 6:00 PM' },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-4 pb-5 border-b border-gray-200 last:border-b-0">
+                  <div className="w-11 h-11 rounded-md bg-[rgb(213,59,59)]/10 flex items-center justify-center shrink-0">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 mb-1">{item.label}</p>
+                    <p className="text-gray-950 font-extrabold text-base tracking-tight">{item.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right — Booking Form */}
           <div className="lg:col-span-7 bg-mahindra-lightGray border border-black/5 shadow-sm rounded-2xl p-6 sm:p-10 text-left relative">
             <h3 className="text-xl font-bold uppercase mb-6 flex items-center gap-2 text-gray-955">
               <Calendar className="w-5 h-5 text-mahindra-red" />
@@ -229,68 +265,64 @@ export default function Booking() {
               <button
                 id="booking-submit-btn"
                 type="submit"
-                className="w-full bg-mahindra-red hover:bg-mahindra-darkRed text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-all duration-300 shadow-md shadow-mahindra-red/20"
+                className="w-full bg-mahindra-red hover:bg-black text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-colors duration-300 shadow-md shadow-mahindra-red/20"
               >
                 Book Experience Slot
               </button>
             </form>
           </div>
 
-          {/* Booking List Drawer */}
-          <div className="lg:col-span-5 bg-mahindra-lightGray border border-black/5 shadow-sm rounded-2xl p-6 text-left flex flex-col justify-between">
-            <div>
-              <h3 className="text-xl font-bold uppercase mb-6 flex items-center gap-2 text-gray-950">
-                <FileText className="w-5 h-5 text-mahindra-red" />
-                Active Bookings
-              </h3>
+        </div>
+      </section>
 
-              {bookings.length === 0 ? (
-                <div className="text-center py-12 border border-dashed border-black/10 rounded-xl bg-black/5">
-                  <p className="text-gray-500 text-sm">No active test drive requests found.</p>
-                  <p className="text-gray-600 text-xs mt-1">Book your slot to see details here.</p>
+      {/* Map */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="mb-6">
+          <p className="text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.3em] mb-3">
+            Find Us
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-[1.05]">
+            Our Showroom in Kathmandu.
+          </h2>
+        </div>
+        <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
+          <Map
+            theme="light"
+            zoom={16}
+            center={[85.3021967, 27.7299094]}
+            pitch={60}
+            bearing={-25}
+            styles={{
+              light: 'https://tiles.openfreemap.org/styles/positron',
+              dark: 'https://tiles.openfreemap.org/styles/dark',
+            }}
+          >
+            <Buildings3D color="#c8c8c8" opacity={0.9} />
+            <MapControls position="bottom-right" showZoom showLocate showFullscreen showCompass />
+            <MapMarker longitude={85.3021967} latitude={27.7299094}>
+              <MarkerContent>
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute w-10 h-10 rounded-full bg-[rgb(213,59,59)]/20 animate-ping" />
+                  <div className="relative w-7 h-7 rounded-full bg-[rgb(213,59,59)] border-2 border-white shadow-lg flex items-center justify-center">
+                    <MapPin className="w-3.5 h-3.5 text-white" />
+                  </div>
                 </div>
-              ) : (
-                <div className="space-y-4 max-h-[450px] overflow-y-auto pr-1">
-                  {bookings.map((booking) => (
-                    <div 
-                      key={booking.id}
-                      className="p-4 bg-black/5 border border-black/5 hover:border-black/10 rounded-lg flex justify-between items-start transition-all duration-300"
-                    >
-                      <div className="space-y-1.5">
-                        <span className="text-xs font-bold text-mahindra-red uppercase tracking-wider block bg-mahindra-red/10 border border-mahindra-red/20 px-2 py-0.5 rounded w-fit">
-                          {booking.data.model}
-                        </span>
-                        <h4 className="text-gray-950 font-bold text-sm uppercase tracking-wide">{booking.data.name}</h4>
-                        <p className="text-[11px] text-gray-600 block">
-                          Date: <span className="text-gray-700">{booking.data.date}</span>
-                        </p>
-                        <p className="text-[11px] text-gray-600 block">
-                          Center: <span className="text-gray-700">{booking.data.location}</span>
-                        </p>
-                      </div>
-
-                      <button
-                        id={`delete-booking-${booking.id}`}
-                        onClick={() => deleteBooking(booking.id)}
-                        className="p-1.5 rounded hover:bg-mahindra-red/10 text-gray-500 hover:text-mahindra-red transition-all duration-300"
-                        title="Cancel booking"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
+              </MarkerContent>
+              <MarkerPopup>
+                <div className="min-w-[200px]">
+                  <p className="text-[rgb(213,59,59)] text-[10px] font-bold uppercase tracking-[0.2em] mb-1">
+                    Dugar Auto Clinic
+                  </p>
+                  <h4 className="text-gray-950 font-extrabold text-sm uppercase mb-1">
+                    Kathmandu Showroom
+                  </h4>
+                  <p className="text-gray-600 text-xs leading-relaxed">
+                    MV Dugar Building, Kathmandu, Nepal
+                  </p>
                 </div>
-              )}
-            </div>
-
-            {/* Support section at the bottom of panel */}
-            <div className="pt-6 border-t border-white/5 mt-6 text-xs text-gray-500 flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-mahindra-red flex-shrink-0" />
-              <span>Need to reschedule? Call our Experience Center helpdesk at 1800-209-6006.</span>
-            </div>
-
-          </div>
-
+              </MarkerPopup>
+            </MapMarker>
+          </Map>
         </div>
       </section>
     </div>

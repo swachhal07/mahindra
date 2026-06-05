@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Compass, ShieldAlert, Award, FileText, CheckCircle2, Trash2, Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { Map, MapMarker, MarkerContent, MarkerPopup, MapControls, Buildings3D } from '../components/Map';
+import { useT } from '../utils/i18n';
 
 export default function Booking() {
+  const t = useT();
   const [bookings, setBookings] = useState([]);
   const [successMsg, setSuccessMsg] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    model: 'Mahindra Thar',
+    model: 'BlazoX 35 Truck',
     date: '',
-    location: 'Mumbai - Apollo Bunder',
+    location: 'M.V Dugar Building, Kathmandu',
     consent: false
   });
 
   const vehiclesList = [
-    'Mahindra Thar',
-    'XUV400 EV',
-    'Scorpio-N',
-    'XUV700',
-    'XUV Concept (Customized)'
+    'LoadKing Optimo Truck 25',
+    'LoadKing Optimo Tipper 25',
+    'Supro Mini Profit Truck LX Model',
+    'Supro Maxi Profit Truck VX Model',
+    'Mahindra Earthmaster SX90 (Backhole Loader)',
+    'BlazoX Tipper m Dura',
+    'BlazoX 35 Truck'
   ];
 
   const locationsList = [
-    'Mumbai - Apollo Bunder Center',
-    'Delhi - Connaught Place Center',
-    'Bangalore - Whitefield Center',
-    'Pune - Hinjewadi Center',
-    'Hyderabad - Gachibowli Center',
-    'Chennai - Mount Road Center'
+    'M.V Dugar Building, Kathmandu'
   ];
 
   useEffect(() => {
@@ -98,14 +97,14 @@ export default function Booking() {
 
         <div className="relative z-10 text-center px-6 lg:px-10 pt-[140px] pb-24 max-w-6xl mx-auto w-full">
           <p className="text-[rgb(213,59,59)] text-xs sm:text-sm font-bold uppercase tracking-[0.35em] mb-8">
-            Get in Touch
+            {t('booking.eyebrow')}
           </p>
           <h1 className="font-black uppercase tracking-tight leading-[1.02] text-5xl sm:text-6xl lg:text-7xl">
-            <span className="text-white">Get a Quote.</span><br />
-            <span className="text-[rgb(213,59,59)]">Get a Schedule.</span>
+            <span className="text-white">{t('booking.headline1')}</span><br />
+            <span className="text-[rgb(213,59,59)]">{t('booking.headline2')}</span>
           </h1>
           <p className="text-neutral-400 text-base sm:text-lg mt-10 max-w-2xl mx-auto leading-relaxed">
-            Tell us about your fleet or your project. We will walk you through the right Mahindra, write a clear quote, and lock in a schedule you can plan around.
+            {t('booking.sub')}
           </p>
         </div>
       </section>
@@ -117,10 +116,10 @@ export default function Booking() {
           {/* Left — Reach Us Info */}
           <div className="lg:col-span-5">
             <p className="text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.3em] mb-5">
-              Reach Us
+              {t('booking.reachUs')}
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6">
-              Call, email,<br />or send the form.
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6 whitespace-pre-line">
+              {t('booking.reachUs.title')}
             </h2>
             <p className="text-gray-500 text-base leading-relaxed mb-10">
               We respond to every inquiry within one business day. Our Mahindra team covers Nepal end-to-end — sales, service, and parts under one roof.
@@ -129,10 +128,9 @@ export default function Booking() {
             <div className="space-y-5 border-t border-gray-200 pt-6">
               {[
                 { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Kathmandu Office', value: '+977 1-4444-555' },
-                { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Pokhara Office', value: '+977 61-555-666' },
                 { icon: <Mail className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Email', value: 'info@dugarautoclinic.com' },
                 { icon: <MapPin className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Office', value: 'MV Dugar Building, Kathmandu, Nepal' },
-                { icon: <Clock className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Hours', value: 'Sun – Fri, 9:00 AM – 6:00 PM' },
+                { icon: <Clock className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Hours', value: 'Sun – Fri, 9:30 AM – 6:00 PM' },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-4 pb-5 border-b border-gray-200 last:border-b-0">
                   <div className="w-11 h-11 rounded-md bg-[rgb(213,59,59)]/10 flex items-center justify-center shrink-0">
@@ -265,9 +263,9 @@ export default function Booking() {
               <button
                 id="booking-submit-btn"
                 type="submit"
-                className="w-full bg-mahindra-red hover:bg-black text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-colors duration-300 shadow-md shadow-mahindra-red/20"
+                className="w-full bg-black hover:bg-[#e21b22] text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-colors duration-300"
               >
-                Book Experience Slot
+                {t('booking.submit')}
               </button>
             </form>
           </div>

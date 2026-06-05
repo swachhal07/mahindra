@@ -2,8 +2,10 @@ import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors.net_-640x400.png';
 import { PAPER_BG_STYLE } from '../utils/paperTexture';
+import { useT } from '../utils/i18n';
 
 export default function Footer({ setCurrentPage, currentPage }) {
+  const t = useT();
   const textured = currentPage === 'about';
   const whiteBackdrop = currentPage === 'booking' || currentPage === 'showcase';
   return (
@@ -16,30 +18,30 @@ export default function Footer({ setCurrentPage, currentPage }) {
           className={`absolute inset-x-0 top-0 bottom-16 -z-10 ${whiteBackdrop ? 'bg-white' : 'bg-[#FAF7F2]'}`}
           style={textured ? PAPER_BG_STYLE : undefined}
         />
-        <div className="max-w-6xl mx-auto bg-[#b21e22] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
+        <div className="max-w-6xl mx-auto bg-[#e21b22] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
           <div className="w-full lg:w-auto text-left">
             <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-red-200 uppercase block mb-1">
-              Ready to Experience It?
+              {t('footer.eyebrow')}
             </span>
             <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight leading-none">
-              Book a Test Drive Today.
+              {t('footer.title')}
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto justify-end">
             <button
               id="footer-cta-booking"
               onClick={() => setCurrentPage('booking')}
-              className="w-full sm:w-auto bg-white text-[#b21e22] hover:bg-black hover:text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
+              className="w-full sm:w-auto bg-white text-[#e21b22] hover:bg-black hover:text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
             >
-              Book Test Drive
+              {t('footer.bookCta')}
             </button>
-            <a
-              id="footer-cta-phone"
-              href="tel:18002096006"
-              className="w-full sm:w-auto bg-transparent border border-white/50 hover:border-white hover:bg-white hover:text-[#b21e22] text-white transition-colors duration-300 font-bold tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
+            <button
+              id="footer-cta-contact"
+              onClick={() => setCurrentPage('booking')}
+              className="w-full sm:w-auto bg-transparent border border-white/50 hover:border-white hover:bg-white hover:text-[#e21b22] text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
             >
-              1800.209.6006
-            </a>
+              {t('footer.contactCta')}
+            </button>
           </div>
         </div>
       </div>
@@ -106,23 +108,23 @@ export default function Footer({ setCurrentPage, currentPage }) {
               </h4>
               <ul className="space-y-3.5 text-sm">
                 <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#b21e22] flex-shrink-0" />
+                  <Phone className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
                   <span className="text-neutral-400">HQ: <a href="tel:18002096006" className="text-white font-medium hover:underline">1800.209.6006</a></span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#b21e22] flex-shrink-0" />
+                  <Phone className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
                   <span className="text-neutral-400">INTL: <span className="text-white font-medium">(949) 207-3310</span></span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[#b21e22] flex-shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[#e21b22] flex-shrink-0 mt-0.5" />
                   <span className="text-neutral-400 leading-snug">Gateway Building, Apollo Bunder, Mumbai, India</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-[#b21e22] flex-shrink-0" />
+                  <Mail className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
                   <a href="mailto:customercare@mahindra.com" className="hover:text-white transition-colors duration-300 text-neutral-400">customercare@mahindra.com</a>
                 </li>
               </ul>
-              <div className="mt-2 p-3.5 bg-[#141414] border-l-[3px] border-[#b21e22] rounded-sm">
+              <div className="mt-2 p-3.5 bg-[#141414] border-l-[3px] border-[#e21b22] rounded-sm">
                 <p className="text-xs text-white font-semibold tracking-wider uppercase">Accepting No Limits Worldwide</p>
               </div>
             </div>

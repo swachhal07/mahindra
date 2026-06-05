@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight, Compass, Zap, Milestone, Star, Quote } from 'lucide-react';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
 import { PAPER_BG_STYLE } from '../utils/paperTexture';
+import { useT } from '../utils/i18n';
 import untitledDesign4 from '../assets/Untitled design (4).jpg';
 import blazoCargo from '../assets/mahindra-blazo-x-35-cargo.avif';
 import blazoTipper from '../assets/blazo_tipper_upscaled.png';
@@ -13,57 +14,13 @@ import smart50 from '../assets/Mahindra_SX_Smart_50_4_ab720f2044.webp';
 import backhoeLoader from '../assets/mahindra-backhoe-loader-28-04-2022-2-271486210-zkd8fne7.avif';
 
 
+// Slide text comes from i18n (keys: home.slide{N}.tag/headline/sub).
 const slides = [
-  {
-    id: 0,
-    image: untitledDesign4,
-    tag: 'Heavy Haulage',
-    headline: 'Logistics You Can\nCount On, Start to Finish.',
-    sub: 'We specialise in heavy commercial trucking, premium haulage solutions, and high-performance engineering built for any terrain.',
-    cta: { label: 'Book Test Drive', page: 'booking' },
-    secondary: { label: 'View Showcase', page: 'showcase' },
-    objectPosition: 'center center',
-  },
-  {
-    id: 1,
-    image: blazoCargo,
-    tag: 'Cargo & Logistics',
-    headline: 'Maximise Profits.\nMinimise Downtime.',
-    sub: 'High-payload cargo solutions designed for optimal mileage and effortless long-distance operations across the country.',
-    cta: { label: 'Book Test Drive', page: 'booking' },
-    secondary: { label: 'View Showcase', page: 'showcase' },
-    objectPosition: 'center center',
-  },
-  {
-    id: 2,
-    image: blazoTipper,
-    tag: 'Tipper Efficiency',
-    headline: 'Power That Moves\nIndustries Forward.',
-    sub: 'The Mahindra Blazo X Tipper redefines long-haul efficiency with intelligent fuel management and class-leading reliability.',
-    cta: { label: 'Book Test Drive', page: 'booking' },
-    secondary: { label: 'View Showcase', page: 'showcase' },
-    objectPosition: 'center center',
-  },
-  {
-    id: 3,
-    image: gallery3,
-    tag: 'Next-Gen Commercials',
-    headline: 'Next-Gen Efficiency,\nBuilt For Tomorrow.',
-    sub: 'Redefining the heavy commercial segment with high-productivity features and world-class driver comfort.',
-    cta: { label: 'Book Test Drive', page: 'booking' },
-    secondary: { label: 'View Showcase', page: 'showcase' },
-    objectPosition: 'center center',
-  },
-  {
-    id: 4,
-    image: earthmasterSxIv,
-    tag: 'Smart Construction',
-    headline: 'Smart Technology.\nPrecision Performance.',
-    sub: 'Advanced earthmoving machinery engineered for maximum output, lowest fuel consumption, and absolute durability.',
-    cta: { label: 'Book Test Drive', page: 'booking' },
-    secondary: { label: 'View Showcase', page: 'showcase' },
-    objectPosition: 'center center',
-  },
+  { id: 0, image: untitledDesign4, objectPosition: 'center center' },
+  { id: 1, image: blazoCargo, objectPosition: 'center center' },
+  { id: 2, image: blazoTipper, objectPosition: 'center center' },
+  { id: 3, image: gallery3, objectPosition: 'center center' },
+  { id: 4, image: earthmasterSxIv, objectPosition: 'center center' },
 ];
 
 const INTERVAL_MS = 5000;
@@ -97,6 +54,7 @@ export default function Home({ setCurrentPage }) {
   const [fading, setFading] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
   const [activeTab, setActiveTab] = useState('heavy');
+  const t = useT();
 
   const goTo = useCallback((index) => {
     if (index === current || fading) return;
@@ -124,7 +82,7 @@ export default function Home({ setCurrentPage }) {
     <div className="bg-mahindra-black text-gray-800">
       {/* ── Hero Slideshow ── */}
       <section
-        className="relative h-screen flex flex-col justify-between bg-black overflow-hidden"
+        className="relative h-screen flex flex-col justify-center bg-black overflow-hidden"
         id="hero-section"
       >
         {/* Slideshow Images with Smooth Cross-Fade */}
@@ -132,7 +90,7 @@ export default function Home({ setCurrentPage }) {
           <img
             key={s.id}
             src={s.image}
-            alt={s.tag}
+            alt={t(`home.slide${s.id}.tag`)}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
             style={{
               objectPosition: s.objectPosition || 'center center',
@@ -147,11 +105,8 @@ export default function Home({ setCurrentPage }) {
         <div className="absolute inset-0 bg-black/35 z-10" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10" />
 
-        {/* Navbar spacer */}
-        <div className="h-[68px] w-full flex-shrink-0 relative z-20" />
-
         {/* Centered Content */}
-        <div className="w-full px-4 z-20 relative flex-grow flex items-center justify-center">
+        <div className="w-full px-4 z-20 relative flex items-center justify-center">
           <div className="max-w-3xl text-center space-y-5">
             {/* Tag badge */}
             <div
@@ -166,7 +121,7 @@ export default function Home({ setCurrentPage }) {
               }}
             >
               <span className="live-dot w-2 h-2 rounded-full bg-mahindra-red flex-shrink-0"></span>
-              {slide.tag}
+              {t(`home.slide${slide.id}.tag`)}
             </div>
 
             {/* Headline */}
@@ -175,7 +130,7 @@ export default function Home({ setCurrentPage }) {
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08] whitespace-pre-line"
               style={{ animation: 'slideUp 0.7s ease 0.1s both' }}
             >
-              {slide.headline}
+              {t(`home.slide${slide.id}.headline`)}
             </h1>
 
             {/* Sub-text */}
@@ -184,33 +139,9 @@ export default function Home({ setCurrentPage }) {
               className="text-gray-300 text-sm sm:text-base leading-relaxed font-light max-w-xl mx-auto"
               style={{ animation: 'slideUp 0.7s ease 0.2s both' }}
             >
-              {slide.sub}
+              {t(`home.slide${slide.id}.sub`)}
             </p>
 
-            {/* CTAs */}
-            <div
-              key={`cta-${slide.id}`}
-              className="flex items-center justify-center gap-4 pt-2"
-              style={{ animation: 'slideUp 0.7s ease 0.3s both' }}
-            >
-              <button
-                id={`hero-cta-primary-${slide.id}`}
-                onClick={() => setCurrentPage(slide.cta.page)}
-                className="flex items-center gap-3 bg-white text-black font-bold px-6 py-3 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-lg hover:scale-105 active:scale-100"
-              >
-                <span>{slide.cta.label}</span>
-                <div className="w-7 h-7 rounded-full bg-black flex items-center justify-center text-white">
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </button>
-              <button
-                id={`hero-cta-secondary-${slide.id}`}
-                onClick={() => setCurrentPage(slide.secondary.page)}
-                className="text-white font-semibold px-6 py-3 rounded-full border border-white/40 hover:bg-white/10 transition-all duration-300 hover:scale-105 active:scale-100"
-              >
-                {slide.secondary.label}
-              </button>
-            </div>
           </div>
         </div>
 
@@ -252,10 +183,10 @@ export default function Home({ setCurrentPage }) {
           {/* Header */}
           <div className="mb-16 text-center space-y-2">
             <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
-              WHAT WE DO
+              {t('home.whatWeDo.eyebrow')}
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans">
-              POWERING INDIA'S<br />COMMERCIAL BACKBONE.
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans whitespace-pre-line">
+              {t('home.whatWeDo.title')}
             </h2>
           </div>
 
@@ -264,7 +195,7 @@ export default function Home({ setCurrentPage }) {
             {[
               {
                 num: '01',
-                title: 'Vehicle Sales',
+                title: 'Commercial Vehicle Sales',
                 desc: 'Authorised dealer for Mahindra commercial trucks, passenger vehicles, and light commercials — serving individuals and fleet operators across Kathmandu.',
                 img: blazoCargo,
                 page: 'showcase',
@@ -286,8 +217,7 @@ export default function Home({ setCurrentPage }) {
             ].map((card, i) => (
               <div
                 key={i}
-                className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.15)]"
-                onClick={() => setCurrentPage(card.page)}
+                className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.15)]"
               >
                 {/* Image */}
                 <div className="overflow-hidden h-56">
@@ -306,10 +236,6 @@ export default function Home({ setCurrentPage }) {
                   <p className="text-gray-500 text-sm leading-relaxed font-light mb-6">
                     {card.desc}
                   </p>
-                  <div className="flex items-center gap-2 text-[#e21b22] font-black text-xs uppercase tracking-widest group-hover:gap-4 transition-all duration-300">
-                    <span>LEARN MORE</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
                 </div>
               </div>
             ))}
@@ -404,10 +330,10 @@ export default function Home({ setCurrentPage }) {
               <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div className="space-y-2">
                   <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
-                    OUR DIVISIONS
+                    {t('home.divisions.eyebrow')}
                   </span>
-                  <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans">
-                    VEHICLES ENGINEERED<br />TO PERFORM.
+                  <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans whitespace-pre-line">
+                    {t('home.divisions.title')}
                   </h2>
                 </div>
                 <p className="text-gray-500 text-sm sm:text-base max-w-sm leading-relaxed font-light text-left md:text-right">
@@ -422,11 +348,10 @@ export default function Home({ setCurrentPage }) {
                     key={key}
                     id={`tab-${key}`}
                     onClick={() => setActiveTab(key)}
-                    className={`pb-4 px-2 text-sm font-black uppercase tracking-wider border-b-2 transition-all duration-300 ${
-                      activeTab === key
-                        ? 'border-[#e21b22] text-[#e21b22]'
-                        : 'border-transparent text-gray-400 hover:text-gray-800 hover:border-gray-300'
-                    }`}
+                    className={`pb-4 px-2 text-sm font-black uppercase tracking-wider border-b-2 transition-all duration-300 ${activeTab === key
+                      ? 'border-[#e21b22] text-[#e21b22]'
+                      : 'border-transparent text-gray-400 hover:text-gray-800 hover:border-gray-300'
+                      }`}
                   >
                     {div.label}
                   </button>
@@ -532,10 +457,10 @@ export default function Home({ setCurrentPage }) {
           {/* Header */}
           <div className="text-center mb-16 space-y-4">
             <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
-              CLIENT REVIEWS
+              {t('home.reviews.eyebrow')}
             </span>
             <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans">
-              TRUSTED BY THE FLEET OWNERS.
+              {t('home.reviews.title')}
             </h2>
             <p className="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-light">
               See how our high-performance vehicles and dedicated servicing empower businesses across the nation.
@@ -672,10 +597,10 @@ export default function Home({ setCurrentPage }) {
           {/* Header */}
           <div className="text-center mb-16 space-y-4">
             <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-lg sm:text-xl block">
-              QUESTIONS &amp; ANSWERS
+              {t('home.faq.eyebrow')}
             </span>
             <h2 className="text-3xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans">
-              FREQUENTLY ASKED QUESTIONS.
+              {t('home.faq.title')}
             </h2>
             <p className="text-gray-500 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-light">
               Find quick answers to common inquiries about our heavy-duty vehicles, booking procedures, and custom servicing options.

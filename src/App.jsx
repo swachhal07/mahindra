@@ -1,49 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Showcase from './pages/Showcase';
 import AboutUs from './pages/AboutUs';
 import Booking from './pages/Booking';
+import { LanguageProvider } from './utils/i18n';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
 
-  // Smooth scroll to top when changing pages
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Scroll BEFORE the new page mounts. Doing it inside setCurrentPage means
+  // the browser is already at scrollY=0 when React commits the new DOM, so
+  // there's no frame where the new (shorter) page is viewed through a
+  // scrolled-down viewport.
+  const changePage = (page) => {
+    window.scrollTo(0, 0);
+    setCurrentPage(page);
+  };
+
+  // Belt-and-braces: also reset synchronously after commit in case anything
+  // (e.g. an unmounting Map component) shifted scroll during the transition.
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
   }, [currentPage]);
 
-  // Page switcher logic
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <Home setCurrentPage={setCurrentPage} />;
+        return <Home setCurrentPage={changePage} />;
       case 'showcase':
-        return <Showcase setCurrentPage={setCurrentPage} />;
+        return <Showcase setCurrentPage={changePage} />;
       case 'about':
-        return <AboutUs setCurrentPage={setCurrentPage} />;
+        return <AboutUs setCurrentPage={changePage} />;
       case 'booking':
         return <Booking />;
       default:
-        return <Home setCurrentPage={setCurrentPage} />;
+        return <Home setCurrentPage={changePage} />;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-mahindra-black text-white">
-      {/* Header with Navigation */}
-      <header>
-        <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      </header>
+    <LanguageProvider>
+      <div className="flex flex-col min-h-screen bg-black text-white">
+        <header>
+          <Navbar currentPage={currentPage} setCurrentPage={changePage} />
+        </header>
 
-      {/* Main Content Area */}
-      <main className="flex-grow">
-        {renderPage()}
-      </main>
+        {/* `key` forces a fresh subtree on page change, and the keyed div
+            replays a CSS fade-in. The fade hides any one-frame paint gap that
+            would otherwise look like a white flash. */}
+        <main className="flex-grow">
+          <div key={currentPage} className="page-fade">
+            {renderPage()}
+          </div>
+        </main>
 
-      {/* Footer Area */}
-      <Footer setCurrentPage={setCurrentPage} currentPage={currentPage} />
-    </div>
+        <Footer setCurrentPage={changePage} currentPage={currentPage} />
+      </div>
+    </LanguageProvider>
   );
 }

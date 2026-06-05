@@ -499,7 +499,16 @@ export function Buildings3D({ color = '#d4d4d4', opacity = 0.85, minZoom = 13 } 
     );
 
     return () => {
-      if (map.getLayer('3d-buildings')) map.removeLayer('3d-buildings');
+      // On unmount the parent <Map> may already be tearing down its style
+      // (or have called map.remove()), in which case getLayer/removeLayer
+      // throw. An uncaught throw here unmounts the whole React tree, so guard.
+      try {
+        if (map.style && map.getLayer('3d-buildings')) {
+          map.removeLayer('3d-buildings');
+        }
+      } catch {
+        /* map already torn down — nothing to remove */
+      }
     };
   }, [map, isLoaded, color, opacity, minZoom]);
 

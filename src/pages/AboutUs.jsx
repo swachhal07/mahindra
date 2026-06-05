@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { useT } from '../utils/i18n';
 import storyImage1 from '../assets/2018-Mahindra-BLAZO-X-3.jpg';
 import storyImage2 from '../assets/mahindra-blazo-x-35-cargo.avif';
 import storyImage3 from '../assets/earth-master-SXL.jpg';
 import storyImage4 from '../assets/mahindra-supro-profit-truck-excel.avif';
-import driveCardImage from '../assets/hero.png';
-import serviceCardImage from '../assets/mahindra-blazo-x-28-bs6-tipper-truck.jpg';
+import partnerVianet from '../assets/Vianet-Aba-Sabai_Connected-Red@4x.png';
+import partnerJagdamba from '../assets/jagdamba-steels.png';
+import partnerAboutUs from '../assets/about-us-logo-image-1024x1024.png';
+import partnerLogo from '../assets/logo.png';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
 import { PAPER_BG_STYLE } from '../utils/paperTexture';
+
+const partnerLogos = [
+  { id: 'vianet', src: partnerVianet, alt: 'Vianet', className: 'h-10 sm:h-12' },
+  { id: 'jagdamba', src: partnerJagdamba, alt: 'Jagdamba Steels', className: 'h-16 sm:h-20' },
+  { id: 'about-us', src: partnerAboutUs, alt: 'Partner', className: 'h-16 sm:h-20' },
+  { id: 'logo', src: partnerLogo, alt: 'Partner', className: 'h-12 sm:h-14' },
+];
 
 const storySlides = [storyImage1, storyImage2, storyImage3, storyImage4];
 
@@ -24,6 +33,7 @@ const serveCategories = [
 
 export default function AboutUs({ setCurrentPage }) {
   const [storySlide, setStorySlide] = useState(0);
+  const t = useT();
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -47,14 +57,14 @@ export default function AboutUs({ setCurrentPage }) {
 
         <div className="relative z-10 text-center px-6 lg:px-10 pt-[140px] pb-24 max-w-6xl mx-auto w-full">
           <p className="text-[rgb(213,59,59)] text-xs sm:text-sm font-bold uppercase tracking-[0.35em] mb-8">
-            About Dugar Auto Clinic
+            {t('about.eyebrow')}
           </p>
           <h1 className="font-black uppercase tracking-tight leading-[1.02] text-5xl sm:text-6xl lg:text-7xl">
-            <span className="text-white">Nepal's Trusted.</span><br />
-            <span className="text-[rgb(213,59,59)]">Mahindra Partner.</span>
+            <span className="text-white">{t('about.headline1')}</span><br />
+            <span className="text-[rgb(213,59,59)]">{t('about.headline2')}</span>
           </h1>
           <p className="text-neutral-400 text-base sm:text-lg mt-10 max-w-2xl mx-auto leading-relaxed">
-            We deliver world-class Mahindra vehicles and after-sales service across Nepal — from heavy commercial trucks to light city movers, all under one roof.
+            {t('about.sub')}
           </p>
         </div>
       </div>
@@ -94,7 +104,7 @@ export default function AboutUs({ setCurrentPage }) {
           </div>
           <div className="lg:-mr-[calc((100vw-72rem)/2)] lg:pr-10">
             <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
-              Our Story
+              {t('about.ourStory')}
             </p>
             <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-8">
               A dealership that{' '}
@@ -114,61 +124,55 @@ export default function AboutUs({ setCurrentPage }) {
        </div>
       </div>
 
-      {/* Dual CTA Cards */}
+      {/* Trusted Partners — auto-scrolling logo strip */}
       <div style={PAPER_BG_STYLE}>
-       <div className="max-w-6xl mx-auto px-6 lg:px-10 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {/* Card 1 — Drive */}
-          <div
-            className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-[5/6] shadow-xl group cursor-pointer"
-            onClick={() => setCurrentPage('booking')}
-          >
-            <img
-              src={driveCardImage}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-            <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-10">
-              <h3 className="text-white text-4xl sm:text-5xl font-black uppercase tracking-tight leading-[1.05] mb-8">
-                Drive.<br />Explore.<br />Own.
-              </h3>
-              <button
-                onClick={(e) => { e.stopPropagation(); setCurrentPage('booking'); }}
-                className="self-start inline-flex items-center gap-2 border border-white/80 text-white text-xs font-bold uppercase tracking-[0.2em] px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors duration-300"
-              >
-                Book a Test Drive
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
+       <div className="pt-24 pb-14">
+        <div className="max-w-6xl mx-auto px-6 lg:px-10 text-center mb-14">
+          <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
+            {t('about.trustedPartners')}
+          </p>
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05]">
+            {t('about.trustedPartners.title')}
+          </h2>
+        </div>
 
-          {/* Card 2 — Service */}
-          <div
-            className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-[5/6] shadow-xl group cursor-pointer"
-            onClick={() => setCurrentPage('showcase')}
-          >
-            <img
-              src={serviceCardImage}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-            <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-10">
-              <h3 className="text-white text-4xl sm:text-5xl font-black uppercase tracking-tight leading-[1.05] mb-8">
-                Your Vehicle.<br />Our Standards.<br />Expert Care.
-              </h3>
-              <button
-                onClick={(e) => { e.stopPropagation(); setCurrentPage('showcase'); }}
-                className="self-start inline-flex items-center gap-2 border border-white/80 text-white text-xs font-bold uppercase tracking-[0.2em] px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors duration-300"
+        <div className="logo-marquee-container">
+          <div className="logo-marquee-track">
+            {[...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, idx) => (
+              <div
+                key={`${logo.id}-${idx}`}
+                className="flex items-center justify-center shrink-0 px-12"
               >
-                View Our Lineup
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className={`${logo.className} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300`}
+                />
+              </div>
+            ))}
           </div>
         </div>
        </div>
+
+       <style>{`
+         .logo-marquee-container {
+           overflow: hidden;
+           width: 100%;
+         }
+         .logo-marquee-track {
+           display: flex;
+           width: max-content;
+           align-items: center;
+           animation: logoMarqueeLtr 35s linear infinite;
+         }
+         .logo-marquee-track:hover {
+           animation-play-state: paused;
+         }
+         @keyframes logoMarqueeLtr {
+           0% { transform: translateX(-25%); }
+           100% { transform: translateX(0); }
+         }
+       `}</style>
       </div>
 
       {/* How We Work */}
@@ -179,10 +183,10 @@ export default function AboutUs({ setCurrentPage }) {
        <div className="max-w-6xl mx-auto px-6 lg:px-10 py-24 relative z-10">
         <div className="text-center mb-16">
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
-            How We Work
+            {t('about.howWeWork')}
           </p>
           <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6">
-            A simple, repeatable standard.
+            {t('about.howWeWork.title')}
           </h2>
           <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
             No moving parts. The lineup is clear, the team is the same, and the promise holds — from showroom to service bay.
@@ -233,11 +237,11 @@ export default function AboutUs({ setCurrentPage }) {
       <div style={PAPER_BG_STYLE}>
        <div className="max-w-6xl mx-auto px-6 lg:px-10 py-20">
         <div className="text-center mb-12">
-          <p className="text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.3em] mb-5">
-            Who We Serve
+          <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
+            {t('about.whoWeServe')}
           </p>
           <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6">
-            Mahindra for every kind of work.
+            {t('about.whoWeServe.title')}
           </h2>
           <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
             If it moves goods, people, or earth across Nepal — we have likely put a Mahindra to work doing it.

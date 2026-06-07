@@ -75,7 +75,11 @@ export default function Booking() {
     try {
       // POST to the Express backend, which emails the booking via Gmail SMTP.
       // In dev, Vite proxies /api/* to localhost:5174 (see vite.config.js).
-      const resp = await fetch('/api/booking', {
+      // In production (Vercel), set VITE_API_BASE_URL to the deployed
+      // backend's origin (e.g. https://mahindra-api.onrender.com) so this
+      // fetch hits the right host. Leave empty to keep using same-origin /api.
+      const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+      const resp = await fetch(`${apiBase}/api/booking`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

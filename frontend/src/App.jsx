@@ -1,11 +1,31 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+
+// Home loads eagerly — it's the landing page so we want zero TTI overhead.
 import Home from './pages/Home';
-import Showcase from './pages/Showcase';
-import AboutUs from './pages/AboutUs';
-import Booking from './pages/Booking';
-import Blog from './pages/Blog';
+
+// Everything else is route-code-split: the bundle for these pages is only
+// downloaded the first time the user navigates to them. This keeps the
+// initial home-page JS payload small and makes navigation feel snappier
+// once a page has been visited (results are cached by the browser).
+const Showcase = lazy(() => import('./pages/Showcase'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const Booking = lazy(() => import('./pages/Booking'));
+const Blog = lazy(() => import('./pages/Blog'));
+
+// Lightweight placeholder shown while a page chunk is being fetched. Kept
+// minimal so it doesn't look heavier than the page it's standing in for.
+function PageLoader() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center bg-white">
+      <div className="flex items-center gap-3 text-gray-500">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#e21b22] animate-pulse" />
+        <span className="text-xs font-bold uppercase tracking-[0.25em]">Loading…</span>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -53,7 +73,9 @@ export default function App() {
           would otherwise look like a white flash. */}
       <main className="flex-grow">
         <div key={currentPage} className="page-fade">
-          {renderPage()}
+          <Suspense fallback={<PageLoader />}>
+            {renderPage()}
+          </Suspense>
         </div>
       </main>
 

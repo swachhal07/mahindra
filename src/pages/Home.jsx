@@ -12,6 +12,8 @@ import gallery1 from '../assets/gallery-1 (1).jpg';
 import suproMiniTruck from '../assets/supro-mini-truck-front-view.png';
 import smart50 from '../assets/Mahindra_SX_Smart_50_4_ab720f2044.webp';
 import backhoeLoader from '../assets/mahindra-backhoe-loader-28-04-2022-2-271486210-zkd8fne7.avif';
+import heavyMachineryImg from '../assets/IMG_3184.JPG.jpeg';
+import commercialSalesImg from '../assets/IMG_1565.jpg';
 
 
 // Slide text comes from i18n (keys: home.slide{N}.tag/headline/sub).
@@ -101,43 +103,40 @@ export default function Home({ setCurrentPage }) {
           />
         ))}
 
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-black/35 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10" />
+        {/* Dark overlay — base tint + radial focus where the text sits so the
+            headline stays readable against busy backgrounds. */}
+        <div className="absolute inset-0 bg-black/20 z-10" />
+        <div
+          className="absolute inset-0 z-10 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 45% at 50% 55%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0) 80%)',
+          }}
+        />
 
-        {/* Centered Content */}
+        {/* Bottom-anchored content — Kia-style minimal hero */}
         <div className="w-full px-4 z-20 relative flex items-center justify-center">
-          <div className="max-w-3xl text-center space-y-5">
-            {/* Tag badge */}
-            <div
-              key={`tag-${slide.id}`}
-              className="inline-flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-white/20"
-              style={{
-                animation: 'slideUp 0.6s ease forwards',
-                background: 'rgba(255, 255, 255, 0.08)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)',
-              }}
-            >
-              <span className="live-dot w-2 h-2 rounded-full bg-mahindra-red flex-shrink-0"></span>
-              {t(`home.slide${slide.id}.tag`)}
-            </div>
-
-            {/* Headline */}
+          <div className="max-w-3xl text-center space-y-4">
+            {/* Headline — compact, single-line preferred */}
             <h1
               key={`h1-${slide.id}`}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08] whitespace-pre-line"
-              style={{ animation: 'slideUp 0.7s ease 0.1s both' }}
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] whitespace-pre-line"
+              style={{
+                animation: 'slideUp 0.7s ease 0.1s both',
+                textShadow: '0 2px 16px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.6)',
+              }}
             >
               {t(`home.slide${slide.id}.headline`)}
             </h1>
 
-            {/* Sub-text */}
+            {/* Sub-text — short tagline */}
             <p
               key={`sub-${slide.id}`}
-              className="text-gray-300 text-sm sm:text-base leading-relaxed font-light max-w-xl mx-auto"
-              style={{ animation: 'slideUp 0.7s ease 0.2s both' }}
+              className="text-base sm:text-lg lg:text-xl leading-relaxed font-light max-w-2xl mx-auto text-gray-200"
+              style={{
+                animation: 'slideUp 0.7s ease 0.2s both',
+                textShadow: '0 1px 8px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.55)',
+              }}
             >
               {t(`home.slide${slide.id}.sub`)}
             </p>
@@ -196,8 +195,9 @@ export default function Home({ setCurrentPage }) {
               {
                 num: '01',
                 title: 'Commercial Vehicle Sales',
-                desc: 'Authorised dealer for Mahindra commercial trucks, passenger vehicles, and light commercials — serving individuals and fleet operators across Kathmandu.',
-                img: blazoCargo,
+                desc: 'Authorised dealer for Mahindra commercial trucks, passenger vehicles, and light commercials serving individuals and fleet operators across Nepal.',
+                img: commercialSalesImg,
+                imgFilter: 'brightness(0.85) contrast(1.05)',
                 page: 'showcase',
               },
               {
@@ -211,7 +211,7 @@ export default function Home({ setCurrentPage }) {
                 num: '03',
                 title: 'Heavy Machinery',
                 desc: 'Supply and support of heavy construction machinery including tippers, backhoe loaders, and earthmoving equipment built for Nepal\'s toughest terrain.',
-                img: blazoTipper,
+                img: heavyMachineryImg,
                 page: 'showcase',
               },
             ].map((card, i) => (
@@ -225,6 +225,7 @@ export default function Home({ setCurrentPage }) {
                     src={card.img}
                     alt={card.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={card.imgFilter ? { filter: card.imgFilter } : undefined}
                   />
                 </div>
                 {/* Content */}
@@ -588,6 +589,25 @@ export default function Home({ setCurrentPage }) {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* View Reviews on Google CTA */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 mt-14 flex justify-center relative z-10">
+          <a
+            href="https://www.google.com/search?q=Dugar+Auto+Clinic+Kathmandu+reviews"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-black hover:bg-[#e21b22] text-white font-bold uppercase tracking-wider text-sm px-8 py-4 rounded transition-colors duration-300"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.5 29.3 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z" />
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.5 29.3 4.5 24 4.5 16.3 4.5 9.7 9 6.3 14.7z" />
+              <path fill="#4CAF50" d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 34.5 26.7 35.5 24 35.5c-5.2 0-9.6-3.3-11.3-7.9l-6.6 5.1C9.6 39 16.2 43.5 24 43.5z" />
+              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.3-4.1 5.7l6.2 5.2C41.2 35.5 43.5 30.1 43.5 24c0-1.2-.1-2.4-.4-3.5z" />
+            </svg>
+            <span>{t('home.reviews.googleCta')}</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
       </section>
 

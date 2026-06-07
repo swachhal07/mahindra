@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Showcase from './pages/Showcase';
 import AboutUs from './pages/AboutUs';
 import Booking from './pages/Booking';
-import { LanguageProvider } from './utils/i18n';
+import Blog from './pages/Blog';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -35,29 +35,29 @@ export default function App() {
         return <AboutUs setCurrentPage={changePage} />;
       case 'booking':
         return <Booking />;
+      case 'blog':
+        return <Blog />;
       default:
         return <Home setCurrentPage={changePage} />;
     }
   };
 
   return (
-    <LanguageProvider>
-      <div className="flex flex-col min-h-screen bg-black text-white">
-        <header>
-          <Navbar currentPage={currentPage} setCurrentPage={changePage} />
-        </header>
+    <div className="flex flex-col min-h-screen bg-black text-white">
+      <header>
+        <Navbar currentPage={currentPage} setCurrentPage={changePage} />
+      </header>
 
-        {/* `key` forces a fresh subtree on page change, and the keyed div
-            replays a CSS fade-in. The fade hides any one-frame paint gap that
-            would otherwise look like a white flash. */}
-        <main className="flex-grow">
-          <div key={currentPage} className="page-fade">
-            {renderPage()}
-          </div>
-        </main>
+      {/* `key` forces a fresh subtree on page change, and the keyed div
+          replays a CSS fade-in. The fade hides any one-frame paint gap that
+          would otherwise look like a white flash. */}
+      <main className="flex-grow">
+        <div key={currentPage} className="page-fade">
+          {renderPage()}
+        </div>
+      </main>
 
-        <Footer setCurrentPage={changePage} currentPage={currentPage} />
-      </div>
-    </LanguageProvider>
+      <Footer setCurrentPage={changePage} currentPage={currentPage} />
+    </div>
   );
 }

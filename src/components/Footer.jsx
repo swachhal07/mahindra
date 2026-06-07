@@ -7,47 +7,52 @@ import { useT } from '../utils/i18n';
 export default function Footer({ setCurrentPage, currentPage }) {
   const t = useT();
   const textured = currentPage === 'about';
-  const whiteBackdrop = currentPage === 'booking' || currentPage === 'showcase';
+  const whiteBackdrop = currentPage === 'booking' || currentPage === 'showcase' || currentPage === 'blog';
+  const showCtaBanner = currentPage !== 'showcase';
   return (
     <footer className="w-full relative">
 
-      {/* CTA Banner — overlaps into footer */}
-      <div className="relative z-10 px-4 sm:px-6 lg:px-8 pt-0 -mb-16">
-        {/* Backdrop ends at the overlap line so the banner bleeds into the dark footer */}
-        <div
-          className={`absolute inset-x-0 top-0 bottom-16 -z-10 ${whiteBackdrop ? 'bg-white' : 'bg-[#FAF7F2]'}`}
-          style={textured ? PAPER_BG_STYLE : undefined}
-        />
-        <div className="max-w-6xl mx-auto bg-[#e21b22] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
-          <div className="w-full lg:w-auto text-left">
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-red-200 uppercase block mb-1">
-              {t('footer.eyebrow')}
-            </span>
-            <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight leading-none">
-              {t('footer.title')}
-            </h2>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto justify-end">
-            <button
-              id="footer-cta-booking"
-              onClick={() => setCurrentPage('booking')}
-              className="w-full sm:w-auto bg-white text-[#e21b22] hover:bg-black hover:text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
-            >
-              {t('footer.bookCta')}
-            </button>
-            <button
-              id="footer-cta-contact"
-              onClick={() => setCurrentPage('booking')}
-              className="w-full sm:w-auto bg-transparent border border-white/50 hover:border-white hover:bg-white hover:text-[#e21b22] text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
-            >
-              {t('footer.contactCta')}
-            </button>
+      {/* CTA Banner — overlaps into footer. Hidden on the Vehicle Showcase
+          page because the detail view already has its own Book Test Drive CTA. */}
+      {showCtaBanner && (
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 pt-0 -mb-16">
+          {/* Backdrop ends at the overlap line so the banner bleeds into the dark footer */}
+          <div
+            className={`absolute inset-x-0 top-0 bottom-16 -z-10 ${whiteBackdrop ? 'bg-white' : 'bg-[#FAF7F2]'}`}
+            style={textured ? PAPER_BG_STYLE : undefined}
+          />
+          <div className="max-w-6xl mx-auto bg-[#e21b22] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
+            <div className="w-full lg:w-auto text-left">
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-red-200 uppercase block mb-1">
+                {t('footer.eyebrow')}
+              </span>
+              <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight leading-none">
+                {t('footer.title')}
+              </h2>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto justify-end">
+              <button
+                id="footer-cta-booking"
+                onClick={() => setCurrentPage('booking')}
+                className="w-full sm:w-auto bg-white text-[#e21b22] hover:bg-black hover:text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
+              >
+                {t('footer.bookCta')}
+              </button>
+              <button
+                id="footer-cta-contact"
+                onClick={() => setCurrentPage('booking')}
+                className="w-full sm:w-auto bg-transparent border border-white/50 hover:border-white hover:bg-white hover:text-[#e21b22] text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
+              >
+                {t('footer.contactCta')}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Main Footer Body */}
-      <div className="bg-[#0e0e0e] text-neutral-400 pt-36 pb-16">
+      {/* Main Footer Body — pt-36 leaves room for the overlapping CTA banner;
+          collapse to pt-16 when the banner is hidden. */}
+      <div className={`bg-[#0e0e0e] text-neutral-400 pb-16 ${showCtaBanner ? 'pt-36' : 'pt-16'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Column 1: Logo and brand statement */}
@@ -94,10 +99,10 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 Divisions
               </h4>
               <ul className="space-y-3 text-sm">
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">SUV & Passenger Vehicles</span></li>
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">Electric Mobility</span></li>
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">Agri & Farm Equipment</span></li>
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">Commercial Trucks</span></li>
+                <li><span className="hover:text-white transition-colors duration-300 cursor-default">Commercial Truck</span></li>
+                <li><span className="hover:text-white transition-colors duration-300 cursor-default">EarthMaster</span></li>
+                <li><span className="hover:text-white transition-colors duration-300 cursor-default">Tipper</span></li>
+                <li><span className="hover:text-white transition-colors duration-300 cursor-default">LoadMaster</span></li>
               </ul>
             </div>
 
@@ -117,7 +122,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 </li>
                 <li className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-[#e21b22] flex-shrink-0 mt-0.5" />
-                  <span className="text-neutral-400 leading-snug">Gateway Building, Apollo Bunder, Mumbai, India</span>
+                  <span className="text-neutral-400 leading-snug">MV Dugar Building, Kathmandu, Nepal</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
@@ -135,7 +140,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
       {/* Bottom Copyright Bar */}
       <div className="bg-[#080808] py-6 border-t border-neutral-900 text-xs text-neutral-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Mahindra & Mahindra Ltd. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MV DUGAR. All rights reserved.</p>
           <p className="tracking-widest uppercase font-semibold text-neutral-600 text-[10px]">Rise. Accept No Limits.</p>
         </div>
       </div>

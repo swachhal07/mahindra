@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&display=swap');
 
 @theme {
   --color-mahindra-red: rgb(221, 5, 44);
@@ -17,16 +16,9 @@ html, body {
 }
 
 body {
-  font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: #1d1d1f;
   overflow-x: hidden;
-}
-
-/* In Nepali mode, lead with the Devanagari font so digit/word kerning
-   is correct, with Outfit as Latin fallback for any English text that
-   hasn't been translated yet. */
-html.lang-ne body {
-  font-family: 'Noto Sans Devanagari', 'Outfit', sans-serif;
 }
 
 /* Custom scrollbar */

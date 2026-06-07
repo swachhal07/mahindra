@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useT } from '../utils/i18n';
-import storyImage1 from '../assets/2018-Mahindra-BLAZO-X-3.jpg';
-import storyImage2 from '../assets/mahindra-blazo-x-35-cargo.avif';
-import storyImage3 from '../assets/earth-master-SXL.jpg';
-import storyImage4 from '../assets/mahindra-supro-profit-truck-excel.avif';
+import storyImage1 from '../assets/IMG_5387.PNG';
+import storyImage2 from '../assets/IMG_5388.PNG';
+import storyImage3 from '../assets/IMG_5389.PNG';
 import partnerVianet from '../assets/Vianet-Aba-Sabai_Connected-Red@4x.png';
 import partnerJagdamba from '../assets/jagdamba-steels.png';
 import partnerAboutUs from '../assets/about-us-logo-image-1024x1024.png';
@@ -18,7 +17,7 @@ const partnerLogos = [
   { id: 'logo', src: partnerLogo, alt: 'Partner', className: 'h-12 sm:h-14' },
 ];
 
-const storySlides = [storyImage1, storyImage2, storyImage3, storyImage4];
+const storySlides = [storyImage1, storyImage2, storyImage3];
 
 const serveCategories = [
   'Logistics & Transport',

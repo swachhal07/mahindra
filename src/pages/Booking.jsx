@@ -55,27 +55,57 @@ export default function Booking() {
     setBookings(list);
   };
 
-  const handleBookingSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleBookingSubmit = async (e) => {
     e.preventDefault();
     if (!formData.consent) {
       alert("Please accept the terms to proceed.");
       return;
     }
 
+    setSubmitting(true);
+    setErrorMsg('');
+
+    // Keep a local copy for offline / audit purposes (existing behavior).
     const key = `mahindra_booking_${Date.now()}`;
     localStorage.setItem(key, JSON.stringify(formData));
-    setSuccessMsg(true);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      model: 'Mahindra Thar',
-      date: '',
-      location: 'Mumbai - Apollo Bunder',
-      consent: false
-    });
-    loadBookings();
-    setTimeout(() => setSuccessMsg(false), 8000);
+
+    try {
+      // POST to the Express backend, which emails the booking via Gmail SMTP.
+      // In dev, Vite proxies /api/* to localhost:5174 (see vite.config.js).
+      const resp = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok || !data.ok) {
+        throw new Error(data.error || `Request failed (${resp.status})`);
+      }
+
+      setSuccessMsg(true);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        model: 'BlazoX 35 Truck',
+        date: '',
+        location: 'M.V Dugar Building, Kathmandu',
+        consent: false
+      });
+      loadBookings();
+      setTimeout(() => setSuccessMsg(false), 8000);
+    } catch (err) {
+      console.error('Booking submit failed:', err);
+      setErrorMsg(
+        'We saved your booking locally but could not email it right now. ' +
+          'Please try again, or contact us directly at info@dugarautoclinic.com.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const deleteBooking = (id) => {
@@ -159,6 +189,12 @@ export default function Booking() {
                 <span className="text-xs text-gray-600">
                   Your details have been registered. A Mahindra Experience Manager will call you to confirm your schedule.
                 </span>
+              </div>
+            )}
+
+            {errorMsg && (
+              <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-lg mb-6 text-center text-sm text-red-700">
+                {errorMsg}
               </div>
             )}
 
@@ -263,9 +299,10 @@ export default function Booking() {
               <button
                 id="booking-submit-btn"
                 type="submit"
-                className="w-full bg-black hover:bg-[#e21b22] text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-colors duration-300"
+                disabled={submitting}
+                className="w-full bg-black hover:bg-[#e21b22] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-colors duration-300"
               >
-                {t('booking.submit')}
+                {submitting ? 'Sending…' : t('booking.submit')}
               </button>
             </form>
           </div>
@@ -321,6 +358,19 @@ export default function Booking() {
               </MarkerPopup>
             </MapMarker>
           </Map>
+        </div>
+
+        {/* Get Directions link */}
+        <div className="mt-6 flex justify-center">
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=27.7299094,85.3021967"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-transparent border border-gray-800 hover:bg-[#e21b22] hover:border-[#e21b22] text-gray-900 hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300"
+          >
+            <Compass className="w-4 h-4" />
+            <span>Get Directions on Google Maps</span>
+          </a>
         </div>
       </section>
     </div>

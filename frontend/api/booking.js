@@ -1,15 +1,14 @@
 // Vercel serverless function — /api/booking
 //
-// Same logic as backend/index.js, but runs on Vercel's Node runtime so we
-// don't need a separate Render/Railway service. The frontend calls
-// fetch('/api/booking', ...) same-origin and Vercel routes here automatically.
+// Receives booking submissions from the React frontend and delivers them
+// via Resend's HTTP API. Runs on Vercel's Node runtime so no separate
+// backend host is needed.
 //
 // Required env vars (set in Vercel project → Settings → Environment Variables):
-//   GMAIL_USER         e.g. yourname@gmail.com
-//   GMAIL_APP_PASSWORD 16-char Google App Password
-//   BOOKING_TO         where booking notifications go (defaults to GMAIL_USER)
-
-import nodemailer from 'nodemailer';
+//   RESEND_API_KEY  API key from https://resend.com/api-keys
+//   BOOKING_TO      where booking notifications go (e.g. swachhal07@gmail.com)
+//   BOOKING_FROM    sender address (optional, defaults to onboarding@resend.dev).
+//                   To send from your own domain, verify it in Resend first.
 
 const esc = (v) =>
   String(v ?? '')
@@ -24,13 +23,13 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'Method not allowed.' });
   }
 
-  const { GMAIL_USER, GMAIL_APP_PASSWORD, BOOKING_TO } = process.env;
-  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
+  const { RESEND_API_KEY, BOOKING_TO, BOOKING_FROM } = process.env;
+  if (!RESEND_API_KEY || !BOOKING_TO) {
     return res
       .status(500)
       .json({ ok: false, error: 'Email service is not configured.' });
   }
-  const recipient = BOOKING_TO || GMAIL_USER;
+  const sender = BOOKING_FROM || 'Mahindra Nepal <onboarding@resend.dev>';
 
   const { name, email, phone, model, date, location, consent } = req.body || {};
 
@@ -184,20 +183,30 @@ export default async function handler(req, res) {
     `Location:       ${location}`,
   ].join('\n');
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD },
-  });
-
   try {
-    await transporter.sendMail({
-      from: `"Mahindra Nepal Booking" <${GMAIL_USER}>`,
-      to: recipient,
-      replyTo: email,
-      subject,
-      text,
-      html,
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: sender,
+        to: BOOKING_TO,
+        reply_to: email,
+        subject,
+        text,
+        html,
+      }),
     });
+
+    if (!r.ok) {
+      const errBody = await r.text();
+      console.error('[api/booking] Resend failed:', r.status, errBody);
+      return res
+        .status(500)
+        .json({ ok: false, error: 'Failed to send the booking email.' });
+    }
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('[api/booking] sendMail failed:', err);

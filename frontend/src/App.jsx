@@ -29,12 +29,16 @@ function PageLoader() {
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [showcaseFilter, setShowcaseFilter] = useState('all');
 
   // Scroll BEFORE the new page mounts. Doing it inside setCurrentPage means
   // the browser is already at scrollY=0 when React commits the new DOM, so
   // there's no frame where the new (shorter) page is viewed through a
   // scrolled-down viewport.
-  const changePage = (page) => {
+  const changePage = (page, opts = {}) => {
+    if (page === 'showcase') {
+      setShowcaseFilter(opts.showcaseFilter ?? 'all');
+    }
     window.scrollTo(0, 0);
     setCurrentPage(page);
   };
@@ -50,7 +54,7 @@ export default function App() {
       case 'home':
         return <Home setCurrentPage={changePage} />;
       case 'showcase':
-        return <Showcase setCurrentPage={changePage} />;
+        return <Showcase setCurrentPage={changePage} initialFilter={showcaseFilter} />;
       case 'about':
         return <AboutUs setCurrentPage={changePage} />;
       case 'booking':

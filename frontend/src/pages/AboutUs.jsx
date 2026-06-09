@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useT } from '../utils/i18n';
-import storyImage1 from '../assets/IMG_5387.PNG';
-import storyImage2 from '../assets/IMG_5388.PNG';
-import storyImage3 from '../assets/IMG_5389.PNG';
+import storyImage1 from '../assets/IMG_1596.jpg';
+import storyImage2 from '../assets/IMG_5387.PNG';
 import partnerVianet from '../assets/Vianet-Aba-Sabai_Connected-Red@4x.png';
 import partnerJagdamba from '../assets/jagdamba-steels.png';
 import partnerAboutUs from '../assets/about-us-logo-image-1024x1024.png';
 import partnerLogo from '../assets/logo.png';
+import teamSales from '../assets/salesteam.JPG';
+import teamTechnical from '../assets/technicalteam.JPG';
+import teamService from '../assets/IMG_0320.JPG';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
 import { PAPER_BG_STYLE } from '../utils/paperTexture';
 
@@ -17,7 +19,7 @@ const partnerLogos = [
   { id: 'logo', src: partnerLogo, alt: 'Partner', className: 'h-12 sm:h-14' },
 ];
 
-const storySlides = [storyImage1, storyImage2, storyImage3];
+const storySlides = [storyImage1, storyImage2];
 
 const serveCategories = [
   'Logistics & Transport',
@@ -76,7 +78,7 @@ export default function AboutUs({ setCurrentPage }) {
        <div className="max-w-6xl mx-auto px-6 lg:px-10 py-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="relative lg:-ml-[calc((100vw-72rem)/2)]">
-            <div className="relative w-full aspect-[16/10] rounded-2xl lg:rounded-l-none overflow-hidden shadow-xl">
+            <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-xl">
               {storySlides.map((src, i) => (
                 <img
                   key={i}
@@ -87,18 +89,20 @@ export default function AboutUs({ setCurrentPage }) {
                   }`}
                 />
               ))}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                {storySlides.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setStorySlide(i)}
-                    aria-label={`Slide ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      i === storySlide ? 'w-8 bg-white' : 'w-1.5 bg-white/50'
-                    }`}
-                  />
-                ))}
-              </div>
+              {storySlides.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                  {storySlides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setStorySlide(i)}
+                      aria-label={`Slide ${i + 1}`}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${
+                        i === storySlide ? 'w-8 bg-white' : 'w-1.5 bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="lg:-mr-[calc((100vw-72rem)/2)] lg:pr-10">
@@ -174,56 +178,66 @@ export default function AboutUs({ setCurrentPage }) {
        `}</style>
       </div>
 
-      {/* How We Work */}
+      {/* Meet Our Team */}
       <div className="bg-white relative overflow-hidden">
        <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg">
          <path d={TOPO_CONTOUR_PATH} stroke="#d4d4d4" strokeWidth="0.7" fill="none" opacity="0.5" strokeLinecap="round" strokeLinejoin="round" />
        </svg>
-       <div className="max-w-6xl mx-auto px-6 lg:px-10 py-24 relative z-10">
+       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24 relative z-10">
         <div className="text-center mb-16">
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
-            {t('about.howWeWork')}
+            {t('about.ourTeam')}
           </p>
           <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6">
-            {t('about.howWeWork.title')}
+            {t('about.ourTeam.title')}
           </h2>
           <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
-            No moving parts. The lineup is clear, the team is the same, and the promise holds — from showroom to service bay.
+            Three teams, one promise. From the first conversation to long after delivery, the same people stay with your vehicle.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {[
             {
               num: '01',
-              title: 'Understand Your Need',
-              desc: 'We start with a conversation — fleet route, payload, terrain, daily kilometres, budget. The right vehicle starts with the right questions.',
+              title: 'Sales Team',
+              desc: 'Your first point of contact. Walks you through the lineup, matches the right Mahindra to your work, and writes you a clear, no-surprise quote.',
+              image: teamSales,
             },
             {
               num: '02',
-              title: 'Match the Vehicle',
-              desc: 'From heavy tippers to last-mile movers, we walk you through Mahindra options that actually fit your work. No upselling, no guesswork.',
+              title: 'Services Team',
+              desc: 'Specs, demos, and the harder questions. They know payloads, mileage figures, and the difference one gear ratio makes on a hill route.',
+              image: teamTechnical,
             },
             {
               num: '03',
-              title: 'Test Drive & Finalise',
-              desc: 'Drive it on real roads. Get clear, written pricing, finance options, and paperwork — no surprise add-ons, no hidden charges.',
+              title: 'Spare Parts Team',
+              desc: 'Genuine parts, trained technicians, scheduled visits. We do not disappear after delivery — we stay with the vehicle, for the long haul.',
+              image: teamService,
             },
-            {
-              num: '04',
-              title: 'Service That Shows Up',
-              desc: 'Genuine parts, trained technicians, scheduled service visits. We do not disappear after delivery — we stay with the vehicle.',
-            },
-          ].map((step) => (
-            <div key={step.num} className="flex gap-5">
-              <span className="text-[rgb(213,59,59)] text-3xl font-black tracking-tight shrink-0">
-                {step.num}
-              </span>
-              <div>
-                <h3 className="text-gray-950 text-2xl sm:text-3xl font-extrabold uppercase tracking-tight mb-3">
-                  {step.title}
+          ].map((team) => (
+            <div
+              key={team.num}
+              className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.15)]"
+            >
+              {/* Image */}
+              <div className="overflow-hidden h-72 lg:h-80 bg-gray-100">
+                <img
+                  src={team.image}
+                  alt={`${team.title} at Mahindra Nepal`}
+                  className={`w-full h-full ${team.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center transition-transform duration-500 group-hover:scale-105`}
+                  style={{ filter: 'brightness(0.9) contrast(1.08)', objectPosition: team.fit === 'contain' ? 'center center' : 'center 40%' }}
+                  loading="lazy"
+                />
+              </div>
+              {/* Content */}
+              <div className="px-8 pt-7 pb-7">
+                <span className="text-[#e21b22] text-sm font-black block mb-3">{team.num}</span>
+                <h3 className="text-gray-950 text-xl font-black uppercase tracking-tight leading-tight mb-4">
+                  {team.title}
                 </h3>
-                <p className="text-gray-500 text-base leading-relaxed">
-                  {step.desc}
+                <p className="text-gray-500 text-sm leading-relaxed font-light">
+                  {team.desc}
                 </p>
               </div>
             </div>

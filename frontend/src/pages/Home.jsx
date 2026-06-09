@@ -12,8 +12,9 @@ import gallery1 from '../assets/gallery-1 (1).jpg';
 import suproMiniTruck from '../assets/supro-mini-truck-front-view.png';
 import smart50 from '../assets/Mahindra_SX_Smart_50_4_ab720f2044.webp';
 import backhoeLoader from '../assets/mahindra-backhoe-loader-28-04-2022-2-271486210-zkd8fne7.avif';
-import heavyMachineryImg from '../assets/IMG_3184.JPG.jpeg';
+import heavyMachineryImg from '../assets/IMG_1577-cropped.jpg';
 import commercialSalesImg from '../assets/IMG_1565.jpg';
+import sparePartsImg from '../assets/spareparts.jpg';
 
 
 // Slide text comes from i18n (keys: home.slide{N}.tag/headline/sub).
@@ -204,7 +205,8 @@ export default function Home({ setCurrentPage }) {
                 num: '02',
                 title: 'Service & Spare Parts',
                 desc: 'Authorised service centre with genuine Mahindra spare parts and certified technicians ensuring maximum uptime for your vehicle.',
-                img: earthmasterSxIv,
+                img: sparePartsImg,
+                imgPosition: 'center 70%',
                 page: 'booking',
               },
               {
@@ -212,6 +214,7 @@ export default function Home({ setCurrentPage }) {
                 title: 'Heavy Machinery',
                 desc: 'Supply and support of heavy construction machinery including tippers, backhoe loaders, and earthmoving equipment built for Nepal\'s toughest terrain.',
                 img: heavyMachineryImg,
+                imgPosition: 'center',
                 page: 'showcase',
               },
             ].map((card, i) => (
@@ -225,16 +228,19 @@ export default function Home({ setCurrentPage }) {
                     src={card.img}
                     alt={card.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    style={card.imgFilter ? { filter: card.imgFilter } : undefined}
+                    style={{
+                      ...(card.imgFilter ? { filter: card.imgFilter } : null),
+                      ...(card.imgPosition ? { objectPosition: card.imgPosition } : null),
+                    }}
                   />
                 </div>
                 {/* Content */}
-                <div className="p-8">
+                <div className="px-8 pt-7 pb-7">
                   <span className="text-[#e21b22] text-sm font-black block mb-3">{card.num}</span>
                   <h3 className="text-gray-950 text-xl font-black uppercase tracking-tight leading-tight mb-4">
                     {card.title}
                   </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed font-light mb-6">
+                  <p className="text-gray-500 text-sm leading-relaxed font-light">
                     {card.desc}
                   </p>
                 </div>

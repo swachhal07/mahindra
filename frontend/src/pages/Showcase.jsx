@@ -153,8 +153,11 @@ const blazoX35Gallery = [
   { image: blazoRearAxle, label: 'Heavy Duty Rear Axle' },
 ];
 
-export default function Showcase({ setCurrentPage }) {
-  const [filter, setFilter] = useState('all');
+export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
+  const [filter, setFilter] = useState(initialFilter);
+
+  // Resync if the parent requests a different filter (e.g., footer Divisions click while already on this page).
+  useEffect(() => { setFilter(initialFilter); }, [initialFilter]);
   const [activeVehicle, setActiveVehicle] = useState(null);
   const [brochureUrl, setBrochureUrl] = useState(null);
   const t = useT();

@@ -33,7 +33,7 @@ const translations = {
   'home.slide3.headline': 'Mahindra Cruzio Grande Bus',
   'home.slide3.sub': 'Comfort and reliability for every journey.',
   'home.slide4.tag': 'Smart Construction',
-  'home.slide4.headline': 'Mahindra EarthMaster SX',
+  'home.slide4.headline': 'Mahindra EarthMaster SX 90',
   'home.slide4.sub': 'Smart technology. Precision performance.',
 
   // Home — section eyebrows + titles
@@ -77,8 +77,8 @@ const translations = {
   'about.ourStory': 'Our Story',
   'about.trustedPartners': 'Trusted Partners',
   'about.trustedPartners.title': "Working with Nepal's best.",
-  'about.howWeWork': 'How We Work',
-  'about.howWeWork.title': 'A simple, repeatable standard.',
+  'about.ourTeam': 'Meet Our Team',
+  'about.ourTeam.title': 'The people behind every Mahindra you drive.',
   'about.whoWeServe': 'Who We Serve',
   'about.whoWeServe.title': 'Mahindra for every kind of work.',
 

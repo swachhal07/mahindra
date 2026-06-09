@@ -68,7 +68,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 </span>
               </div>
               <p className="text-sm leading-relaxed text-neutral-400 max-w-sm">
-                Leading global manufacturer of utility vehicles, tractors, and electric solutions. Redefining mobility and driving positive change across 100+ countries.
+                Authorised Mahindra dealer in Nepal serving fleet operators and individuals with commercial trucks, tippers, buses, and earthmoving machinery — backed by certified service and genuine spare parts.
               </p>
             </div>
 
@@ -99,10 +99,18 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 Divisions
               </h4>
               <ul className="space-y-3 text-sm">
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">Commercial Truck</span></li>
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">EarthMaster</span></li>
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">Tipper</span></li>
-                <li><span className="hover:text-white transition-colors duration-300 cursor-default">LoadMaster</span></li>
+                <li>
+                  <button id="footer-div-truck" onClick={() => setCurrentPage('showcase', { showcaseFilter: 'truck' })} className="hover:text-white transition-colors duration-300 text-left cursor-pointer">Commercial Truck</button>
+                </li>
+                <li>
+                  <button id="footer-div-earthmaster" onClick={() => setCurrentPage('showcase', { showcaseFilter: 'construction' })} className="hover:text-white transition-colors duration-300 text-left cursor-pointer">EarthMaster</button>
+                </li>
+                <li>
+                  <button id="footer-div-tipper" onClick={() => setCurrentPage('showcase', { showcaseFilter: 'tipper' })} className="hover:text-white transition-colors duration-300 text-left cursor-pointer">Tipper</button>
+                </li>
+                <li>
+                  <button id="footer-div-loadmaster" onClick={() => setCurrentPage('showcase', { showcaseFilter: 'light' })} className="hover:text-white transition-colors duration-300 text-left cursor-pointer">LoadMaster</button>
+                </li>
               </ul>
             </div>
 
@@ -114,11 +122,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
               <ul className="space-y-3.5 text-sm">
                 <li className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
-                  <span className="text-neutral-400">HQ: <a href="tel:18002096006" className="text-white font-medium hover:underline">1800.209.6006</a></span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
-                  <span className="text-neutral-400">INTL: <span className="text-white font-medium">(949) 207-3310</span></span>
+                  <span className="text-neutral-400">Sales: <a href="tel:+9779802748575" className="text-white font-medium hover:underline">9802748575</a> / <a href="tel:+9779801028519" className="text-white font-medium hover:underline">9801028519</a></span>
                 </li>
                 <li className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-[#e21b22] flex-shrink-0 mt-0.5" />

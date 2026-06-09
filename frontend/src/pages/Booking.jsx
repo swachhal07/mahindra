@@ -161,7 +161,7 @@ export default function Booking() {
 
             <div className="space-y-5 border-t border-gray-200 pt-6">
               {[
-                { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Kathmandu Office', value: '+977 1-4444-555' },
+                { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Sales', value: '+977 9802748575' },
                 { icon: <Mail className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Email', value: 'info@dugarautoclinic.com' },
                 { icon: <MapPin className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Office', value: 'MV Dugar Building, Kathmandu, Nepal' },
                 { icon: <Clock className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Hours', value: 'Sun – Fri, 9:30 AM – 6:00 PM' },

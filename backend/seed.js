@@ -132,11 +132,14 @@ const cruzioSchoolGallery = [
 
 // ── Vehicle definitions — mirrors the hardcoded array in Showcase.jsx ──
 
+// Prices from the official Mahindra & Mahindra Nepal price list (BS-VI).
+// Update in the admin if MRP changes — this seed is only the starting point.
 const VEHICLES = [
   {
     name: 'LoadKing Optimo Truck 2.5',
     category: 'truck',
     tagline: 'Optimised load. Optimised profits.',
+    price: 'NPR 3,460,000',
     image: 'loadking optimo truck.png',
     imageScale: 1.2,
     specs: [
@@ -152,6 +155,7 @@ const VEHICLES = [
     name: 'LoadKing Optimo Tipper 2.5',
     category: 'tipper',
     tagline: 'Built for the toughest sites.',
+    price: 'NPR 3,445,000',
     image: 'Loadking optimo tipper.png',
     specs: [
       ['Category', 'Medium Duty Tipper'],
@@ -166,6 +170,7 @@ const VEHICLES = [
     name: 'Supro Mini Profit Truck VX',
     category: 'light',
     tagline: 'Compact. Capable. Always on time.',
+    price: 'NPR 2,215,000',
     image: 'supro-mini-truck-front-view.png',
     cardImageScale: 1.4,
     detailImageScale: 1.0,
@@ -182,6 +187,7 @@ const VEHICLES = [
     name: 'Supro Maxi Profit Truck VX/LX',
     category: 'light',
     tagline: 'More payload, more profit.',
+    price: 'NPR 2,352,000',
     image: 'Supro Maxi VX .png',
     specs: [
       ['Category', 'Light Commercial'],
@@ -196,6 +202,7 @@ const VEHICLES = [
     name: 'Mahindra EarthMaster SX90',
     category: 'construction',
     tagline: 'Power meets precision. 4WD backhoe loader.',
+    price: 'Contact for pricing',
     image: 'mahindra-earthmaster-sx-1686128588.jpg',
     detailImageScale: 1.0,
     specs: [
@@ -211,6 +218,7 @@ const VEHICLES = [
     name: 'Blazo X Tipper m Dura 28',
     category: 'tipper',
     tagline: 'Heavy haulage with FuelSmart efficiency.',
+    price: 'NPR 11,750,000',
     image: 'blazoX35TipperM Dura.png',
     specs: [
       ['Category', 'Heavy Duty Tipper'],
@@ -225,6 +233,7 @@ const VEHICLES = [
     name: 'Blazo X 35 Truck',
     category: 'truck',
     tagline: 'Long-haul cargo. Class-leading mileage.',
+    price: 'Contact for pricing',
     image: 'BlazoX35.png',
     specs: [
       ['Category', 'Heavy Duty Cargo'],
@@ -239,6 +248,7 @@ const VEHICLES = [
     name: 'Cruzio Grande Bus',
     category: 'bus',
     tagline: 'Long-distance comfort. Modern passenger transport.',
+    price: 'NPR 6,200,000',
     image: '7.png',
     cardImageScale: 1.5,
     specs: [
@@ -254,6 +264,7 @@ const VEHICLES = [
     name: 'Cruzio School Bus',
     category: 'bus',
     tagline: 'Safe, reliable transport for students every day.',
+    price: 'NPR 4,699,000',
     image: '6.png',
     cardImageScale: 1.5,
     specs: [
@@ -372,7 +383,7 @@ async function main() {
       name: v.name,
       category: v.category,
       tagline: v.tagline,
-      price: 'Contact for pricing',
+      price: v.price ?? 'Contact for pricing',
       specs: v.specs.map(([label, value]) => ({ label, value })),
       image: await asset(v.image),
       gallery: await gallery(v.gallery),

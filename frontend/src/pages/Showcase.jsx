@@ -470,6 +470,24 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
             <h1 className="font-black uppercase tracking-tight leading-[1.05] text-4xl sm:text-5xl lg:text-6xl text-gray-950 text-center max-w-5xl mx-auto px-6 lg:px-10">
               {v.name}
             </h1>
+
+            {/* Price banner — shown for every vehicle. Falls back gracefully
+              when a vehicle is marked "Contact for pricing". */}
+            {v.price && (() => {
+              const contactOnly = /contact/i.test(v.price);
+              return (
+                <div className="mt-8 flex justify-center px-6 lg:px-10">
+                  <div className="inline-flex flex-col sm:flex-row items-center gap-1 sm:gap-4 bg-gray-50 border border-gray-200 rounded-xl px-6 sm:px-8 py-4">
+                    <span className="text-gray-500 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em]">
+                      {contactOnly ? 'Pricing' : 'Starting at'}
+                    </span>
+                    <span className={`font-black tracking-tight text-gray-950 ${contactOnly ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'}`}>
+                      {v.price}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
           </section>
 
           {/* Engineering / feature gallery — only renders when the vehicle

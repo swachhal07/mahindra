@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, Calendar, User } from 'lucide-react';
 import { useT } from '../utils/i18n';
+import { apiBase } from '../utils/adminApi';
 import blazoCargo from '../assets/mahindra-blazo-x-35-cargo.avif';
 import blazoTipper from '../assets/blazo_tipper_upscaled.png';
 import earthmaster from '../assets/mahindra-earthmaster-sx-iv-1911306843.jpg';
 import suproMini from '../assets/supro-mini-truck-front-view.png';
 
-// Placeholder posts. Real content can replace these; the structure
-// (id / slug / title / excerpt / body paragraphs / date / author /
-// category / image) stays the same.
-const posts = [
+// Fallback list — used only when the backend API is unreachable or returns
+// zero posts, so the public Blog page never breaks. The admin portal at
+// /admin → Blog Posts is the source of truth otherwise.
+const fallbackPosts = [
   {
     id: 'fuelsmart-explained',
     slug: 'fuelsmart-explained',
@@ -86,7 +87,38 @@ function formatDate(iso) {
 
 export default function Blog() {
   const [activePost, setActivePost] = useState(null);
+  const [dbPosts, setDbPosts] = useState(null);
   const t = useT();
+
+  // Load posts managed via the admin portal. On error or empty result, keep
+  // the hardcoded fallback so the page is never empty.
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${apiBase}/api/blog`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((data) => {
+        if (cancelled || !data?.posts?.length) return;
+        setDbPosts(
+          data.posts.map((p) => ({
+            id: p.id,
+            slug: p.slug,
+            title: p.title,
+            excerpt: p.excerpt,
+            body: p.body,
+            date: p.date,
+            author: p.author,
+            category: p.category,
+            image: `${apiBase}${p.imageUrl}`,
+          }))
+        );
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const posts = dbPosts ?? fallbackPosts;
 
   // Reset scroll on internal navigation (list ↔ post detail). The App-level
   // scroll-to-top only fires on `currentPage` changes, not on the in-page

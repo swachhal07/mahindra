@@ -1,273 +1,102 @@
-// Mahindra Nepal — Booking Email API
+// Mahindra Nepal — Admin & Catalog API
 //
-// Standalone Express backend (lives in /backend) that receives booking
-// submissions from the React frontend and emails them via Gmail SMTP using
-// Nodemailer.
+// Express + MongoDB Atlas backend that powers the admin portal at
+// /login → /admin on the website. Manages the vehicle catalog and blog
+// posts, including their images and brochure PDFs (stored directly in
+// MongoDB so the server needs no disk).
+//
+// Booking emails are handled separately by the Vercel serverless function
+// at frontend/api/booking.js — that flow does NOT pass through this server.
 //
 // Required env vars (set in `backend/.env` — gitignored, never commit it):
-//   GMAIL_USER         e.g. yourname@gmail.com
-//   GMAIL_APP_PASSWORD 16-char Google App Password (NOT your Gmail password)
-//   BOOKING_TO         where booking notifications are delivered
-//                      (defaults to GMAIL_USER if unset)
-//   PORT               server port (defaults to 5174)
+//   MONGODB_URI     MongoDB Atlas connection string
+//   JWT_SECRET      random string used to sign admin login tokens
+//   ADMIN_EMAIL     login email for the /login portal
+//   ADMIN_PASSWORD  login password (hashed on first startup, never stored raw)
+//   PORT            server port (defaults to 5174)
 //
 // Run from this folder with:  npm install && npm start
-// Or from the project root:   npm run server
 
 import 'dotenv/config';
+import dns from 'node:dns';
 import express from 'express';
 import cors from 'cors';
-import nodemailer from 'nodemailer';
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import Admin from './models/Admin.js';
+import authRouter from './routes/auth.js';
+import vehiclesRouter from './routes/vehicles.js';
+import blogRouter from './routes/blog.js';
+import imagesRouter from './routes/images.js';
 
-const {
-  GMAIL_USER,
-  GMAIL_APP_PASSWORD,
-  BOOKING_TO,
-  PORT = 5174,
-} = process.env;
+// Some home ISPs (especially in Nepal) run DNS servers that don't return
+// SRV records, which breaks `mongodb+srv://` URIs with ECONNREFUSED. Force
+// this Node process to use Google + Cloudflare DNS so the backend works
+// regardless of the host's DNS configuration. Affects only this process,
+// not the rest of the system.
+dns.setServers(['8.8.8.8', '1.1.1.1', '8.8.4.4']);
 
-if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
+const { MONGODB_URI, JWT_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD, PORT = 5174 } = process.env;
+
+if (!MONGODB_URI || !JWT_SECRET) {
   console.error(
-    '[server] Missing GMAIL_USER or GMAIL_APP_PASSWORD in environment. ' +
-      'Copy .env.example to .env and fill in your Gmail credentials.'
+    '[server] Missing MONGODB_URI or JWT_SECRET. Copy .env.example to .env and fill them in.'
   );
   process.exit(1);
 }
 
-const recipient = BOOKING_TO || GMAIL_USER;
-
-// Nodemailer transport — uses Gmail SMTP over TLS on port 587.
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: GMAIL_USER,
-    pass: GMAIL_APP_PASSWORD,
-  },
-});
-
-// Verify credentials at startup so a wrong app password is caught immediately
-// rather than when the first booking comes in.
-transporter
-  .verify()
-  .then(() => console.log('[server] Gmail SMTP connection verified.'))
+mongoose
+  .connect(MONGODB_URI)
+  .then(async () => {
+    console.log('[server] MongoDB connected.');
+    await ensureAdminUser();
+  })
   .catch((err) => {
-    console.error('[server] Gmail SMTP verify failed:', err.message);
-    console.error(
-      '[server] Make sure 2FA is enabled and you used a 16-char App Password ' +
-        '(https://myaccount.google.com/apppasswords).'
-    );
+    console.error('[server] MongoDB connection failed:', err.message);
   });
+
+// Create the admin account from env vars on first run (no public signup).
+// If the account exists, the password is synced to ADMIN_PASSWORD so the
+// .env file stays the single source of truth for credentials.
+async function ensureAdminUser() {
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+    console.warn('[server] ADMIN_EMAIL / ADMIN_PASSWORD not set — no admin login available.');
+    return;
+  }
+  const email = ADMIN_EMAIL.toLowerCase().trim();
+  const existing = await Admin.findOne({ email });
+  if (existing) {
+    if (!(await bcrypt.compare(ADMIN_PASSWORD, existing.passwordHash))) {
+      existing.passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 10);
+      await existing.save();
+      console.log(`[server] Admin password updated from .env for ${email}.`);
+    }
+    return;
+  }
+  await Admin.create({ email, passwordHash: await bcrypt.hash(ADMIN_PASSWORD, 10) });
+  console.log(`[server] Admin account created: ${email}`);
+}
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '64kb' }));
 
-// Lightweight HTML-escape for values that go into the email body — prevents
-// header injection / HTML injection by the client.
-const esc = (v) =>
-  String(v ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-
-app.post('/api/booking', async (req, res) => {
-  const { name, email, phone, model, date, location, consent } = req.body || {};
-
-  // Basic validation — frontend has its own checks too.
-  if (!name || !email || !phone || !model || !date) {
-    return res
-      .status(400)
-      .json({ ok: false, error: 'Missing required fields.' });
+// Guard against requests hanging on Mongoose buffering when the DB is still
+// connecting (or has dropped). Returns 503 instead.
+function requireDb(_req, res, next) {
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({ ok: false, error: 'Database is not available.' });
   }
-  if (!consent) {
-    return res.status(400).json({
-      ok: false,
-      error: 'Consent is required before submitting.',
-    });
-  }
+  return next();
+}
 
-  const subject = `New Test Ride Booking — ${model} (${name})`;
-
-  // Render the submission timestamp for the email body / metadata.
-  const submittedAt = new Date().toLocaleString('en-GB', {
-    timeZone: 'Asia/Kathmandu',
-    dateStyle: 'full',
-    timeStyle: 'short',
-  });
-
-  // Branded HTML email template. Uses tables + inline styles since most email
-  // clients (Gmail, Outlook) strip <style> blocks and don't support flex/grid.
-  const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${esc(subject)}</title>
-</head>
-<body style="margin:0;padding:0;background:#f4f4f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f7;padding:32px 16px;">
-    <tr>
-      <td align="center">
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
-
-          <!-- Brand header bar -->
-          <tr>
-            <td style="background:linear-gradient(135deg,#dd052c 0%,#a30420 100%);padding:28px 32px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>
-                    <div style="color:#ffffff;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:0.85;">Mahindra Nepal</div>
-                    <div style="color:#ffffff;font-size:24px;font-weight:800;letter-spacing:-0.3px;margin-top:6px;">New Test Ride Booking</div>
-                  </td>
-                  <td align="right" style="vertical-align:top;">
-                    <div style="display:inline-block;background:rgba(255,255,255,0.15);color:#ffffff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;border-radius:999px;">New Lead</div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- Intro line -->
-          <tr>
-            <td style="padding:28px 32px 8px 32px;">
-              <p style="margin:0;color:#1a1a1a;font-size:16px;line-height:1.5;">
-                <strong style="color:#000;">${esc(name)}</strong> has just requested a test ride on
-                <strong style="color:#dd052c;">${esc(model)}</strong>.
-              </p>
-              <p style="margin:8px 0 0 0;color:#666;font-size:13px;line-height:1.5;">
-                Please follow up to confirm the schedule.
-              </p>
-            </td>
-          </tr>
-
-          <!-- Booking details card -->
-          <tr>
-            <td style="padding:20px 32px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fafafa;border:1px solid #ececec;border-radius:10px;overflow:hidden;">
-
-                <tr>
-                  <td style="padding:16px 20px;border-bottom:1px solid #ececec;">
-                    <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Customer Name</div>
-                    <div style="color:#1a1a1a;font-size:16px;font-weight:600;">${esc(name)}</div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:16px 20px;border-bottom:1px solid #ececec;">
-                    <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Email</div>
-                    <a href="mailto:${esc(email)}" style="color:#dd052c;font-size:15px;font-weight:500;text-decoration:none;">${esc(email)}</a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:16px 20px;border-bottom:1px solid #ececec;">
-                    <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Phone</div>
-                    <a href="tel:${esc(phone)}" style="color:#dd052c;font-size:15px;font-weight:500;text-decoration:none;">${esc(phone)}</a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:16px 20px;border-bottom:1px solid #ececec;">
-                    <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Vehicle of Interest</div>
-                    <div style="color:#1a1a1a;font-size:15px;font-weight:600;">${esc(model)}</div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:16px 20px;border-bottom:1px solid #ececec;">
-                    <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Preferred Date</div>
-                    <div style="color:#1a1a1a;font-size:15px;font-weight:600;">${esc(date)}</div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:16px 20px;">
-                    <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Showroom Location</div>
-                    <div style="color:#1a1a1a;font-size:15px;font-weight:500;">${esc(location)}</div>
-                  </td>
-                </tr>
-
-              </table>
-            </td>
-          </tr>
-
-          <!-- Quick-action buttons -->
-          <tr>
-            <td style="padding:0 32px 24px 32px;">
-              <table role="presentation" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="padding-right:8px;">
-                    <a href="tel:${esc(phone)}" style="display:inline-block;background:#dd052c;color:#ffffff;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:12px 22px;border-radius:8px;text-decoration:none;">Call Customer</a>
-                  </td>
-                  <td style="padding-left:8px;">
-                    <a href="mailto:${esc(email)}" style="display:inline-block;background:#1a1a1a;color:#ffffff;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:12px 22px;border-radius:8px;text-decoration:none;">Reply by Email</a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="background:#fafafa;border-top:1px solid #ececec;padding:18px 32px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>
-                    <div style="color:#888;font-size:11px;line-height:1.5;">
-                      Submitted ${esc(submittedAt)} (Asia/Kathmandu)<br />
-                      via the Mahindra Nepal website booking form
-                    </div>
-                  </td>
-                  <td align="right" style="vertical-align:middle;">
-                    <div style="color:#dd052c;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Rise.</div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-        </table>
-        <div style="margin-top:14px;color:#999;font-size:11px;">
-          You are receiving this email because the booking form is configured to deliver leads to this address.
-        </div>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>`;
-  const text = [
-    `New Test Ride Booking`,
-    ``,
-    `Name:           ${name}`,
-    `Email:          ${email}`,
-    `Phone:          ${phone}`,
-    `Vehicle:        ${model}`,
-    `Preferred Date: ${date}`,
-    `Location:       ${location}`,
-  ].join('\n');
-
-  try {
-    await transporter.sendMail({
-      from: `"Mahindra Nepal Booking" <${GMAIL_USER}>`,
-      to: recipient,
-      replyTo: email,
-      subject,
-      text,
-      html,
-    });
-    return res.json({ ok: true });
-  } catch (err) {
-    console.error('[server] sendMail failed:', err);
-    return res
-      .status(500)
-      .json({ ok: false, error: 'Failed to send the booking email.' });
-  }
-});
+app.use('/api/auth', requireDb, authRouter);
+app.use('/api/vehicles', requireDb, vehiclesRouter);
+app.use('/api/blog', requireDb, blogRouter);
+app.use('/api/images', requireDb, imagesRouter);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 app.listen(PORT, () => {
-  console.log(`[server] Booking API listening on http://localhost:${PORT}`);
-  console.log(`[server] Notifications will be sent to: ${recipient}`);
+  console.log(`[server] Admin API listening on http://localhost:${PORT}`);
 });

@@ -105,7 +105,7 @@ export default function Booking() {
       console.error('Booking submit failed:', err);
       setErrorMsg(
         'We saved your booking locally but could not email it right now. ' +
-          'Please try again, or contact us directly at info@dugarautoclinic.com.'
+          'Please try again, or contact us directly at sales.mvdugar@gmail.com.'
       );
     } finally {
       setSubmitting(false);
@@ -162,7 +162,7 @@ export default function Booking() {
             <div className="space-y-5 border-t border-gray-200 pt-6">
               {[
                 { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Sales', value: '+977 9802748575' },
-                { icon: <Mail className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Email', value: 'info@dugarautoclinic.com' },
+                { icon: <Mail className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Email', value: 'sales.mvdugar@gmail.com' },
                 { icon: <MapPin className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Office', value: 'MV Dugar Building, Kathmandu, Nepal' },
                 { icon: <Clock className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Hours', value: 'Sun – Fri, 9:30 AM – 6:00 PM' },
               ].map((item) => (
@@ -377,6 +377,109 @@ export default function Booking() {
           </a>
         </div>
       </section>
+
+      {/* ── Service Network — 12 Dugar Brothers & Sons dealership branches ── */}
+      <ServiceNetwork />
     </div>
+  );
+}
+
+// Nationwide branch list. Static for now — if your client adds branches
+// often we can move it to MongoDB the same way vehicles/blog are managed.
+const BRANCHES = [
+  { city: 'Kathmandu', district: 'Kathmandu', province: 'Bagmati', phone: '01-4380639' },
+  { city: 'Jeetpur', district: 'Bara', province: 'Madesh', phone: '9802538774' },
+  { city: 'Hetauda', district: 'Makwanpur', province: 'Bagmati', phone: '9802750827' },
+  { city: 'Chapur', district: 'Rauthat', province: 'Madesh', phone: '9802057825' },
+  { city: 'Nepalgunj', district: 'Banke', province: 'Lumbini', phone: '9802548272' },
+  { city: 'Janakpur', district: 'Dhanusha', province: 'Madesh', phone: '9802059372' },
+  { city: 'Dhangadi', district: 'Kailali', province: 'Sudur Paschim', phone: '9801913010' },
+  { city: 'Butwal', district: 'Butwal', province: 'Lumbini', phone: '9802079248' },
+  { city: 'Lahan', district: 'Siraha', province: 'Madesh', phone: '9802057825' },
+  { city: 'Birtamode', district: 'Birtamode', province: 'Koshi', phone: '9802798555' },
+  { city: 'Dang', district: 'Dang', province: 'Lumbini', phone: '9802059386' },
+  { city: 'Biratnagar', district: 'Biratnagar', province: 'Koshi', phone: '9802701803' },
+];
+
+const PROVINCES = ['All', 'Bagmati', 'Madesh', 'Lumbini', 'Koshi', 'Sudur Paschim'];
+
+function ServiceNetwork() {
+  const [filter, setFilter] = useState('All');
+  const filtered = filter === 'All' ? BRANCHES : BRANCHES.filter((b) => b.province === filter);
+
+  return (
+    <section className="bg-white border-t border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-10">
+          <p className="text-[rgb(213,59,59)] text-sm sm:text-base font-bold uppercase tracking-[0.3em] mb-4">
+            Service Network
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-[1.05]">
+            Find a Dealership Near You
+          </h2>
+          <p className="text-gray-500 text-sm sm:text-base mt-5 max-w-2xl mx-auto">
+            12 Dugar Brothers &amp; Sons branches across Nepal — sales, service, and genuine parts
+            wherever you operate.
+          </p>
+        </div>
+
+        {/* Province filter */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {PROVINCES.map((p) => (
+            <button
+              key={p}
+              onClick={() => setFilter(p)}
+              className={`px-5 py-2 rounded font-bold uppercase tracking-wider text-xs border transition-all duration-300 ${
+                filter === p
+                  ? 'bg-transparent border-[rgb(213,59,59)] text-[rgb(213,59,59)]'
+                  : 'bg-white border-black/10 hover:border-black/30 text-gray-600 hover:text-black'
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+
+        {/* Branch cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filtered.map((b) => (
+            <div
+              key={b.city + b.phone}
+              className="bg-white rounded-xl border border-gray-200 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-12px_rgba(0,0,0,0.15)] hover:border-gray-300"
+            >
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div>
+                  <h3 className="text-gray-950 text-lg font-black uppercase tracking-tight">
+                    {b.city}
+                  </h3>
+                  <p className="text-gray-500 text-xs mt-1">
+                    {b.district}, {b.province} Province
+                  </p>
+                </div>
+                <span className="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-[rgb(213,59,59)]/10 text-[rgb(213,59,59)]">
+                  <MapPin className="w-4 h-4" />
+                </span>
+              </div>
+
+              <p className="text-gray-500 text-xs mb-4">Dugar Brothers &amp; Sons Pvt. Ltd.</p>
+
+              <a
+                href={`tel:${b.phone.replace(/[^+\d]/g, '')}`}
+                className="inline-flex items-center gap-2 text-gray-900 hover:text-[rgb(213,59,59)] font-bold text-sm transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                {b.phone}
+              </a>
+            </div>
+          ))}
+        </div>
+
+        {filtered.length === 0 && (
+          <p className="text-center text-gray-500 text-sm mt-8">
+            No branches in this province yet.
+          </p>
+        )}
+      </div>
+    </section>
   );
 }

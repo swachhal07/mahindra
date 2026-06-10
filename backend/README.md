@@ -1,6 +1,8 @@
-# Mahindra Nepal — Booking Email API
+# Mahindra Nepal — Admin & Catalog API
 
-Standalone Node.js + Express backend that receives test-ride booking submissions from the website and emails them to the dealership inbox via Gmail SMTP.
+Node.js + Express + MongoDB Atlas backend that powers the admin portal at `/login → /admin` on the website. Manages the vehicle catalog and blog posts, including their images and brochure PDFs. Files are stored directly inside MongoDB so the server needs no disk and no third-party file host.
+
+> Booking-form emails are handled separately by the Vercel serverless function at `frontend/api/booking.js` and do **not** pass through this server.
 
 ## Setup
 
@@ -16,15 +18,24 @@ Standalone Node.js + Express backend that receives test-ride booking submissions
    Copy `.env.example` → `.env` and fill in:
 
    ```env
-   GMAIL_USER=yourname@gmail.com
-   GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
-   BOOKING_TO=yourname@gmail.com
    PORT=5174
+
+   MONGODB_URI=mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/mahindra
+   JWT_SECRET=some-long-random-string
+   ADMIN_EMAIL=admin@example.com
+   ADMIN_PASSWORD=choose-a-strong-password
    ```
 
-   - `GMAIL_APP_PASSWORD` must be a **16-character Google App Password** (not your normal Gmail password).
-   - Generate one at https://myaccount.google.com/apppasswords. 2-Step Verification must be enabled on the account.
-   - `BOOKING_TO` is where the booking notifications land — usually the same as `GMAIL_USER`.
+   - `MONGODB_URI` comes from MongoDB Atlas → Database → Connect → Drivers.
+   - The admin account is created automatically at startup from `ADMIN_EMAIL` / `ADMIN_PASSWORD` (password is bcrypt-hashed; changing it in `.env` updates the account on next start).
+
+3. **Seed the original lineup** (one-time, after `MONGODB_URI` is set)
+
+   ```bash
+   npm run seed
+   ```
+
+   Imports the 9 vehicles and 4 blog posts that used to be hardcoded in the frontend — including photos, feature galleries, brochures and article hero images — so the admin portal can edit or delete all of them. Refuses to run twice; `npm run seed -- --force` wipes the catalog and re-seeds.
 
 ## Run
 
@@ -36,39 +47,46 @@ npm run dev          # auto-restart on file change (node --watch)
 You should see:
 
 ```
-[server] Booking API listening on http://localhost:5174
-[server] Notifications will be sent to: yourname@gmail.com
-[server] Gmail SMTP connection verified.
+[server] Admin API listening on http://localhost:5174
+[server] MongoDB connected.
+[server] Admin account created: admin@example.com
 ```
 
 ## API
 
-### `POST /api/booking`
-
-Request body (JSON):
-
-```json
-{
-  "name": "Customer Name",
-  "email": "customer@example.com",
-  "phone": "+977 98XXXXXXXX",
-  "model": "BlazoX 35 Truck",
-  "date": "2026-06-15",
-  "location": "M.V Dugar Building, Kathmandu",
-  "consent": true
-}
-```
-
-Response:
-
-- `200 { "ok": true }` — email sent
-- `400 { "ok": false, "error": "..." }` — missing fields / consent
-- `500 { "ok": false, "error": "..." }` — SMTP failure
-
 ### `GET /api/health`
 
-Simple liveness probe — returns `{ "ok": true }`.
+Liveness probe — returns `{ "ok": true }`.
+
+### Auth — `POST /api/auth/login`
+
+`{ "email": "...", "password": "..." }` → `{ "ok": true, "token": "<JWT>" }` (7-day expiry).
+`GET /api/auth/me` with `Authorization: Bearer <token>` validates a stored token.
+
+### Vehicles
+
+| Method & path              | Auth | Purpose                          |
+| -------------------------- | ---- | -------------------------------- |
+| `GET /api/vehicles`        | —    | List all vehicles (public site)  |
+| `GET /api/vehicles/:id`    | —    | One vehicle                      |
+| `POST /api/vehicles`       | ✅   | Create (multipart/form-data)     |
+| `PUT /api/vehicles/:id`    | ✅   | Update (multipart/form-data)     |
+| `DELETE /api/vehicles/:id` | ✅   | Delete vehicle + unused files    |
+
+### Blog posts
+
+| Method & path          | Auth | Purpose                       |
+| ---------------------- | ---- | ----------------------------- |
+| `GET /api/blog`        | —    | List all posts (public site)  |
+| `GET /api/blog/:id`    | —    | One post                      |
+| `POST /api/blog`       | ✅   | Create (multipart/form-data)  |
+| `PUT /api/blog/:id`    | ✅   | Update (multipart/form-data)  |
+| `DELETE /api/blog/:id` | ✅   | Delete post + unused image    |
+
+### Images / brochures — `GET /api/images/:id`
+
+Serves a stored photo or PDF. Aggressively cached (assets are immutable; edits create new ones).
 
 ## Deploying
 
-Set the same env vars on your host (Render, Railway, Fly.io, etc.) and point the frontend at the deployed URL (or proxy `/api/*` to it through the same domain).
+Set the same env vars on your host (Render, Railway, Fly.io, etc.) and point the frontend at the deployed URL by setting `VITE_API_BASE_URL` in Vercel.

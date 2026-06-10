@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useT } from '../utils/i18n';
-import storyImage1 from '../assets/IMG_1596.jpg';
-import storyImage2 from '../assets/IMG_5387.PNG';
+import storyImage1 from '../assets/WhatsApp Image 2026-06-10 at 11.23.50 AM.jpeg';
+import storyImage2 from '../assets/WhatsApp Image 2026-06-10 at 11.23.51 AM.jpeg';
+import storyImage3 from '../assets/WhatsApp Image 2026-06-10 at 11.23.51 AM (1).jpeg';
+import storyImage4 from '../assets/WhatsApp Image 2026-06-10 at 11.23.52 AM.jpeg';
 import partnerVianet from '../assets/Vianet-Aba-Sabai_Connected-Red@4x.png';
 import partnerJagdamba from '../assets/jagdamba-steels.png';
 import partnerAboutUs from '../assets/about-us-logo-image-1024x1024.png';
@@ -19,7 +21,7 @@ const partnerLogos = [
   { id: 'logo', src: partnerLogo, alt: 'Partner', className: 'h-12 sm:h-14' },
 ];
 
-const storySlides = [storyImage1, storyImage2];
+const storySlides = [storyImage1, storyImage2, storyImage3, storyImage4];
 
 const serveCategories = [
   'Logistics & Transport',

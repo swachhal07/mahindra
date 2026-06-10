@@ -1,6 +1,7 @@
 import React, { useState, useLayoutEffect, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import BookTestDriveTab from './components/BookTestDriveTab';
 
 // Home loads eagerly — it's the landing page so we want zero TTI overhead.
 import Home from './pages/Home';
@@ -84,6 +85,8 @@ export default function App() {
       </main>
 
       <Footer setCurrentPage={changePage} currentPage={currentPage} />
+
+      <BookTestDriveTab setCurrentPage={changePage} currentPage={currentPage} />
     </div>
   );
 }

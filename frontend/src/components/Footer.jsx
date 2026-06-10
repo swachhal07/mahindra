@@ -130,7 +130,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
-                  <a href="mailto:customercare@mahindra.com" className="hover:text-white transition-colors duration-300 text-neutral-400">customercare@mahindra.com</a>
+                  <a href="mailto:sales.mvdugar@gmail.com" className="hover:text-white transition-colors duration-300 text-neutral-400">sales.mvdugar@gmail.com</a>
                 </li>
               </ul>
               <div className="mt-2 p-3.5 bg-[#141414] border-l-[3px] border-[#e21b22] rounded-sm">

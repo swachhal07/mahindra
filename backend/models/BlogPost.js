@@ -13,7 +13,7 @@ const blogPostSchema = new mongoose.Schema(
     excerpt: { type: String, default: '', trim: true },
     body: [{ type: String, trim: true }],
     date: { type: Date, required: true, default: () => new Date() },
-    author: { type: String, default: 'Dugar Auto Clinic Team', trim: true },
+    author: { type: String, default: 'Dugar Brothers and Sons Pvt LTD Team', trim: true },
     category: { type: String, default: 'News', trim: true },
     image: { type: mongoose.Schema.Types.ObjectId, ref: 'ImageAsset', required: true },
     order: { type: Number, default: 0 },

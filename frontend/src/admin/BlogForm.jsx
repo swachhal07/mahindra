@@ -23,7 +23,7 @@ export default function BlogForm({ post, onDone }) {
   const [title, setTitle] = useState(post?.title ?? '');
   const [slug, setSlug] = useState(post?.slug ?? '');
   const [category, setCategory] = useState(post?.category ?? 'News');
-  const [author, setAuthor] = useState(post?.author ?? 'Dugar Auto Clinic Team');
+  const [author, setAuthor] = useState(post?.author ?? 'Dugar Brothers and Sons Pvt LTD Team');
   const [date, setDate] = useState(toDateInput(post?.date) || toDateInput(new Date()));
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? '');
   // Body is stored as an array of paragraphs; in the textarea, paragraphs

@@ -111,6 +111,9 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 <li>
                   <button id="footer-div-loadmaster" onClick={() => setCurrentPage('showcase', { showcaseFilter: 'light' })} className="hover:text-white transition-colors duration-300 text-left cursor-pointer">LoadMaster</button>
                 </li>
+                <li>
+                  <button id="footer-div-bus" onClick={() => setCurrentPage('showcase', { showcaseFilter: 'bus' })} className="hover:text-white transition-colors duration-300 text-left cursor-pointer">Buses</button>
+                </li>
               </ul>
             </div>
 

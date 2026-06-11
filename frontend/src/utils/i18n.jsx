@@ -44,7 +44,7 @@ const translations = {
 
   // Home — section eyebrows + titles
   'home.whatWeDo.eyebrow': 'WHAT WE DO',
-  'home.whatWeDo.title': "POWERING NEPAL'S\nCOMMERCIAL & CONSTRUCTION BACKBONE.",
+  'home.whatWeDo.title': "POWERING NEPAL'S\nCOMMERCIAL & CONSTRUCTION FLEET.",
   'home.divisions.eyebrow': 'OUR DIVISIONS',
   'home.divisions.title': 'VEHICLES ENGINEERED\nTO PERFORM.',
   'home.reviews.eyebrow': 'CUSTOMER REVIEWS',
@@ -76,7 +76,7 @@ const translations = {
   'showcase.filter.bus': 'Buses',
 
   // About
-  'about.eyebrow': 'About Dugar Auto Clinic',
+  'about.eyebrow': 'About Dugar Brothers and Sons Pvt LTD',
   'about.headline1': "Nepal's Trusted.",
   'about.headline2': 'Mahindra Partner.',
   'about.sub': 'We deliver world-class Mahindra vehicles and after-sales service across Nepal — from heavy commercial trucks to light city movers, all under one roof.',

@@ -350,7 +350,7 @@ export default function Booking() {
               <MarkerPopup>
                 <div className="min-w-[200px]">
                   <p className="text-[rgb(213,59,59)] text-[10px] font-bold uppercase tracking-[0.2em] mb-1">
-                    Dugar Auto Clinic
+                    Dugar Brothers and Sons Pvt LTD
                   </p>
                   <h4 className="text-gray-950 font-extrabold text-sm uppercase mb-1">
                     Kathmandu Showroom

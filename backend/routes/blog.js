@@ -129,7 +129,7 @@ router.post('/', requireAuth, upload.single('image'), async (req, res) => {
       excerpt: String(req.body.excerpt ?? '').trim(),
       body: parseBody(req.body.body),
       date,
-      author: String(req.body.author ?? '').trim() || 'Dugar Auto Clinic Team',
+      author: String(req.body.author ?? '').trim() || 'Dugar Brothers and Sons Pvt LTD Team',
       category: String(req.body.category ?? '').trim() || 'News',
       image: imageId,
     });
@@ -159,7 +159,7 @@ router.put('/:id', requireAuth, upload.single('image'), async (req, res) => {
     }
     if (req.body.excerpt != null) post.excerpt = String(req.body.excerpt).trim();
     if (req.body.body != null) post.body = parseBody(req.body.body);
-    if (req.body.author != null) post.author = String(req.body.author).trim() || 'Dugar Auto Clinic Team';
+    if (req.body.author != null) post.author = String(req.body.author).trim() || 'Dugar Brothers and Sons Pvt LTD Team';
     if (req.body.category != null) post.category = String(req.body.category).trim() || 'News';
     if (req.body.date != null && req.body.date !== '') {
       const d = new Date(req.body.date);

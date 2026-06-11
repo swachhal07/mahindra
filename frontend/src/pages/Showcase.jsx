@@ -201,7 +201,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       tagline: 'Optimised load. Optimised profits.',
       image: imgLoadkingTruck,
       imageScale: 1.2,
-      price: 'Contact for pricing',
+      price: 'NPR 3,460,000',
       specs: {
         category: 'Medium Duty Cargo',
         payload: 'Up to 25T GVW',
@@ -217,7 +217,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       category: 'tipper',
       tagline: 'Built for the toughest sites.',
       image: imgLoadkingTipper,
-      price: 'Contact for pricing',
+      price: 'NPR 3,445,000',
       specs: {
         category: 'Medium Duty Tipper',
         payload: 'Up to 25T GVW',
@@ -235,7 +235,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       image: imgSuproMini,
       cardImageScale: 1.4,
       detailImageScale: 1.0,
-      price: 'Contact for pricing',
+      price: 'NPR 2,215,000',
       specs: {
         category: 'Light Commercial',
         payload: '750 kg',
@@ -251,7 +251,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       category: 'light',
       tagline: 'More payload, more profit.',
       image: imgSuproMaxi,
-      price: 'Contact for pricing',
+      price: 'NPR 2,352,000',
       specs: {
         category: 'Light Commercial',
         payload: '900 kg',
@@ -284,7 +284,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       category: 'tipper',
       tagline: 'Heavy haulage with FuelSmart efficiency.',
       image: imgBlazoxTipperMDura,
-      price: 'Contact for pricing',
+      price: 'NPR 11,750,000',
       specs: {
         category: 'Heavy Duty Tipper',
         payload: 'Up to 35T',
@@ -317,7 +317,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       tagline: 'Long-distance comfort. Modern passenger transport.',
       image: imgCruzioGrande,
       cardImageScale: 1.5,
-      price: 'Contact for pricing',
+      price: 'NPR 6,200,000',
       specs: {
         category: 'Passenger Bus',
         payload: '40+ Seater',
@@ -334,7 +334,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       tagline: 'Safe, reliable transport for students every day.',
       image: imgCruzioSchool,
       cardImageScale: 1.5,
-      price: 'Contact for pricing',
+      price: 'NPR 4,699,000',
       specs: {
         category: 'School Bus',
         payload: 'Up to 32 Seater',

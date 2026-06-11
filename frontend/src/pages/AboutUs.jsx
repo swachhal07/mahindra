@@ -119,6 +119,12 @@ export default function AboutUs({ setCurrentPage }) {
               Dugar Brothers and Sons Pvt LTD was built to do one thing well. We deliver Mahindra vehicles and after-sales service across Nepal with a clear scope, expert technicians, and a commitment that does not slip. That is the entire model.
             </p>
             <p className="text-gray-500 text-base leading-relaxed mb-5">
+              Get in touch with our sales team at{' '}
+              <a href="mailto:Sales.Mahindra@mvdugar.com" className="text-[rgb(213,59,59)] font-semibold hover:underline">
+                Sales.Mahindra@mvdugar.com
+              </a>.
+            </p>
+            <p className="text-gray-500 text-base leading-relaxed mb-5">
               Fleet operators, business owners, and individual buyers choose us because the vehicles keep moving, the service gets done on time, and they do not have to chase us for support.
             </p>
             <p className="text-gray-500 text-base leading-relaxed">

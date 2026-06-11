@@ -67,3 +67,4 @@ main().catch((err) => {
   console.error('Price update failed:', err);
   process.exit(1);
 });
+

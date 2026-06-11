@@ -15,6 +15,9 @@ import backhoeLoader from '../assets/mahindra-backhoe-loader-28-04-2022-2-271486
 import heavyMachineryImg from '../assets/IMG_1577-cropped.jpg';
 import commercialSalesImg from '../assets/IMG_1565.jpg';
 import sparePartsImg from '../assets/spareparts.jpg';
+import busAlt from '../assets/gallery-111.jpg';
+import loadkingOptimo from '../assets/mahindra-loadking-optimo-54629.avif';
+import topSpeed70 from '../assets/70_kmph_top_speed.jpg';
 
 
 // Slide text comes from i18n (keys: home.slide{N}.tag/headline/sub).
@@ -24,6 +27,8 @@ const slides = [
   { id: 2, image: blazoTipper, objectPosition: 'center center' },
   { id: 3, image: gallery3, objectPosition: 'center center' },
   { id: 4, image: earthmasterSxIv, objectPosition: 'center center' },
+  { id: 5, image: loadkingOptimo, objectPosition: 'center center' },
+  { id: 6, image: topSpeed70, objectPosition: 'center center' },
 ];
 
 const INTERVAL_MS = 5000;
@@ -31,7 +36,7 @@ const INTERVAL_MS = 5000;
 const faqs = [
   {
     question: "How can I book a test drive for a Mahindra vehicle?",
-    answer: "You can easily schedule a test drive by visiting our Booking page, selecting your preferred vehicle type (Commercial, Passenger, or Agri-Tech), and providing your contact information. Our representative will contact you to confirm details."
+    answer: "You can easily schedule a test drive by visiting our Booking page, selecting your preferred vehicle type (Commercial or Passenger), and providing your contact information. Our representative will contact you to confirm details."
   },
   {
     question: "What are the key benefits of Mahindra FuelSmart technology?",
@@ -50,6 +55,65 @@ const faqs = [
     answer: "Yes, Mahindra Finance offers tailored financing and loan structures for fleet buyers, commercial operators, and individual buyers, ensuring low interest rates and convenient repayment options."
   }
 ];
+
+// Crossfading image panel for the divisions block. When the tab provides
+// multiple images (tab.imgs), shows prev/next arrows and dot indicators.
+function TabImage({ tab }) {
+  const imgs = tab.imgs && tab.imgs.length > 0 ? tab.imgs : [tab.img];
+  const [idx, setIdx] = useState(0);
+  const hasMany = imgs.length > 1;
+  useEffect(() => {
+    setIdx(0);
+    if (!hasMany) return undefined;
+    const id = setInterval(() => setIdx((i) => (i + 1) % imgs.length), 4000);
+    return () => clearInterval(id);
+  }, [tab.label, imgs.length, hasMany]);
+  const go = (delta) => setIdx((i) => (i + delta + imgs.length) % imgs.length);
+  return (
+    <>
+      {imgs.map((src, i) => (
+        <img
+          key={`${tab.label}-${i}`}
+          src={src}
+          alt={tab.label}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+          style={{ opacity: i === idx ? 1 : 0 }}
+        />
+      ))}
+      {hasMany && (
+        <>
+          <button
+            type="button"
+            onClick={() => go(-1)}
+            aria-label="Previous image"
+            className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => go(1)}
+            aria-label="Next image"
+            className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+          <div className="absolute bottom-6 right-6 flex items-center gap-2">
+            {imgs.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIdx(i)}
+                aria-label={`Show image ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/80'}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </>
+  );
+}
 
 export default function Home({ setCurrentPage }) {
   const [current, setCurrent] = useState(0);
@@ -204,7 +268,7 @@ export default function Home({ setCurrentPage }) {
               {
                 num: '02',
                 title: 'Service & Spare Parts',
-                desc: 'Authorised service centre with genuine Mahindra spare parts and certified technicians ensuring maximum uptime for your vehicle.',
+                desc: 'Country wide service network with genuine parts, trained technicians, and scheduled visits. We do not disappear after delivery — we stay with the vehicle, for the long haul.',
                 img: sparePartsImg,
                 imgPosition: 'center 70%',
                 page: 'booking',
@@ -212,7 +276,7 @@ export default function Home({ setCurrentPage }) {
               {
                 num: '03',
                 title: 'Heavy Machinery',
-                desc: 'Supply and support of heavy construction machinery including tippers, backhoe loaders, and earthmoving equipment built for Nepal\'s toughest terrain.',
+                desc: 'Authorised distributor for Mahindra Heavy Commercial Vehicles, Light Commercial Vehicles, Small Commercial Vehicles and Buses.',
                 img: heavyMachineryImg,
                 imgPosition: 'center',
                 page: 'showcase',
@@ -269,7 +333,7 @@ export default function Home({ setCurrentPage }) {
             page: 'showcase',
           },
           tipper: {
-            label: 'Tippers & Construction',
+            label: 'Tipper',
             tag: 'Earthmoving & Quarrying',
             headline: 'Built for the Toughest Sites.',
             desc: 'From quarry faces to city infrastructure, the Blazo X Tipper and EarthMaster backhoe loaders deliver raw torque, precision telematics (DigiSense), and lowest fuel burn in class.',
@@ -284,7 +348,7 @@ export default function Home({ setCurrentPage }) {
             page: 'showcase',
           },
           light: {
-            label: 'Light Commercials',
+            label: 'Small Commercials',
             tag: 'Last-Mile & City Logistics',
             headline: 'Smart. Agile. Always On Time.',
             desc: 'The Supro Mini Truck and Cargo range are purpose-built for urban last-mile delivery — compact enough for narrow city roads, strong enough to carry a full commercial payload every single day.',
@@ -299,7 +363,7 @@ export default function Home({ setCurrentPage }) {
             page: 'showcase',
           },
           bus: {
-            label: 'School Buses',
+            label: 'Buses',
             tag: 'Passenger Transport',
             headline: 'Safe Journeys, Every Day.',
             desc: 'Mahindra school buses are built with passenger safety at the core — featuring ABS, fire detection systems, and a robust 2.5L mDI CRDe engine designed for reliable daily school runs across Nepal.',
@@ -312,9 +376,10 @@ export default function Home({ setCurrentPage }) {
             ],
             cta: 'Book a Test Drive',
             page: 'booking',
+            imgs: [gallery3, busAlt],
           },
           earthmaster: {
-            label: 'EarthMaster Backhoe',
+            label: 'Construction Equipment',
             tag: 'Heavy Construction',
             headline: 'Power Meets Precision.',
             desc: 'The Mahindra EarthMaster SX backhoe loader delivers class-leading dig depth, high breakout force, and DigiSense telematics — engineered for Nepal\'s most demanding construction and quarrying projects.',
@@ -403,12 +468,7 @@ export default function Home({ setCurrentPage }) {
 
                 {/* Right: Vehicle Image */}
                 <div className="relative h-[540px] rounded-2xl overflow-hidden shadow-xl">
-                  <img
-                    key={activeTab}
-                    src={tab.img}
-                    alt={tab.label}
-                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-                  />
+                  <TabImage tab={tab} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute bottom-6 left-6">
                     <span className="text-white/60 text-xs font-bold uppercase tracking-widest block">Division</span>

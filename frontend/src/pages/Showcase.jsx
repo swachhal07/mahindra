@@ -300,7 +300,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       category: 'truck',
       tagline: 'Long-haul cargo. Class-leading mileage.',
       image: imgBlazoX35,
-      price: 'Contact for pricing',
+      price: 'NPR 8,900,000',
       specs: {
         category: 'Heavy Duty Cargo',
         payload: 'Up to 35T GVW',

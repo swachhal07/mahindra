@@ -10,7 +10,7 @@ export default defineConfig({
     // ports. Backend runs on PORT (default 5174) from `.env`.
     proxy: {
       '/api': {
-        target: 'http://localhost:5174',
+        target: 'http://127.0.0.1:5174',
         changeOrigin: true,
       },
     },

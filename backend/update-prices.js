@@ -21,7 +21,7 @@ const PRICES = {
   'Supro Maxi Profit Truck VX/LX': 'NPR 2,352,000',
   'Mahindra EarthMaster SX90': 'Contact for pricing',
   'Blazo X Tipper m Dura 28': 'NPR 11,750,000',
-  'Blazo X 35 Truck': 'Contact for pricing',
+  'Blazo X 35 Truck': 'NPR 8,900,000',
   'Cruzio Grande Bus': 'NPR 6,200,000',
   'Cruzio School Bus': 'NPR 4,699,000',
 };

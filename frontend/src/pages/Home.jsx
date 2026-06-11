@@ -12,7 +12,7 @@ import gallery1 from '../assets/gallery-1 (1).jpg';
 import suproMiniTruck from '../assets/supro-mini-truck-front-view.png';
 import smart50 from '../assets/Mahindra_SX_Smart_50_4_ab720f2044.webp';
 import backhoeLoader from '../assets/mahindra-backhoe-loader-28-04-2022-2-271486210-zkd8fne7.avif';
-import heavyMachineryImg from '../assets/IMG_1577-cropped.jpg';
+import heavyMachineryImg from '../assets/desi-machines-mahindra-earthmaster-sx-backhoe-loader-featured-1.jpg';
 import commercialSalesImg from '../assets/IMG_1565.jpg';
 import sparePartsImg from '../assets/spareparts.jpg';
 import busAlt from '../assets/gallery-111.jpg';

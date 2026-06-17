@@ -246,10 +246,10 @@ export default function Home({ setCurrentPage }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
           {/* Header */}
           <div className="mb-16 text-center space-y-2">
-            <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
+            <span className="text-[#e31837] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
               {t('home.whatWeDo.eyebrow')}
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans whitespace-pre-line">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans whitespace-pre-line after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
               {t('home.whatWeDo.title')}
             </h2>
           </div>
@@ -300,7 +300,7 @@ export default function Home({ setCurrentPage }) {
                 </div>
                 {/* Content */}
                 <div className="px-8 pt-7 pb-7">
-                  <span className="text-[#e21b22] text-sm font-black block mb-3">{card.num}</span>
+                  <span className="text-[#e31837] text-sm font-black block mb-3">{card.num}</span>
                   <h3 className="text-gray-950 text-xl font-black uppercase tracking-tight leading-tight mb-4">
                     {card.title}
                   </h3>
@@ -401,10 +401,10 @@ export default function Home({ setCurrentPage }) {
               {/* Header */}
               <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div className="space-y-2">
-                  <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
+                  <span className="text-[#e31837] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
                     {t('home.divisions.eyebrow')}
                   </span>
-                  <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans whitespace-pre-line">
+                  <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans whitespace-pre-line after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5">
                     {t('home.divisions.title')}
                   </h2>
                 </div>
@@ -421,7 +421,7 @@ export default function Home({ setCurrentPage }) {
                     id={`tab-${key}`}
                     onClick={() => setActiveTab(key)}
                     className={`pb-4 px-2 text-sm font-black uppercase tracking-wider border-b-2 transition-all duration-300 ${activeTab === key
-                      ? 'border-[#e21b22] text-[#e21b22]'
+                      ? 'border-[#e31837] text-[#e31837]'
                       : 'border-transparent text-gray-400 hover:text-gray-800 hover:border-gray-300'
                       }`}
                   >
@@ -436,7 +436,7 @@ export default function Home({ setCurrentPage }) {
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr] gap-10 items-center">
                 {/* Left: Info & Stats */}
                 <div className="space-y-6">
-                  <span className="inline-block bg-[#e21b22] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded">
+                  <span className="inline-block bg-[#e31837] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded">
                     {tab.tag}
                   </span>
                   <h3 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-tight">
@@ -459,7 +459,7 @@ export default function Home({ setCurrentPage }) {
                   <button
                     id={`tab-cta-${activeTab}`}
                     onClick={() => setCurrentPage(tab.page)}
-                    className="inline-flex items-center gap-3 bg-transparent border border-gray-800 hover:bg-[#e21b22] hover:border-[#e21b22] text-gray-900 hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300"
+                    className="inline-flex items-center gap-3 bg-transparent border border-gray-800 hover:bg-[#e31837] hover:border-[#e31837] text-gray-900 hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300"
                   >
                     {tab.cta}
                     <ArrowRight className="w-4 h-4" />
@@ -523,10 +523,10 @@ export default function Home({ setCurrentPage }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
           {/* Header */}
           <div className="text-center mb-16 space-y-4">
-            <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
+            <span className="text-[#e31837] font-black uppercase tracking-[0.25em] text-xl sm:text-2xl block">
               {t('home.reviews.eyebrow')}
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
               {t('home.reviews.title')}
             </h2>
             <p className="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-light">
@@ -627,9 +627,9 @@ export default function Home({ setCurrentPage }) {
             ]).map((review, idx) => (
               <div
                 key={idx}
-                className="bg-[#f8f9fa] border border-black/5 rounded-xl p-6 hover:border-[#e21b22]/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between shadow-sm relative group text-left w-[300px] sm:w-[350px] flex-shrink-0"
+                className="bg-[#f8f9fa] border border-black/5 rounded-xl p-6 hover:border-[#e31837]/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between shadow-sm relative group text-left w-[300px] sm:w-[350px] flex-shrink-0"
               >
-                <div className="absolute top-6 right-6 text-gray-200 group-hover:text-[#e21b22]/10 transition-colors duration-300">
+                <div className="absolute top-6 right-6 text-gray-200 group-hover:text-[#e31837]/10 transition-colors duration-300">
                   <Quote className="w-8 h-8 transform rotate-180" />
                 </div>
 
@@ -663,7 +663,7 @@ export default function Home({ setCurrentPage }) {
             href="https://www.google.com/search?q=Dugar+Auto+Clinic+Kathmandu+reviews"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-black hover:bg-[#e21b22] text-white font-bold uppercase tracking-wider text-sm px-8 py-4 rounded transition-colors duration-300"
+            className="inline-flex items-center gap-3 bg-black hover:bg-[#e31837] text-white font-bold uppercase tracking-wider text-sm px-8 py-4 rounded transition-colors duration-300"
           >
             <svg className="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.5 29.3 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z" />
@@ -682,10 +682,10 @@ export default function Home({ setCurrentPage }) {
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16 space-y-4">
-            <span className="text-[#e21b22] font-black uppercase tracking-[0.25em] text-lg sm:text-xl block">
+            <span className="text-[#e31837] font-black uppercase tracking-[0.25em] text-lg sm:text-xl block">
               {t('home.faq.eyebrow')}
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans">
+            <h2 className="text-3xl sm:text-5xl font-black text-gray-950 uppercase tracking-tighter leading-none font-sans after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
               {t('home.faq.title')}
             </h2>
             <p className="text-gray-500 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-light">
@@ -704,7 +704,7 @@ export default function Home({ setCurrentPage }) {
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : index)}
-                    className="w-full flex items-center justify-between p-6 text-left font-bold text-gray-950 hover:text-[#e21b22] transition-colors duration-200 cursor-pointer bg-white"
+                    className="w-full flex items-center justify-between p-6 text-left font-bold text-gray-950 hover:text-[#e31837] transition-colors duration-200 cursor-pointer bg-white"
                   >
                     <span className="text-base sm:text-lg uppercase tracking-tight">{faq.question}</span>
                     <span className="ml-4 flex-shrink-0 text-xl font-light text-gray-400 transition-transform duration-300" style={{ transform: isOpen ? 'rotate(45deg)' : 'none' }}>

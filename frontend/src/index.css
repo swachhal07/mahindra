@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 @theme {
-  --color-mahindra-red: rgb(221, 5, 44);
-  --color-mahindra-darkRed: rgb(175, 4, 35);
+  --color-mahindra-red: rgb(227, 24, 55);
+  --color-mahindra-darkRed: rgb(182, 19, 44);
   --color-mahindra-black: #f5f6f9;
   --color-mahindra-darkGray: #eaecef;
   --color-mahindra-lightGray: #ffffff;
-  --font-sans: 'Outfit', sans-serif;
+  --font-sans: 'Poppins', sans-serif;
 }
 
 html, body {
@@ -16,7 +16,7 @@ html, body {
 }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #1d1d1f;
   overflow-x: hidden;
 }
@@ -33,7 +33,7 @@ body {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(221, 5, 44);
+  background: rgb(227, 24, 55);
 }
 
 /* Animation utilities */

@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         mahindra: {
-          red: '#e21b22',
+          red: '#e31837',
           darkRed: '#b61218',
           black: '#0a0a0a',
           darkGray: '#121212',
@@ -16,7 +16,7 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Outfit', 'sans-serif'],
+        sans: ['Poppins', 'sans-serif'],
       }
     },
   },

@@ -152,7 +152,7 @@ export default function Booking() {
             <p className="text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.3em] mb-5">
               {t('booking.reachUs')}
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6 whitespace-pre-line">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6 whitespace-pre-line after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5">
               {t('booking.reachUs.title')}
             </h2>
             <p className="text-gray-500 text-base leading-relaxed mb-10">
@@ -304,7 +304,7 @@ export default function Booking() {
                 id="booking-submit-btn"
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-black hover:bg-[#e21b22] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-colors duration-300"
+                className="w-full bg-black hover:bg-[#e31837] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded font-bold uppercase tracking-wider text-sm transition-colors duration-300"
               >
                 {submitting ? 'Sending…' : t('booking.submit')}
               </button>
@@ -320,7 +320,7 @@ export default function Booking() {
           <p className="text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.3em] mb-3">
             Find Us
           </p>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-[1.05]">
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5">
             Our Showroom in Kathmandu.
           </h2>
         </div>
@@ -370,7 +370,7 @@ export default function Booking() {
             href="https://www.google.com/maps/dir/?api=1&destination=27.7299094,85.3021967"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-transparent border border-gray-800 hover:bg-[#e21b22] hover:border-[#e21b22] text-gray-900 hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300"
+            className="inline-flex items-center gap-3 bg-transparent border border-gray-800 hover:bg-[#e31837] hover:border-[#e31837] text-gray-900 hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300"
           >
             <Compass className="w-4 h-4" />
             <span>Get Directions on Google Maps</span>
@@ -414,7 +414,7 @@ function ServiceNetwork() {
           <p className="text-[rgb(213,59,59)] text-sm sm:text-base font-bold uppercase tracking-[0.3em] mb-4">
             Service Network
           </p>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-[1.05]">
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
             Find a Dealership Near You
           </h2>
           <p className="text-gray-500 text-sm sm:text-base mt-5 max-w-2xl mx-auto">

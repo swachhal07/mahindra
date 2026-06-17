@@ -11,7 +11,7 @@ const CATEGORIES = [
 ];
 
 const inputCls =
-  'w-full bg-black/60 border border-neutral-700 focus:border-[#e21b22] rounded-lg text-white text-sm px-3.5 py-2.5 outline-none transition-colors';
+  'w-full bg-black/60 border border-neutral-700 focus:border-[#e31837] rounded-lg text-white text-sm px-3.5 py-2.5 outline-none transition-colors';
 const labelCls =
   'text-neutral-400 text-[11px] font-bold uppercase tracking-[0.2em] mb-2 block';
 
@@ -132,7 +132,7 @@ export default function VehicleForm({ vehicle, onDone }) {
 
         {/* ── Basics ── */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 space-y-5">
-          <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22]">Basics</h2>
+          <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837]">Basics</h2>
 
           <div>
             <label className={labelCls}>Vehicle Name *</label>
@@ -185,7 +185,7 @@ export default function VehicleForm({ vehicle, onDone }) {
         {/* ── Specifications ── */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22]">
+            <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837]">
               Specifications
             </h2>
             <button
@@ -230,7 +230,7 @@ export default function VehicleForm({ vehicle, onDone }) {
 
         {/* ── Main image ── */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
-          <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22] mb-5">
+          <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837] mb-5">
             Main Image {isEdit ? '' : '*'}
           </h2>
           <div className="flex flex-col sm:flex-row gap-5 items-start">
@@ -260,7 +260,7 @@ export default function VehicleForm({ vehicle, onDone }) {
         {/* ── Gallery ── */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22]">
+            <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837]">
               Feature Gallery
             </h2>
             <label className="inline-flex items-center gap-1.5 cursor-pointer text-xs font-bold uppercase tracking-wider text-neutral-300 hover:text-white border border-neutral-700 hover:border-neutral-500 rounded-lg px-3 py-2 transition-colors">
@@ -325,7 +325,7 @@ export default function VehicleForm({ vehicle, onDone }) {
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
-                  <span className="absolute bottom-1.5 left-1.5 bg-[#e21b22] text-white text-[9px] font-bold uppercase tracking-wider rounded px-1.5 py-0.5">
+                  <span className="absolute bottom-1.5 left-1.5 bg-[#e31837] text-white text-[9px] font-bold uppercase tracking-wider rounded px-1.5 py-0.5">
                     New
                   </span>
                 </div>
@@ -346,14 +346,14 @@ export default function VehicleForm({ vehicle, onDone }) {
 
         {/* ── Brochure ── */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
-          <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22] mb-5">
+          <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837] mb-5">
             Brochure (PDF)
           </h2>
           <div className="flex flex-wrap items-center gap-3">
             {hasBrochure && !brochureFile && (
               <>
                 <span className="inline-flex items-center gap-2 text-neutral-300 text-xs bg-black/40 border border-neutral-700 rounded-lg px-3 py-2.5">
-                  <FileText className="w-4 h-4 text-[#e21b22]" />
+                  <FileText className="w-4 h-4 text-[#e31837]" />
                   Current brochure attached
                 </span>
                 <button
@@ -403,7 +403,7 @@ export default function VehicleForm({ vehicle, onDone }) {
           <button
             type="submit"
             disabled={busy}
-            className="flex-1 sm:flex-none sm:px-10 inline-flex items-center justify-center gap-2 bg-[#e21b22] hover:bg-[#c4151b] disabled:opacity-50 text-white font-bold uppercase tracking-wider text-xs py-3.5 rounded-lg transition-colors"
+            className="flex-1 sm:flex-none sm:px-10 inline-flex items-center justify-center gap-2 bg-[#e31837] hover:bg-[#b6132c] disabled:opacity-50 text-white font-bold uppercase tracking-wider text-xs py-3.5 rounded-lg transition-colors"
           >
             {busy ? 'Saving… (uploading images may take a moment)' : isEdit ? 'Save Changes' : 'Create Vehicle'}
           </button>

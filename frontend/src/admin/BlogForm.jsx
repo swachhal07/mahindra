@@ -3,7 +3,7 @@ import { ArrowLeft, Upload, AlertTriangle } from 'lucide-react';
 import { api, assetUrl } from '../utils/adminApi';
 
 const inputCls =
-  'w-full bg-black/60 border border-neutral-700 focus:border-[#e21b22] rounded-lg text-white text-sm px-3.5 py-2.5 outline-none transition-colors';
+  'w-full bg-black/60 border border-neutral-700 focus:border-[#e31837] rounded-lg text-white text-sm px-3.5 py-2.5 outline-none transition-colors';
 const labelCls =
   'text-neutral-400 text-[11px] font-bold uppercase tracking-[0.2em] mb-2 block';
 
@@ -98,7 +98,7 @@ export default function BlogForm({ post, onDone }) {
 
         {/* Basics */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 space-y-5">
-          <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22]">Basics</h2>
+          <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837]">Basics</h2>
 
           <div>
             <label className={labelCls}>Title *</label>
@@ -166,7 +166,7 @@ export default function BlogForm({ post, onDone }) {
 
         {/* Body */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 space-y-3">
-          <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22]">
+          <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837]">
             Article Body
           </h2>
           <textarea
@@ -185,7 +185,7 @@ export default function BlogForm({ post, onDone }) {
 
         {/* Featured image */}
         <section className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
-          <h2 className="font-black uppercase tracking-wider text-sm text-[#e21b22] mb-5">
+          <h2 className="font-black uppercase tracking-wider text-sm text-[#e31837] mb-5">
             Featured Image {isEdit ? '' : '*'}
           </h2>
           <div className="flex flex-col sm:flex-row gap-5 items-start">
@@ -225,7 +225,7 @@ export default function BlogForm({ post, onDone }) {
           <button
             type="submit"
             disabled={busy}
-            className="flex-1 sm:flex-none sm:px-10 inline-flex items-center justify-center gap-2 bg-[#e21b22] hover:bg-[#c4151b] disabled:opacity-50 text-white font-bold uppercase tracking-wider text-xs py-3.5 rounded-lg transition-colors"
+            className="flex-1 sm:flex-none sm:px-10 inline-flex items-center justify-center gap-2 bg-[#e31837] hover:bg-[#b6132c] disabled:opacity-50 text-white font-bold uppercase tracking-wider text-xs py-3.5 rounded-lg transition-colors"
           >
             {busy ? 'Saving…' : isEdit ? 'Save Changes' : 'Publish Post'}
           </button>

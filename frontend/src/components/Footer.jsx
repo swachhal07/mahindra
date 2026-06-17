@@ -21,7 +21,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
             className={`absolute inset-x-0 top-0 bottom-16 -z-10 ${whiteBackdrop ? 'bg-white' : 'bg-[#FAF7F2]'}`}
             style={textured ? PAPER_BG_STYLE : undefined}
           />
-          <div className="max-w-6xl mx-auto bg-[#e21b22] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
+          <div className="max-w-6xl mx-auto bg-[#e31837] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
             <div className="w-full lg:w-auto text-left">
               <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-red-200 uppercase block mb-1">
                 {t('footer.eyebrow')}
@@ -34,14 +34,14 @@ export default function Footer({ setCurrentPage, currentPage }) {
               <button
                 id="footer-cta-booking"
                 onClick={() => setCurrentPage('booking')}
-                className="w-full sm:w-auto bg-white text-[#e21b22] hover:bg-black hover:text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
+                className="w-full sm:w-auto bg-white text-[#e31837] hover:bg-black hover:text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
               >
                 {t('footer.bookCta')}
               </button>
               <button
                 id="footer-cta-contact"
                 onClick={() => setCurrentPage('booking')}
-                className="w-full sm:w-auto bg-transparent border border-white/50 hover:border-white hover:bg-white hover:text-[#e21b22] text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
+                className="w-full sm:w-auto bg-transparent border border-white/50 hover:border-white hover:bg-white hover:text-[#e31837] text-white transition-colors duration-300 font-bold uppercase tracking-wider text-xs sm:text-sm px-8 py-4 text-center cursor-pointer"
               >
                 {t('footer.contactCta')}
               </button>
@@ -124,19 +124,19 @@ export default function Footer({ setCurrentPage, currentPage }) {
               </h4>
               <ul className="space-y-3.5 text-sm">
                 <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
+                  <Phone className="w-4 h-4 text-[#e31837] flex-shrink-0" />
                   <span className="text-neutral-400">Sales: <a href="tel:+9779802748575" className="text-white font-medium hover:underline">9802748575</a> / <a href="tel:+9779801028519" className="text-white font-medium hover:underline">9801028519</a></span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[#e21b22] flex-shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[#e31837] flex-shrink-0 mt-0.5" />
                   <span className="text-neutral-400 leading-snug">MV Dugar Building, Kathmandu, Nepal</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-[#e21b22] flex-shrink-0" />
+                  <Mail className="w-4 h-4 text-[#e31837] flex-shrink-0" />
                   <a href="mailto:Sales.Mahindra@mvdugar.com" className="hover:text-white transition-colors duration-300 text-neutral-400">Sales.Mahindra@mvdugar.com</a>
                 </li>
               </ul>
-              <div className="mt-2 p-3.5 bg-[#141414] border-l-[3px] border-[#e21b22] rounded-sm">
+              <div className="mt-2 p-3.5 bg-[#141414] border-l-[3px] border-[#e31837] rounded-sm">
                 <p className="text-xs text-white font-semibold tracking-wider uppercase">Accepting No Limits Worldwide</p>
               </div>
             </div>

@@ -20,7 +20,7 @@ export default function Dashboard({ adminEmail, onLogout }) {
       <header className="border-b border-neutral-800 bg-black/60 sticky top-0 z-20 backdrop-blur">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
           <div>
-            <p className="text-[#e21b22] text-[10px] font-bold uppercase tracking-[0.3em]">
+            <p className="text-[#e31837] text-[10px] font-bold uppercase tracking-[0.3em]">
               Mahindra Nepal
             </p>
             <h1 className="font-black uppercase tracking-tight text-lg leading-tight">
@@ -49,7 +49,7 @@ export default function Dashboard({ adminEmail, onLogout }) {
                 onClick={() => setTab(key)}
                 className={`inline-flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors ${
                   active
-                    ? 'text-white border-[#e21b22]'
+                    ? 'text-white border-[#e31837]'
                     : 'text-neutral-500 hover:text-neutral-200 border-transparent'
                 }`}
               >
@@ -88,7 +88,7 @@ export default function Dashboard({ adminEmail, onLogout }) {
               </button>
               <button
                 onClick={onLogout}
-                className="flex-1 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider bg-[#e21b22] hover:bg-[#c4151b] text-white rounded-lg px-4 py-2.5 transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider bg-[#e31837] hover:bg-[#b6132c] text-white rounded-lg px-4 py-2.5 transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Log out

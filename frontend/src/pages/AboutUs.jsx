@@ -111,7 +111,7 @@ export default function AboutUs({ setCurrentPage }) {
             <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
               {t('about.ourStory')}
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-8">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-8 after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5">
               A dealership that{' '}
               <span className="text-[rgb(213,59,59)]">acts like a partner.</span>
             </h2>
@@ -142,7 +142,7 @@ export default function AboutUs({ setCurrentPage }) {
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
             {t('about.trustedPartners')}
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05]">
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
             {t('about.trustedPartners.title')}
           </h2>
         </div>
@@ -196,7 +196,7 @@ export default function AboutUs({ setCurrentPage }) {
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
             {t('about.ourTeam')}
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6">
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6 after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
             {t('about.ourTeam.title')}
           </h2>
           <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
@@ -240,7 +240,7 @@ export default function AboutUs({ setCurrentPage }) {
               </div>
               {/* Content */}
               <div className="px-8 pt-7 pb-7">
-                <span className="text-[#e21b22] text-sm font-black block mb-3">{team.num}</span>
+                <span className="text-[#e31837] text-sm font-black block mb-3">{team.num}</span>
                 <h3 className="text-gray-950 text-xl font-black uppercase tracking-tight leading-tight mb-4">
                   {team.title}
                 </h3>
@@ -261,7 +261,7 @@ export default function AboutUs({ setCurrentPage }) {
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
             {t('about.whoWeServe')}
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6">
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6 after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
             {t('about.whoWeServe.title')}
           </h2>
           <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">

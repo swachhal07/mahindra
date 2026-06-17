@@ -37,7 +37,7 @@ export default function Login({ onLogin }) {
     >
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
-          <p className="text-[#e21b22] text-xs font-bold uppercase tracking-[0.35em] mb-4">
+          <p className="text-[#e31837] text-xs font-bold uppercase tracking-[0.35em] mb-4">
             Mahindra Nepal
           </p>
           <h1 className="text-white font-black uppercase tracking-tight text-3xl sm:text-4xl">
@@ -71,7 +71,7 @@ export default function Login({ onLogin }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@example.com"
-                className="w-full bg-black/60 border border-neutral-700 focus:border-[#e21b22] rounded-lg text-white text-sm pl-10 pr-4 py-3 outline-none transition-colors"
+                className="w-full bg-black/60 border border-neutral-700 focus:border-[#e31837] rounded-lg text-white text-sm pl-10 pr-4 py-3 outline-none transition-colors"
               />
             </div>
           </label>
@@ -88,7 +88,7 @@ export default function Login({ onLogin }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-black/60 border border-neutral-700 focus:border-[#e21b22] rounded-lg text-white text-sm pl-10 pr-4 py-3 outline-none transition-colors"
+                className="w-full bg-black/60 border border-neutral-700 focus:border-[#e31837] rounded-lg text-white text-sm pl-10 pr-4 py-3 outline-none transition-colors"
               />
             </div>
           </label>
@@ -96,7 +96,7 @@ export default function Login({ onLogin }) {
           <button
             type="submit"
             disabled={busy}
-            className="w-full inline-flex items-center justify-center gap-2 bg-[#e21b22] hover:bg-[#c4151b] disabled:opacity-50 text-white font-bold uppercase tracking-wider text-sm px-6 py-3.5 rounded-lg transition-colors"
+            className="w-full inline-flex items-center justify-center gap-2 bg-[#e31837] hover:bg-[#b6132c] disabled:opacity-50 text-white font-bold uppercase tracking-wider text-sm px-6 py-3.5 rounded-lg transition-colors"
           >
             <LogIn className="w-4 h-4" />
             {busy ? 'Signing in…' : 'Sign in'}

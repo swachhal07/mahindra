@@ -65,7 +65,7 @@ export default async function handler(req, res) {
       <td align="center">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
           <tr>
-            <td style="background:linear-gradient(135deg,#dd052c 0%,#a30420 100%);padding:28px 32px;">
+            <td style="background:linear-gradient(135deg,#e31837 0%,#b6132c 100%);padding:28px 32px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>
@@ -83,7 +83,7 @@ export default async function handler(req, res) {
             <td style="padding:28px 32px 8px 32px;">
               <p style="margin:0;color:#1a1a1a;font-size:16px;line-height:1.5;">
                 <strong style="color:#000;">${esc(name)}</strong> has just requested a test ride on
-                <strong style="color:#dd052c;">${esc(model)}</strong>.
+                <strong style="color:#e31837;">${esc(model)}</strong>.
               </p>
               <p style="margin:8px 0 0 0;color:#666;font-size:13px;line-height:1.5;">
                 Please follow up to confirm the schedule.
@@ -102,13 +102,13 @@ export default async function handler(req, res) {
                 <tr>
                   <td style="padding:16px 20px;border-bottom:1px solid #ececec;">
                     <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Email</div>
-                    <a href="mailto:${esc(email)}" style="color:#dd052c;font-size:15px;font-weight:500;text-decoration:none;">${esc(email)}</a>
+                    <a href="mailto:${esc(email)}" style="color:#e31837;font-size:15px;font-weight:500;text-decoration:none;">${esc(email)}</a>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:16px 20px;border-bottom:1px solid #ececec;">
                     <div style="color:#888;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Phone</div>
-                    <a href="tel:${esc(phone)}" style="color:#dd052c;font-size:15px;font-weight:500;text-decoration:none;">${esc(phone)}</a>
+                    <a href="tel:${esc(phone)}" style="color:#e31837;font-size:15px;font-weight:500;text-decoration:none;">${esc(phone)}</a>
                   </td>
                 </tr>
                 <tr>
@@ -137,7 +137,7 @@ export default async function handler(req, res) {
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="padding-right:8px;">
-                    <a href="tel:${esc(phone)}" style="display:inline-block;background:#dd052c;color:#ffffff;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:12px 22px;border-radius:8px;text-decoration:none;">Call Customer</a>
+                    <a href="tel:${esc(phone)}" style="display:inline-block;background:#e31837;color:#ffffff;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:12px 22px;border-radius:8px;text-decoration:none;">Call Customer</a>
                   </td>
                   <td style="padding-left:8px;">
                     <a href="mailto:${esc(email)}" style="display:inline-block;background:#1a1a1a;color:#ffffff;font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:12px 22px;border-radius:8px;text-decoration:none;">Reply by Email</a>
@@ -157,7 +157,7 @@ export default async function handler(req, res) {
                     </div>
                   </td>
                   <td align="right" style="vertical-align:middle;">
-                    <div style="color:#dd052c;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Rise.</div>
+                    <div style="color:#e31837;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Rise.</div>
                   </td>
                 </tr>
               </table>

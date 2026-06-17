@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors.net_-640x400.png';
 import { useT } from '../utils/i18n';
 
@@ -48,8 +48,28 @@ export default function Navbar({ currentPage, setCurrentPage }) {
   const useDarkContent = currentPage !== 'home' || navHovered;
 
   return (
+    <div
+      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ${hidden ? '-translate-y-full' : 'translate-y-0'}`}
+    >
+      {/* Top utility strip — solid red, contact quick-links */}
+      <div className="hidden md:block" style={{ background: 'rgb(227, 24, 55)' }}>
+        <div className="w-full px-6 lg:px-10 h-8 flex items-center justify-center gap-6 text-white text-[11px] font-medium tracking-wide">
+          <a href="tel:+9779802748575" className="inline-flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+            <Phone className="w-3 h-3" />
+            <span>Sales: 9802748575 / 9801028519</span>
+          </a>
+          <a href="mailto:Sales.Mahindra@mvdugar.com" className="inline-flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+            <Mail className="w-3 h-3" />
+            <span>Sales.Mahindra@mvdugar.com</span>
+          </a>
+          <span className="inline-flex items-center gap-1.5 text-white/85">
+            <MapPin className="w-3 h-3" />
+            <span>Kathmandu, Nepal</span>
+          </span>
+        </div>
+      </div>
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${hidden ? '-translate-y-full' : 'translate-y-0'}`}
+      className="relative transition-all duration-500"
       style={
         currentPage !== 'home' || navHovered
           ? { background: '#ffffff', borderBottom: '1px solid #e5e5e5', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }
@@ -70,30 +90,33 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             const half = Math.ceil(navItems.length / 2);
             const leftItems = navItems.slice(0, half);
             const rightItems = navItems.slice(half);
-            const renderLink = (item) => (
-              <button
-                key={item.id}
-                id={`nav-${item.id}`}
-                onClick={() => handleNavClick(item.id)}
-                className={`relative px-4 py-2 text-lg font-semibold tracking-wide transition-colors duration-200 rounded-md whitespace-nowrap ${
-                  useDarkContent
-                    ? currentPage === item.id
-                      ? 'text-gray-950'
-                      : 'text-gray-500 hover:text-gray-900'
-                    : currentPage === item.id
-                      ? 'text-white'
-                      : 'text-white hover:text-white/80'
-                }`}
-              >
-                {t(item.labelKey)}
-                {currentPage === item.id && (
+            const renderLink = (item) => {
+              const isActive = currentPage === item.id;
+              return (
+                <button
+                  key={item.id}
+                  id={`nav-${item.id}`}
+                  onClick={() => handleNavClick(item.id)}
+                  className={`group relative px-4 py-2 text-lg font-semibold tracking-wide transition-colors duration-200 rounded-md whitespace-nowrap ${
+                    useDarkContent
+                      ? isActive
+                        ? 'text-gray-950'
+                        : 'text-gray-500 hover:text-gray-900'
+                      : isActive
+                        ? 'text-white'
+                        : 'text-white hover:text-white/80'
+                  }`}
+                >
+                  {t(item.labelKey)}
                   <span
-                    className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full"
-                    style={{ background: 'rgb(221, 5, 44)' }}
+                    className={`pointer-events-none absolute left-3 right-3 bottom-1 h-0.5 origin-left transition-transform duration-300 ease-out ${
+                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                    style={{ background: 'rgb(227, 24, 55)' }}
                   />
-                )}
-              </button>
-            );
+                </button>
+              );
+            };
             return (
               <>
                 {/* LEFT — first half of nav links, ending at fixed distance from logo */}
@@ -136,7 +159,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           <div className="hidden md:flex items-center gap-3 absolute right-0 top-1/2 -translate-y-1/2">
             {(() => {
               const ctaStyle = ctaHovered
-                ? { background: 'rgb(221, 5, 44)', border: '1px solid rgb(221, 5, 44)', color: 'white' }
+                ? { background: 'rgb(227, 24, 55)', border: '1px solid rgb(227, 24, 55)', color: 'white' }
                 : useDarkContent
                   ? { background: 'transparent', border: '1px solid rgba(0,0,0,0.3)', color: '#111' }
                   : { background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.6)', color: 'white' };
@@ -198,7 +221,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
                   ? 'text-gray-950 bg-black/5 border-l-2'
                   : 'text-gray-500 hover:text-gray-900 hover:bg-black/5'
               }`}
-              style={currentPage === item.id ? { borderLeftColor: 'rgb(221, 5, 44)' } : {}}
+              style={currentPage === item.id ? { borderLeftColor: 'rgb(227, 24, 55)' } : {}}
             >
               {t(item.labelKey)}
             </button>
@@ -216,5 +239,6 @@ export default function Navbar({ currentPage, setCurrentPage }) {
       </div>
 
     </nav>
+    </div>
   );
 }

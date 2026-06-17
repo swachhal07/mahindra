@@ -38,7 +38,7 @@ export default function AdminApp() {
     return (
       <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
         <div className="flex items-center gap-3 text-neutral-400">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#e21b22] animate-pulse" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#e31837] animate-pulse" />
           <span className="text-xs font-bold uppercase tracking-[0.25em]">Loading…</span>
         </div>
       </div>

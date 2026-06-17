@@ -406,7 +406,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
       >
         <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-2 text-gray-900">
-            <FileText className="w-4 h-4 text-[#e21b22]" />
+            <FileText className="w-4 h-4 text-[#e31837]" />
             <span className="font-bold uppercase tracking-wider text-xs">
               {activeVehicle ? `${activeVehicle.name} — Brochure` : 'Brochure'}
             </span>
@@ -688,7 +688,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
 
                 {/* Info strip at bottom */}
                 <div className="px-6 py-5 border-t border-gray-100 text-center flex flex-col items-center">
-                  <div className="inline-flex items-center gap-3 bg-transparent border border-gray-800 group-hover:bg-[#e21b22] group-hover:border-[#e21b22] text-gray-900 group-hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-3 transition-all duration-300">
+                  <div className="inline-flex items-center gap-3 bg-transparent border border-gray-800 group-hover:bg-[#e31837] group-hover:border-[#e31837] text-gray-900 group-hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-3 transition-all duration-300">
                     <span>{t('showcase.viewDetails')}</span>
                     <ArrowRight className="w-4 h-4" />
                   </div>

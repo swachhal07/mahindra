@@ -73,7 +73,7 @@ export default function BlogList() {
           </button>
           <button
             onClick={() => setEditing(null)}
-            className="inline-flex items-center gap-2 bg-[#e21b22] hover:bg-[#c4151b] text-white font-bold uppercase tracking-wider text-xs px-4 py-2.5 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 bg-[#e31837] hover:bg-[#b6132c] text-white font-bold uppercase tracking-wider text-xs px-4 py-2.5 rounded-lg transition-colors"
           >
             <Plus className="w-4 h-4" />
             Add Post
@@ -114,7 +114,7 @@ export default function BlogList() {
             </div>
             <div className="p-4 flex-grow">
               <div className="flex items-center gap-2 text-[10px] mb-2">
-                <span className="font-bold uppercase tracking-wider text-[#e21b22]">
+                <span className="font-bold uppercase tracking-wider text-[#e31837]">
                   {p.category}
                 </span>
                 <span className="text-neutral-600">•</span>
@@ -173,7 +173,7 @@ export default function BlogList() {
               <button
                 onClick={confirmDelete}
                 disabled={busyDelete}
-                className="flex-1 text-xs font-bold uppercase tracking-wider bg-[#e21b22] hover:bg-[#c4151b] disabled:opacity-50 text-white rounded-lg px-4 py-2.5 transition-colors"
+                className="flex-1 text-xs font-bold uppercase tracking-wider bg-[#e31837] hover:bg-[#b6132c] disabled:opacity-50 text-white rounded-lg px-4 py-2.5 transition-colors"
               >
                 {busyDelete ? 'Deleting…' : 'Delete'}
               </button>

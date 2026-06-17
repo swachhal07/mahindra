@@ -186,7 +186,7 @@ export default function Blog() {
         <div className="max-w-3xl mx-auto px-6 lg:px-8 pb-12">
           <button
             onClick={() => setActivePost(null)}
-            className="inline-flex items-center gap-3 bg-black hover:bg-[#e21b22] text-white font-bold uppercase tracking-wider text-sm px-8 py-4 rounded transition-colors duration-300"
+            className="inline-flex items-center gap-3 bg-black hover:bg-[#e31837] text-white font-bold uppercase tracking-wider text-sm px-8 py-4 rounded transition-colors duration-300"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>{t('blog.back')}</span>
@@ -239,7 +239,7 @@ export default function Blog() {
               </div>
               <div className="p-7 flex flex-col flex-grow">
                 <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
-                  <span className="text-[#e21b22] font-black uppercase tracking-widest">
+                  <span className="text-[#e31837] font-black uppercase tracking-widest">
                     {post.category}
                   </span>
                   <span>•</span>
@@ -251,7 +251,7 @@ export default function Blog() {
                 <p className="text-gray-500 text-sm leading-relaxed font-light mb-6 flex-grow">
                   {post.excerpt}
                 </p>
-                <div className="inline-flex items-center gap-3 bg-transparent border border-gray-800 group-hover:bg-[#e21b22] group-hover:border-[#e21b22] text-gray-900 group-hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300 mt-auto self-start">
+                <div className="inline-flex items-center gap-3 bg-transparent border border-gray-800 group-hover:bg-[#e31837] group-hover:border-[#e31837] text-gray-900 group-hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300 mt-auto self-start">
                   <span>{t('blog.readMore')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>

@@ -52,7 +52,7 @@ const faqs = [
   },
   {
     question: "Does Mahindra offer custom financing options for fleets?",
-    answer: "Yes, Mahindra Finance offers tailored financing and loan structures for fleet buyers, commercial operators, and individual buyers, ensuring low interest rates and convenient repayment options."
+    answer: "Yes, we offer tailored financing and loan structures for fleet buyers, commercial operators, and individual buyers, ensuring low interest rates and convenient repayment options."
   }
 ];
 

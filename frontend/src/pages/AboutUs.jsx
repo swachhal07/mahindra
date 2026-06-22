@@ -11,8 +11,13 @@ import partnerLogo from '../assets/logo.png';
 import teamSales from '../assets/salesteam.JPG';
 import teamTechnical from '../assets/technicalteam.JPG';
 import teamService from '../assets/IMG_0320.JPG';
+import photoMotiLal from '../assets/af0b8ecf-4ddc-41f9-9dd1-ba5c0df1b212.webp';
+import photoVivek from '../assets/ae68fbad-4028-45aa-81d5-44d526f4f5af.webp';
+import photoShubham from '../assets/af5ea000-e8c5-4f03-ac64-9fd3a8bb8009.webp';
+import photoNaman from '../assets/eb7eb529-8d15-4359-8ac0-df51b7393d00.webp';
+import boardBgWorkshop from '../assets/IMG_1596.jpg';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
-import { PAPER_BG_STYLE } from '../utils/paperTexture';
+import { PAPER_BG_STYLE, PAPER_TEXTURE } from '../utils/paperTexture';
 
 const partnerLogos = [
   { id: 'vianet', src: partnerVianet, alt: 'Vianet', className: 'h-10 sm:h-12' },
@@ -32,6 +37,13 @@ const serveCategories = [
   'Government Fleets',
   'Small Businesses',
   'Rental Operators',
+];
+
+const boardOfDirectors = [
+  { name: 'Moti Lal Dugar', role: 'Chairman', tag: 'Strategy, partnerships, and long-term vision.', photo: photoMotiLal, focal: 'center 18%' },
+  { name: 'Vivek Dugar', role: 'Vice Chairman', tag: 'Operations, dealer network, Mahindra liaison.', photo: photoVivek, focal: 'center 25%' },
+  { name: 'Shubham Dugar', role: 'Director', tag: 'Fleet sales, commercial vehicles, government accounts.', photo: photoShubham, focal: 'center 30%' },
+  { name: 'Naman Dugar', role: 'Director', tag: 'Service network, spare parts, technician training.', photo: photoNaman, focal: 'center 25%' },
 ];
 
 export default function AboutUs({ setCurrentPage }) {
@@ -133,6 +145,165 @@ export default function AboutUs({ setCurrentPage }) {
           </div>
         </div>
        </div>
+      </div>
+
+      {/* Board of Directors — editorial dark stage */}
+      <div className="relative overflow-hidden" style={{ backgroundColor: '#0a0807' }}>
+        {/* 1. Atmospheric workshop backdrop — texture, not subject */}
+        <img
+          src={boardBgWorkshop}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          style={{
+            opacity: 0.14,
+            filter: 'grayscale(0.92) brightness(0.50) contrast(1.22)',
+            transform: 'scale(1.06)',
+          }}
+        />
+
+        {/* 2. Master grade — dark frame at top/bottom, slight relief through the middle band where portraits sit */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(10,8,7,0.96) 0%, rgba(10,8,7,0.40) 32%, rgba(10,8,7,0.40) 72%, rgba(10,8,7,0.96) 100%)',
+          }}
+        />
+
+        {/* 3. Overhead stage light — warm cone from top-center, like a showroom spotlight */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 65% 75% at 50% 0%, rgba(255,215,185,0.085) 0%, rgba(255,200,170,0.03) 35%, transparent 60%)',
+          }}
+        />
+
+        {/* 4. Brand-red floor wash — anchors the stage, very subtle */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 55% 30% at 50% 100%, rgba(227,24,55,0.14) 0%, rgba(180,30,45,0.05) 45%, transparent 70%)',
+          }}
+        />
+
+        {/* 5. Architectural verticals — fine editorial structure (steel-beam suggestion) */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(90deg, transparent 0, transparent 119px, rgba(255,255,255,0.022) 119px, rgba(255,255,255,0.022) 120px)',
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24 relative z-10">
+          {/* Title */}
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
+              Our Leadership
+            </p>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight leading-[1.05] mb-6">
+              The people who{' '}
+              <span
+                className="text-[rgb(213,59,59)] normal-case"
+                style={{ fontStyle: 'italic', fontWeight: 900, letterSpacing: '-0.02em' }}
+              >
+                steer the wheel.
+              </span>
+            </h2>
+            <p className="text-stone-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
+              Four directors. One family. Three generations running Mahindra in Nepal since 1965.
+            </p>
+          </div>
+
+          {/* Director grid — 4 in a row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 lg:gap-x-7 relative">
+            {boardOfDirectors.map((d, i) => {
+              return (
+                <article
+                  key={d.name}
+                  className="group relative flex flex-col"
+                  style={{ animation: `boardFadeIn 600ms ease-out ${i * 90}ms backwards` }}
+                >
+                  {/* Spotlight bleed — soft red glow appears behind the card on hover */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 -m-8 opacity-0 group-hover:opacity-100 transition-opacity duration-[700ms] ease-out pointer-events-none"
+                    style={{
+                      background:
+                        'radial-gradient(ellipse 70% 70% at 50% 55%, rgba(227,24,55,0.28) 0%, rgba(227,24,55,0.10) 40%, transparent 70%)',
+                      zIndex: 0,
+                    }}
+                  />
+
+                  {/* Portrait — taller 4:5, B&W default → full color on hover */}
+                  <div className="relative z-10 aspect-[4/5] overflow-hidden bg-stone-900 border border-white/[0.06] shadow-[0_30px_60px_-25px_rgba(0,0,0,0.9)]">
+                    <img
+                      src={d.photo}
+                      alt={d.name}
+                      loading="lazy"
+                      className="board-portrait w-full h-full object-cover transition-[filter] duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                      style={{ objectPosition: d.focal }}
+                    />
+
+                    {/* Vignette to fade edges into the bg */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          'radial-gradient(ellipse 90% 110% at 50% 30%, transparent 50%, rgba(0,0,0,0.6) 100%)',
+                      }}
+                    />
+
+                    {/* Bottom darken */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none"
+                      style={{ background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.88))' }}
+                    />
+
+                    {/* Bottom-overlay role + name */}
+                    <div className="absolute inset-x-0 bottom-0 px-5 lg:px-6 pb-5 lg:pb-6">
+                      <span
+                        aria-hidden="true"
+                        className="block w-9 h-[2px] bg-[#e31837] mb-3 transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-24"
+                      />
+                      <p className="text-[rgb(213,59,59)] text-[10px] lg:text-[11px] font-black uppercase tracking-[0.3em] mb-2">
+                        {d.role}
+                      </p>
+                      <h3
+                        className="text-white font-black uppercase leading-[0.95] tracking-tight whitespace-nowrap"
+                        style={{ fontSize: 'clamp(17px, 1.55vw, 22px)', letterSpacing: '-0.025em' }}
+                      >
+                        {d.name}
+                      </h3>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes boardFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+          .board-portrait {
+            filter: grayscale(0.78) brightness(0.86) contrast(1.14) saturate(0.88);
+          }
+          .group:hover .board-portrait {
+            filter: grayscale(0) brightness(1.02) contrast(1.06) saturate(1.06);
+          }
+        `}</style>
       </div>
 
       {/* Trusted Partners — auto-scrolling logo strip */}

@@ -11,6 +11,8 @@ const translations = {
   'nav.showcase': 'Vehicle Showcase',
   'nav.about': 'About Us',
   'nav.blog': 'Blog',
+  'nav.overview': 'Overview',
+  'nav.leadership': 'Leadership',
   'nav.contact': 'Contact Us',
 
   // Footer CTA banner

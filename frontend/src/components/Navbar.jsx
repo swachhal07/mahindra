@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, ChevronDown } from 'lucide-react';
 import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors.net_-640x400.png';
 import { useT } from '../utils/i18n';
 
@@ -37,7 +37,14 @@ export default function Navbar({ currentPage, setCurrentPage }) {
     { id: 'home', labelKey: 'nav.home' },
     { id: 'showcase', labelKey: 'nav.showcase' },
     { id: 'blog', labelKey: 'nav.blog' },
-    { id: 'about', labelKey: 'nav.about' },
+    {
+      id: 'about',
+      labelKey: 'nav.about',
+      submenu: [
+        { id: 'about', labelKey: 'nav.overview' },
+        { id: 'leadership', labelKey: 'nav.leadership' },
+      ],
+    },
   ];
 
   const handleNavClick = (pageId) => {
@@ -91,10 +98,11 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             const leftItems = navItems.slice(0, half);
             const rightItems = navItems.slice(half);
             const renderLink = (item) => {
-              const isActive = currentPage === item.id;
-              return (
+              const isActive =
+                currentPage === item.id ||
+                (item.submenu && item.submenu.some((s) => s.id === currentPage));
+              const linkButton = (
                 <button
-                  key={item.id}
                   id={`nav-${item.id}`}
                   onClick={() => handleNavClick(item.id)}
                   className={`group relative px-4 py-2 text-lg font-semibold tracking-wide transition-colors duration-200 rounded-md whitespace-nowrap ${
@@ -115,6 +123,72 @@ export default function Navbar({ currentPage, setCurrentPage }) {
                     style={{ background: 'rgb(227, 24, 55)' }}
                   />
                 </button>
+              );
+
+              if (!item.submenu) {
+                return <React.Fragment key={item.id}>{linkButton}</React.Fragment>;
+              }
+
+              // Item with a hover dropdown (e.g. About Us → Overview / Leadership).
+              // Connected white card with an upward caret and divided rows.
+              return (
+                <div key={item.id} className="relative group/menu">
+                  <button
+                    id={`nav-${item.id}`}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`group relative flex items-center gap-1.5 px-4 py-2 text-lg font-semibold tracking-wide transition-colors duration-200 rounded-md whitespace-nowrap ${
+                      useDarkContent
+                        ? isActive
+                          ? 'text-gray-950'
+                          : 'text-gray-500 hover:text-gray-900'
+                        : isActive
+                          ? 'text-white'
+                          : 'text-white hover:text-white/80'
+                    }`}
+                  >
+                    {t(item.labelKey)}
+                    <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover/menu:rotate-180" />
+                    <span
+                      className={`pointer-events-none absolute left-3 right-7 bottom-1 h-0.5 origin-left transition-transform duration-300 ease-out ${
+                        isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      }`}
+                      style={{ background: 'rgb(227, 24, 55)' }}
+                    />
+                  </button>
+
+                  {/* pt-3 bridges the gap so the menu stays open while moving the cursor down */}
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 z-50 opacity-0 invisible transition-[opacity,visibility] duration-200 ease-out group-hover/menu:opacity-100 group-hover/menu:visible">
+                    <div className="origin-top scale-95 -translate-y-1 opacity-0 transition-all duration-200 ease-out group-hover/menu:scale-100 group-hover/menu:translate-y-0 group-hover/menu:opacity-100">
+                      {/* Upward caret */}
+                      <div
+                        aria-hidden="true"
+                        className="absolute left-1/2 -translate-x-1/2 -top-1.5 w-3 h-3 rotate-45 bg-white"
+                        style={{ borderTop: '1px solid rgba(0,0,0,0.06)', borderLeft: '1px solid rgba(0,0,0,0.06)' }}
+                      />
+                      {/* Card */}
+                      <div
+                        className="relative min-w-[220px] bg-white rounded-2xl overflow-hidden py-1.5"
+                        style={{ boxShadow: '0 24px 50px -12px rgba(0,0,0,0.22)', border: '1px solid rgba(0,0,0,0.06)' }}
+                      >
+                        {item.submenu.map((sub, si) => {
+                          const subActive = currentPage === sub.id;
+                          return (
+                            <button
+                              key={sub.id}
+                              id={`nav-${sub.id}`}
+                              onClick={() => handleNavClick(sub.id)}
+                              className={`block w-full text-left px-6 py-3 text-[15px] font-bold tracking-wide transition-colors duration-150 ${
+                                si > 0 ? 'border-t border-black/[0.06]' : ''
+                              } ${subActive ? 'text-[#e31837] bg-black/[0.025]' : 'text-gray-900 hover:bg-black/[0.04]'}`}
+                            >
+                              {t(sub.labelKey)}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               );
             };
             return (
@@ -202,7 +276,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
       {/* Mobile Menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'max-h-[34rem] opacity-100' : 'max-h-0 opacity-0'
         }`}
         style={{
           background: '#ffffff',
@@ -212,19 +286,36 @@ export default function Navbar({ currentPage, setCurrentPage }) {
       >
         <div className="px-4 py-4 space-y-1">
           {navItems.map((item) => (
-            <button
-              key={item.id}
-              id={`nav-mobile-${item.id}`}
-              onClick={() => handleNavClick(item.id)}
-              className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 ${
-                currentPage === item.id
-                  ? 'text-gray-950 bg-black/5 border-l-2'
-                  : 'text-gray-500 hover:text-gray-900 hover:bg-black/5'
-              }`}
-              style={currentPage === item.id ? { borderLeftColor: 'rgb(227, 24, 55)' } : {}}
-            >
-              {t(item.labelKey)}
-            </button>
+            <React.Fragment key={item.id}>
+              <button
+                id={`nav-mobile-${item.id}`}
+                onClick={() => handleNavClick(item.id)}
+                className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 ${
+                  currentPage === item.id
+                    ? 'text-gray-950 bg-black/5 border-l-2'
+                    : 'text-gray-500 hover:text-gray-900 hover:bg-black/5'
+                }`}
+                style={currentPage === item.id ? { borderLeftColor: 'rgb(227, 24, 55)' } : {}}
+              >
+                {t(item.labelKey)}
+              </button>
+              {item.submenu &&
+                item.submenu.map((sub) => (
+                  <button
+                    key={sub.id}
+                    id={`nav-mobile-${sub.id}`}
+                    onClick={() => handleNavClick(sub.id)}
+                    className={`block w-full text-left pl-8 pr-4 py-2.5 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 ${
+                      currentPage === sub.id
+                        ? 'text-gray-950 bg-black/5 border-l-2'
+                        : 'text-gray-400 hover:text-gray-900 hover:bg-black/5'
+                    }`}
+                    style={currentPage === sub.id ? { borderLeftColor: 'rgb(227, 24, 55)' } : {}}
+                  >
+                    {t(sub.labelKey)}
+                  </button>
+                ))}
+            </React.Fragment>
           ))}
           <div className="pt-3 pb-1 flex flex-col gap-2">
             <button

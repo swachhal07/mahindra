@@ -14,6 +14,7 @@ const Showcase = lazy(() => import('./pages/Showcase'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const Booking = lazy(() => import('./pages/Booking'));
 const Blog = lazy(() => import('./pages/Blog'));
+const Leadership = lazy(() => import('./pages/Leadership'));
 
 // Lightweight placeholder shown while a page chunk is being fetched. Kept
 // minimal so it doesn't look heavier than the page it's standing in for.
@@ -58,6 +59,8 @@ export default function App() {
         return <Showcase setCurrentPage={changePage} initialFilter={showcaseFilter} />;
       case 'about':
         return <AboutUs setCurrentPage={changePage} />;
+      case 'leadership':
+        return <Leadership />;
       case 'booking':
         return <Booking />;
       case 'blog':

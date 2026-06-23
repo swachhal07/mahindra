@@ -7,7 +7,7 @@ import { useT } from '../utils/i18n';
 export default function Footer({ setCurrentPage, currentPage }) {
   const t = useT();
   const textured = currentPage === 'about';
-  const whiteBackdrop = currentPage === 'booking' || currentPage === 'showcase' || currentPage === 'blog';
+  const whiteBackdrop = currentPage === 'booking' || currentPage === 'showcase' || currentPage === 'blog' || currentPage === 'leadership';
   const showCtaBanner = currentPage !== 'showcase';
   return (
     <footer className="w-full relative">

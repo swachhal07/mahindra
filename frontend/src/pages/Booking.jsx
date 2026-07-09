@@ -321,7 +321,7 @@ export default function Booking() {
             Find Us
           </p>
           <h2 className="text-3xl sm:text-4xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5">
-            Our Showroom in Kathmandu.
+            Our Office in Kathmandu.
           </h2>
         </div>
         <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">

@@ -157,6 +157,10 @@ export const Map = forwardRef(function Map(
       style: initialStyle,
       renderWorldCopies: false,
       attributionControl: { compact: true },
+      // Let page scroll pass through the map; only zoom on ctrl/⌘ + scroll
+      // (or two-finger drag on touch). Prevents the map from hijacking the
+      // page scroll when the user scrolls past it.
+      cooperativeGestures: true,
       ...props,
       ...viewport,
     });

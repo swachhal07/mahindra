@@ -387,18 +387,18 @@ export default function Booking() {
 // Nationwide branch list. Static for now — if your client adds branches
 // often we can move it to MongoDB the same way vehicles/blog are managed.
 const BRANCHES = [
-  { city: 'Kathmandu', district: 'Kathmandu', province: 'Bagmati', phone: '01-4380639' },
-  { city: 'Jeetpur', district: 'Bara', province: 'Madesh', phone: '9802538774' },
-  { city: 'Hetauda', district: 'Makwanpur', province: 'Bagmati', phone: '9802750827' },
-  { city: 'Chapur', district: 'Rauthat', province: 'Madesh', phone: '9802057825' },
-  { city: 'Nepalgunj', district: 'Banke', province: 'Lumbini', phone: '9802548272' },
-  { city: 'Janakpur', district: 'Dhanusha', province: 'Madesh', phone: '9802059372' },
-  { city: 'Dhangadi', district: 'Kailali', province: 'Sudur Paschim', phone: '9801913010' },
-  { city: 'Butwal', district: 'Butwal', province: 'Lumbini', phone: '9802079248' },
-  { city: 'Lahan', district: 'Siraha', province: 'Madesh', phone: '9802057825' },
-  { city: 'Birtamode', district: 'Birtamode', province: 'Koshi', phone: '9802798555' },
-  { city: 'Dang', district: 'Dang', province: 'Lumbini', phone: '9802059386' },
-  { city: 'Biratnagar', district: 'Biratnagar', province: 'Koshi', phone: '9802701803' },
+  { city: 'Kathmandu', district: 'Kathmandu', province: 'Bagmati', phone: '01-4380639', lng: 85.3240, lat: 27.7172 },
+  { city: 'Jeetpur', district: 'Bara', province: 'Madesh', phone: '9802538774', lng: 84.9761, lat: 27.2213 },
+  { city: 'Hetauda', district: 'Makwanpur', province: 'Bagmati', phone: '9802750827', lng: 85.0322, lat: 27.4287 },
+  { city: 'Chapur', district: 'Rauthat', province: 'Madesh', phone: '9802057825', lng: 85.2833, lat: 27.0000 },
+  { city: 'Nepalgunj', district: 'Banke', province: 'Lumbini', phone: '9802548272', lng: 81.6167, lat: 28.0500 },
+  { city: 'Janakpur', district: 'Dhanusha', province: 'Madesh', phone: '9802059372', lng: 85.9247, lat: 26.7288 },
+  { city: 'Dhangadi', district: 'Kailali', province: 'Sudur Paschim', phone: '9801913010', lng: 80.5898, lat: 28.6957 },
+  { city: 'Butwal', district: 'Butwal', province: 'Lumbini', phone: '9802079248', lng: 83.4483, lat: 27.7006 },
+  { city: 'Lahan', district: 'Siraha', province: 'Madesh', phone: '9802057825', lng: 86.4900, lat: 26.7226 },
+  { city: 'Birtamode', district: 'Birtamode', province: 'Koshi', phone: '9802798555', lng: 87.9915, lat: 26.6446 },
+  { city: 'Dang', district: 'Dang', province: 'Lumbini', phone: '9802059386', lng: 82.4833, lat: 28.0333 },
+  { city: 'Biratnagar', district: 'Biratnagar', province: 'Koshi', phone: '9802701803', lng: 87.2718, lat: 26.4525 },
 ];
 
 const PROVINCES = ['All', 'Bagmati', 'Madesh', 'Lumbini', 'Koshi', 'Sudur Paschim'];
@@ -421,6 +421,47 @@ function ServiceNetwork() {
             12 Dugar Brothers &amp; Sons branches across Nepal — sales, service, and genuine parts
             wherever you operate.
           </p>
+        </div>
+
+        {/* Nepal map with every branch located */}
+        <div className="relative w-full h-[440px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 mb-10">
+          <Map
+            theme="light"
+            zoom={6.2}
+            center={[84.0, 28.2]}
+            styles={{
+              light: 'https://tiles.openfreemap.org/styles/positron',
+              dark: 'https://tiles.openfreemap.org/styles/dark',
+            }}
+          >
+            <MapControls position="bottom-right" showZoom showFullscreen />
+            {filtered.map((b) => (
+              <MapMarker key={b.city + b.phone} longitude={b.lng} latitude={b.lat}>
+                <MarkerContent>
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute w-8 h-8 rounded-full bg-[rgb(213,59,59)]/20 animate-ping" />
+                    <div className="relative w-6 h-6 rounded-full bg-[rgb(213,59,59)] border-2 border-white shadow-lg flex items-center justify-center">
+                      <MapPin className="w-3 h-3 text-white" />
+                    </div>
+                  </div>
+                </MarkerContent>
+                <MarkerPopup>
+                  <div className="min-w-[180px]">
+                    <p className="text-[rgb(213,59,59)] text-[10px] font-bold uppercase tracking-[0.2em] mb-1">
+                      {b.province} Province
+                    </p>
+                    <h4 className="text-gray-950 font-extrabold text-sm uppercase mb-1">
+                      {b.city}
+                    </h4>
+                    <p className="text-gray-600 text-xs leading-relaxed mb-1">
+                      {b.district} · Dugar Brothers &amp; Sons Pvt. Ltd.
+                    </p>
+                    <p className="text-gray-900 text-xs font-bold">{b.phone}</p>
+                  </div>
+                </MarkerPopup>
+              </MapMarker>
+            ))}
+          </Map>
         </div>
 
         {/* Province filter */}

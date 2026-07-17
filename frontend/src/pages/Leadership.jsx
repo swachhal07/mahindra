@@ -3,9 +3,9 @@ import photoMotiLal from '../assets/af0b8ecf-4ddc-41f9-9dd1-ba5c0df1b212.webp';
 import photoVivek from '../assets/ae68fbad-4028-45aa-81d5-44d526f4f5af.webp';
 import photoShubham from '../assets/af5ea000-e8c5-4f03-ac64-9fd3a8bb8009.webp';
 import photoNaman from '../assets/eb7eb529-8d15-4359-8ac0-df51b7393d00.webp';
-import boardBgWorkshop from '../assets/IMG_1596.jpg';
-import photoSudeepSingh from '../assets/mgmt-sudeep-singh.jpeg';
-import photoSudipSubedi from '../assets/mgmt-sudip-subedi.jpeg';
+import boardBgWorkshop from '../assets/img_1596.webp';
+import photoSudeepSingh from '../assets/mgmt-sudeep-singh.webp';
+import photoSudipSubedi from '../assets/mgmt-sudip-subedi.webp';
 import photoMishra from '../assets/mgmt-mishra.jpeg';
 import photoThakur from '../assets/mgmt-thakur.jpeg';
 import photoLaxmiYadav from '../assets/mgmt-laxmi-yadav.jpeg';
@@ -82,6 +82,8 @@ export default function Leadership() {
 
         {/* Atmospheric workshop backdrop — texture, not subject */}
         <img
+          loading="lazy"
+          decoding="async"
           src={boardBgWorkshop}
           alt=""
           aria-hidden="true"

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useT } from '../utils/i18n';
-import storyImage1 from '../assets/WhatsApp Image 2026-06-10 at 11.23.50 AM.jpeg';
-import storyImage2 from '../assets/WhatsApp Image 2026-06-10 at 11.23.51 AM.jpeg';
-import storyImage3 from '../assets/WhatsApp Image 2026-06-10 at 11.23.51 AM (1).jpeg';
-import storyImage4 from '../assets/WhatsApp Image 2026-06-10 at 11.23.52 AM.jpeg';
-import partnerVianet from '../assets/Vianet-Aba-Sabai_Connected-Red@4x.png';
+import storyImage1 from '../assets/whatsapp-image-2026-06-10-at-11-23-50-am.webp';
+import storyImage2 from '../assets/whatsapp-image-2026-06-10-at-11-23-51-am.webp';
+import storyImage3 from '../assets/whatsapp-image-2026-06-10-at-11-23-51-am-1.webp';
+import storyImage4 from '../assets/whatsapp-image-2026-06-10-at-11-23-52-am.webp';
+import partnerVianet from '../assets/vianet-aba-sabai_connected-red-4x.png';
 import partnerJagdamba from '../assets/jagdamba-steels.png';
 import partnerAboutUs from '../assets/about-us-logo-image-1024x1024.png';
 import partnerLogo from '../assets/logo.png';
-import teamSales from '../assets/salesteam.JPG';
-import teamTechnical from '../assets/technicalteam.JPG';
-import teamService from '../assets/IMG_0320.JPG';
+import teamSales from '../assets/salesteam.webp';
+import teamTechnical from '../assets/technicalteam.webp';
+import teamService from '../assets/img_0320.webp';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
 import { PAPER_BG_STYLE, PAPER_TEXTURE } from '../utils/paperTexture';
 
@@ -83,6 +83,8 @@ export default function AboutUs({ setCurrentPage }) {
             <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-xl">
               {storySlides.map((src, i) => (
                 <img
+                  loading="lazy"
+                  decoding="async"
                   key={i}
                   src={src}
                   alt=""
@@ -155,6 +157,8 @@ export default function AboutUs({ setCurrentPage }) {
                 className="flex items-center justify-center shrink-0 px-12"
               >
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={logo.src}
                   alt={logo.alt}
                   className={`${logo.className} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300`}

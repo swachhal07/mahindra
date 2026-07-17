@@ -7,33 +7,33 @@ import { apiBase } from '../utils/adminApi';
 import brochureOptimo from '../assets/optimo.pdf';
 import brochureSuproMini from '../assets/supro-profitminitruck-mini.pdf';
 import brochureSuproMaxi from '../assets/supro-profitminitruck-maxi.pdf';
-import brochureEarthmaster from '../assets/Infrajunction-prod__brochures_pdf4_e35f620584.pdf';
+import brochureEarthmaster from '../assets/infrajunction-prod__brochures_pdf4_e35f620584.pdf';
 import brochureBlazo from '../assets/blazo-brochure.pdf';
 import brochureCruzioGrande from '../assets/cruzio-grande.pdf';
-import imgLoadkingTruck from '../assets/loadking optimo truck.png';
-import imgLoadkingTipper from '../assets/Loadking optimo tipper.png';
+import imgLoadkingTruck from '../assets/loadking-optimo-truck.webp';
+import imgLoadkingTipper from '../assets/loadking-optimo-tipper.webp';
 import imgSuproMini from '../assets/supro-mini-truck-front-view.png';
-import imgSuproMaxi from '../assets/Supro Maxi VX .png';
-import imgEarthmasterSx90 from '../assets/mahindra-earthmaster-sx-1686128588.jpg';
-import imgBlazoxTipperMDura from '../assets/blazoX35TipperM Dura.png';
-import imgBlazoX35 from '../assets/BlazoX35.png';
-import imgCruzioGrande from '../assets/7.png';
-import imgCruzioSchool from '../assets/6.png';
+import imgSuproMaxi from '../assets/supro-maxi-vx.webp';
+import imgEarthmasterSx90 from '../assets/mahindra-earthmaster-sx-1686128588.webp';
+import imgBlazoxTipperMDura from '../assets/blazox35tipperm-dura.webp';
+import imgBlazoX35 from '../assets/blazox35.webp';
+import imgCruzioGrande from '../assets/7.webp';
+import imgCruzioSchool from '../assets/6.webp';
 
 // BlazoX 35 Truck — engineering / feature gallery
-import blazoEngine from '../assets/engine.jpg';
-import blazoSleeper from '../assets/sleeper.jpg';
+import blazoEngine from '../assets/engine.webp';
+import blazoSleeper from '../assets/sleeper.webp';
 import blazo3way from '../assets/3way.jpg';
-import blazoDis from '../assets/dis.jpg';
-import blazoDieselTank from '../assets/diseltank.jpg';
-import blazoRadialTyres from '../assets/radialtyres (1).jpg';
-import blazoTilt from '../assets/tilt.jpg';
-import blazoHeadlamps from '../assets/headlamps.jpg';
-import blazoChassis from '../assets/chasisframe.jpg';
-import blazoClutch from '../assets/clutchsystem.jpg';
-import blazoBraking from '../assets/brakingsystem.jpg';
-import blazoApolloTyres from '../assets/gallery-8.jpg';
-import blazoRearAxle from '../assets/gallery-9.jpg';
+import blazoDis from '../assets/dis.webp';
+import blazoDieselTank from '../assets/diseltank.webp';
+import blazoRadialTyres from '../assets/radialtyres-1.webp';
+import blazoTilt from '../assets/tilt.webp';
+import blazoHeadlamps from '../assets/headlamps.webp';
+import blazoChassis from '../assets/chasisframe.webp';
+import blazoClutch from '../assets/clutchsystem.webp';
+import blazoBraking from '../assets/brakingsystem.webp';
+import blazoApolloTyres from '../assets/gallery-8.webp';
+import blazoRearAxle from '../assets/gallery-9.webp';
 
 // Supro Mini Profit Truck LX — feature gallery
 import suproGallery1 from '../assets/gallery_photo_big2.jpg';
@@ -41,48 +41,48 @@ import suproGallery2 from '../assets/gallery_photo_big3.jpg';
 import suproGallery3 from '../assets/gallery_photo_big4.jpg';
 
 // Supro Maxi Profit Truck VX — feature gallery
-import suproMaxiGallery1 from '../assets/gallery_image_05.jpg';
+import suproMaxiGallery1 from '../assets/gallery_image_05.webp';
 import suproMaxiGallery2 from '../assets/gallery_image_06.jpg';
 import suproMaxiGallery3 from '../assets/gallery_image_07.jpg';
 import suproMaxiGallery4 from '../assets/gallery_image_08.jpg';
 
 // Mahindra EarthMaster SX90 — feature gallery
-import earthmasterGallery1 from '../assets/Screenshot 2026-06-07 113049.png';
-import earthmasterGallery2 from '../assets/Screenshot 2026-06-07 113103.png';
-import earthmasterGallery3 from '../assets/Screenshot 2026-06-07 113112.png';
-import earthmasterGallery4 from '../assets/Screenshot 2026-06-07 113143.png';
-import earthmasterGallery5 from '../assets/Screenshot 2026-06-07 113204.png';
+import earthmasterGallery1 from '../assets/screenshot-2026-06-07-113049.webp';
+import earthmasterGallery2 from '../assets/screenshot-2026-06-07-113103.webp';
+import earthmasterGallery3 from '../assets/screenshot-2026-06-07-113112.webp';
+import earthmasterGallery4 from '../assets/screenshot-2026-06-07-113143.webp';
+import earthmasterGallery5 from '../assets/screenshot-2026-06-07-113204.webp';
 
 // Cruzio Grande Bus — feature gallery
 import cruzioGrandeGallery1 from '../assets/gallery-23.jpg';
-import cruzioGrandeGallery2 from '../assets/gallery-21.jpg';
-import cruzioGrandeGallery3 from '../assets/gallery-17.jpg';
-import cruzioGrandeGallery4 from '../assets/gallery-13.jpg';
+import cruzioGrandeGallery2 from '../assets/gallery-21.webp';
+import cruzioGrandeGallery3 from '../assets/gallery-17.webp';
+import cruzioGrandeGallery4 from '../assets/gallery-13.webp';
 import cruzioGrandeGallery5 from '../assets/gallery-11.jpg';
-import cruzioGrandeGallery6 from '../assets/gallery-6.jpg';
-import cruzioGrandeGallery7 from '../assets/gallery-5.jpg';
-import cruzioGrandeGallery8 from '../assets/gallery-4.jpg';
+import cruzioGrandeGallery6 from '../assets/gallery-6.webp';
+import cruzioGrandeGallery7 from '../assets/gallery-5.webp';
+import cruzioGrandeGallery8 from '../assets/gallery-4.webp';
 
 // LoadKing Optimo Tipper 25 — feature gallery
-import loadkingTipperGallery1 from '../assets/gallery-5 (2).jpg';
-import loadkingTipperGallery2 from '../assets/gallery-6 (2).jpg';
-import loadkingTipperGallery3 from '../assets/gallery-4 (2).jpg';
-import loadkingTipperGallery4 from '../assets/gallery-7 (1).jpg';
+import loadkingTipperGallery1 from '../assets/gallery-5-2.jpg';
+import loadkingTipperGallery2 from '../assets/gallery-6-2.jpg';
+import loadkingTipperGallery3 from '../assets/gallery-4-2.jpg';
+import loadkingTipperGallery4 from '../assets/gallery-7-1.jpg';
 import loadkingTipperGallery5 from '../assets/gallery-2.jpg';
-import loadkingTipperGallery6 from '../assets/gallery-1.jpg';
-import loadkingTipperGallery7 from '../assets/gallery-3 (1).jpg';
-import loadkingTipperGallery8 from '../assets/gallery-10 (2).jpg';
+import loadkingTipperGallery6 from '../assets/gallery-1.webp';
+import loadkingTipperGallery7 from '../assets/gallery-3-1.jpg';
+import loadkingTipperGallery8 from '../assets/gallery-10-2.jpg';
 
 // Cruzio School Bus — feature gallery
-import cruzioSchoolGallery1 from '../assets/gallery-4 (1).jpg';
-import cruzioSchoolGallery2 from '../assets/gallery-5 (1).jpg';
-import cruzioSchoolGallery3 from '../assets/gallery-6 (1).jpg';
-import cruzioSchoolGallery4 from '../assets/gallery-7.jpg';
-import cruzioSchoolGallery5 from '../assets/gallery-9 (1).jpg';
-import cruzioSchoolGallery6 from '../assets/gallery-10 (1).jpg';
-import cruzioSchoolGallery7 from '../assets/gallery-11 (1).jpg';
-import cruzioSchoolGallery8 from '../assets/gallery-13 (1).jpg';
-import cruzioSchoolGallery9 from '../assets/gallery-14 (1).jpg';
+import cruzioSchoolGallery1 from '../assets/gallery-4-1.webp';
+import cruzioSchoolGallery2 from '../assets/gallery-5-1.webp';
+import cruzioSchoolGallery3 from '../assets/gallery-6-1.webp';
+import cruzioSchoolGallery4 from '../assets/gallery-7.webp';
+import cruzioSchoolGallery5 from '../assets/gallery-9-1.webp';
+import cruzioSchoolGallery6 from '../assets/gallery-10-1.webp';
+import cruzioSchoolGallery7 from '../assets/gallery-11-1.webp';
+import cruzioSchoolGallery8 from '../assets/gallery-13-1.webp';
+import cruzioSchoolGallery9 from '../assets/gallery-14-1.webp';
 
 const suproMiniGallery = [
   { image: suproGallery1, label: 'Compact City Profile' },
@@ -507,6 +507,8 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
                   <div className={`bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.15)] hover:-translate-y-1 sm:col-span-2 ${heroColSpanClass}`}>
                     <div className="aspect-[16/8] overflow-hidden bg-white flex items-center justify-center">
                       <img
+                        loading="lazy"
+                        decoding="async"
                         src={v.image}
                         alt={v.name}
                         className="max-h-full max-w-full object-contain transition-transform duration-500 hover:scale-105"
@@ -527,6 +529,8 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
                     >
                       <div className="aspect-[16/9] overflow-hidden bg-white">
                         <img
+                          loading="lazy"
+                          decoding="async"
                           src={item.image}
                           alt={item.label}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
@@ -679,6 +683,8 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
                 <div className="flex-grow flex items-center justify-center px-2 py-2 h-[460px] overflow-hidden">
                   <div style={{ transform: `scale(${vehicle.cardImageScale || vehicle.imageScale || 1})` }}>
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={vehicle.image}
                       alt={vehicle.name}
                       className="h-[440px] w-auto max-w-full object-contain transition-transform duration-500 group-hover:scale-105"

@@ -3,21 +3,21 @@ import { ArrowRight, ChevronLeft, ChevronRight, Compass, Zap, Milestone, Star, Q
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
 import { PAPER_BG_STYLE } from '../utils/paperTexture';
 import { useT } from '../utils/i18n';
-import untitledDesign4 from '../assets/Untitled design (4).jpg';
+import untitledDesign4 from '../assets/untitled-design-4.webp';
 import blazoCargo from '../assets/mahindra-blazo-x-35-cargo.avif';
-import blazoTipper from '../assets/blazo_tipper_upscaled.png';
-import gallery3 from '../assets/gallery-3.jpg';
-import earthmasterSxIv from '../assets/mahindra-earthmaster-sx-iv-1911306843.jpg';
-import gallery1 from '../assets/gallery-1 (1).jpg';
+import blazoTipper from '../assets/blazo_tipper_upscaled.webp';
+import gallery3 from '../assets/gallery-3.webp';
+import earthmasterSxIv from '../assets/mahindra-earthmaster-sx-iv-1911306843.webp';
+import gallery1 from '../assets/gallery-1-1.webp';
 import suproMiniTruck from '../assets/supro-mini-truck-front-view.png';
-import smart50 from '../assets/Mahindra_SX_Smart_50_4_ab720f2044.webp';
+import smart50 from '../assets/mahindra_sx_smart_50_4_ab720f2044.webp';
 import backhoeLoader from '../assets/mahindra-backhoe-loader-28-04-2022-2-271486210-zkd8fne7.avif';
-import heavyMachineryImg from '../assets/desi-machines-mahindra-earthmaster-sx-backhoe-loader-featured-1.jpg';
-import commercialSalesImg from '../assets/IMG_1565.jpg';
-import sparePartsImg from '../assets/spareparts.jpg';
-import busAlt from '../assets/gallery-111.jpg';
+import heavyMachineryImg from '../assets/desi-machines-mahindra-earthmaster-sx-backhoe-loader-featured-1.webp';
+import commercialSalesImg from '../assets/img_1565.webp';
+import sparePartsImg from '../assets/spareparts.webp';
+import busAlt from '../assets/gallery-111.webp';
 import loadkingOptimo from '../assets/mahindra-loadking-optimo-54629.avif';
-import topSpeed70 from '../assets/70_kmph_top_speed.jpg';
+import topSpeed70 from '../assets/70_kmph_top_speed.webp';
 
 
 // Slide text comes from i18n (keys: home.slide{N}.tag/headline/sub).
@@ -76,6 +76,8 @@ function TabImage({ tab }) {
           key={`${tab.label}-${i}`}
           src={src}
           alt={tab.label}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
           style={{ opacity: i === idx ? 1 : 0 }}
         />
@@ -158,6 +160,11 @@ export default function Home({ setCurrentPage }) {
             key={s.id}
             src={s.image}
             alt={t(`home.slide${s.id}.tag`)}
+            // First slide paints immediately (LCP); the rest decode off the
+            // main thread and only fetch when the carousel reaches them.
+            fetchPriority={idx === 0 ? 'high' : 'low'}
+            loading={idx === 0 ? 'eager' : 'lazy'}
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
             style={{
               objectPosition: s.objectPosition || 'center center',
@@ -291,6 +298,8 @@ export default function Home({ setCurrentPage }) {
                   <img
                     src={card.img}
                     alt={card.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     style={{
                       ...(card.imgFilter ? { filter: card.imgFilter } : null),

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, MapPin, ChevronDown } from 'lucide-react';
-import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors.net_-640x400.png';
+import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors-net_-640x400.png';
 import { useT } from '../utils/i18n';
 
 export default function Navbar({ currentPage, setCurrentPage }) {

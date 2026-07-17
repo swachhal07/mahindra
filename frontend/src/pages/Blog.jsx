@@ -3,8 +3,8 @@ import { ArrowRight, ArrowLeft, Calendar, User } from 'lucide-react';
 import { useT } from '../utils/i18n';
 import { apiBase } from '../utils/adminApi';
 import blazoCargo from '../assets/mahindra-blazo-x-35-cargo.avif';
-import blazoTipper from '../assets/blazo_tipper_upscaled.png';
-import earthmaster from '../assets/mahindra-earthmaster-sx-iv-1911306843.jpg';
+import blazoTipper from '../assets/blazo_tipper_upscaled.webp';
+import earthmaster from '../assets/mahindra-earthmaster-sx-iv-1911306843.webp';
 import suproMini from '../assets/supro-mini-truck-front-view.png';
 
 // Fallback list — used only when the backend API is unreachable or returns
@@ -135,6 +135,8 @@ export default function Blog() {
         {/* Dark hero with featured image */}
         <section className="relative h-[60vh] min-h-[420px] overflow-hidden bg-black">
           <img
+            loading="lazy"
+            decoding="async"
             src={post.image}
             alt={post.title}
             className="absolute inset-0 w-full h-full object-cover opacity-60"
@@ -232,6 +234,8 @@ export default function Blog() {
             >
               <div className="overflow-hidden h-56">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={post.image}
                   alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

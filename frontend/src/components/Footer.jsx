@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors.net_-640x400.png';
+import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors-net_-640x400.png';
 import { PAPER_BG_STYLE } from '../utils/paperTexture';
 import { useT } from '../utils/i18n';
 

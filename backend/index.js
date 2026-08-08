@@ -28,6 +28,8 @@ import authRouter from './routes/auth.js';
 import vehiclesRouter from './routes/vehicles.js';
 import blogRouter from './routes/blog.js';
 import imagesRouter from './routes/images.js';
+import branchesRouter from './routes/branches.js';
+import teamRouter from './routes/team.js';
 
 // Some home ISPs (especially in Nepal) run DNS servers that don't return
 // SRV records, which breaks `mongodb+srv://` URIs with ECONNREFUSED. Force
@@ -94,6 +96,8 @@ app.use('/api/auth', requireDb, authRouter);
 app.use('/api/vehicles', requireDb, vehiclesRouter);
 app.use('/api/blog', requireDb, blogRouter);
 app.use('/api/images', requireDb, imagesRouter);
+app.use('/api/branches', requireDb, branchesRouter);
+app.use('/api/team', requireDb, teamRouter);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 

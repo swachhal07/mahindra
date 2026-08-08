@@ -9,6 +9,8 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "seed": "node seed.js",
+    "seed:branches": "node seed-branches.js",
+    "seed:team": "node seed-team.js",
     "update-prices": "node update-prices.js"
   },
   "dependencies": {

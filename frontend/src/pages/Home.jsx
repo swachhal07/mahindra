@@ -12,12 +12,23 @@ import gallery1 from '../assets/gallery-1-1.webp';
 import suproMiniTruck from '../assets/supro-mini-truck-front-view.png';
 import smart50 from '../assets/mahindra_sx_smart_50_4_ab720f2044.webp';
 import backhoeLoader from '../assets/mahindra-backhoe-loader-28-04-2022-2-271486210-zkd8fne7.avif';
-import heavyMachineryImg from '../assets/desi-machines-mahindra-earthmaster-sx-backhoe-loader-featured-1.webp';
+// EarthMaster SX90 on site — cropped from the supplied campaign poster to a
+// landscape frame, so the card slot shows the machine rather than a slice of
+// poster artwork.
+import heavyMachineryImg from '../assets/earthmaster-sx90-site.webp';
 import commercialSalesImg from '../assets/img_1565.webp';
 import sparePartsImg from '../assets/spareparts.webp';
-import busAlt from '../assets/gallery-111.webp';
 import loadkingOptimo from '../assets/mahindra-loadking-optimo-54629.avif';
 import topSpeed70 from '../assets/70_kmph_top_speed.webp';
+// Division model shots — same images the Showcase page uses for these vehicles.
+import modelBlazoX35 from '../assets/blazox35.webp';
+import modelLoadkingTruck from '../assets/loadking-optimo-truck.webp';
+import modelBlazoTipperMDura from '../assets/blazox35tipperm-dura.webp';
+import modelLoadkingTipper from '../assets/loadking-optimo-tipper.webp';
+import modelSuproMaxi from '../assets/supro-maxi-vx.webp';
+import modelCruzioGrande from '../assets/7.webp';
+import modelCruzioSchool from '../assets/6.webp';
+import modelEarthmasterSx90 from '../assets/mahindra-earthmaster-sx-1686128588.webp';
 
 
 // Slide text comes from i18n (keys: home.slide{N}.tag/headline/sub).
@@ -56,10 +67,16 @@ const faqs = [
   }
 ];
 
-// Crossfading image panel for the divisions block. When the tab provides
-// multiple images (tab.imgs), shows prev/next arrows and dot indicators.
-function TabImage({ tab }) {
-  const imgs = tab.imgs && tab.imgs.length > 0 ? tab.imgs : [tab.img];
+// Crossfading image panel for the divisions block. Cycles through the
+// division's models (tab.models) — each slide links to that vehicle on the
+// showcase page. Falls back to plain images (tab.imgs) or the single tab.img.
+function TabImage({ tab, onSelectModel }) {
+  const models = tab.models && tab.models.length > 0 ? tab.models : null;
+  const imgs = models
+    ? models.map((m) => m.img)
+    : tab.imgs && tab.imgs.length > 0
+      ? tab.imgs
+      : [tab.img];
   const [idx, setIdx] = useState(0);
   const hasMany = imgs.length > 1;
   useEffect(() => {
@@ -69,26 +86,47 @@ function TabImage({ tab }) {
     return () => clearInterval(id);
   }, [tab.label, imgs.length, hasMany]);
   const go = (delta) => setIdx((i) => (i + delta + imgs.length) % imgs.length);
+  const activeModel = models ? models[idx] : null;
   return (
     <>
       {imgs.map((src, i) => (
         <img
           key={`${tab.label}-${i}`}
           src={src}
-          alt={tab.label}
+          alt={models ? models[i].name : tab.label}
           loading="lazy"
           decoding="async"
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
           style={{ opacity: i === idx ? 1 : 0 }}
         />
       ))}
+      {activeModel && (
+        <button
+          type="button"
+          onClick={() => onSelectModel(activeModel)}
+          aria-label={`View ${activeModel.name}`}
+          className="group/model absolute inset-0 z-20 w-full h-full cursor-pointer text-left"
+        >
+          {/* Name plate for the model currently on screen */}
+          <span className="absolute bottom-6 left-6 right-24 flex flex-col gap-1">
+            <span className="text-white/60 text-xs font-bold uppercase tracking-widest">Model</span>
+            <span className="text-white text-2xl font-black uppercase leading-tight">
+              {activeModel.name}
+            </span>
+            <span className="inline-flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest opacity-80 group-hover/model:opacity-100 transition-opacity">
+              View vehicle
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/model:translate-x-1" />
+            </span>
+          </span>
+        </button>
+      )}
       {hasMany && (
         <>
           <button
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous image"
-            className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+            className="absolute top-1/2 left-4 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -96,21 +134,10 @@ function TabImage({ tab }) {
             type="button"
             onClick={() => go(1)}
             aria-label="Next image"
-            className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+            className="absolute top-1/2 right-4 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
-          <div className="absolute bottom-6 right-6 flex items-center gap-2">
-            {imgs.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setIdx(i)}
-                aria-label={`Show image ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${i === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/80'}`}
-              />
-            ))}
-          </div>
         </>
       )}
     </>
@@ -275,7 +302,7 @@ export default function Home({ setCurrentPage }) {
               {
                 num: '02',
                 title: 'Service & Spare Parts',
-                desc: 'Country wide service network with genuine parts, trained technicians, and scheduled visits. We do not disappear after delivery — we stay with the vehicle, for the long haul.',
+                desc: 'Country wide service network with genuine parts, trained technicians, and scheduled visits. We do not disappear after delivery. We stay with the vehicle, for the long haul.',
                 img: sparePartsImg,
                 imgPosition: 'center 70%',
                 page: 'booking',
@@ -340,6 +367,12 @@ export default function Home({ setCurrentPage }) {
             ],
             cta: 'View Heavy Trucks',
             page: 'showcase',
+            filter: 'truck',
+            // Slideshow models — names must match the showcase catalog entries.
+            models: [
+              { name: 'Blazo X 35 Truck', img: modelBlazoX35 },
+              { name: 'LoadKing Optimo Truck 2.5', img: modelLoadkingTruck },
+            ],
           },
           tipper: {
             label: 'Tipper',
@@ -355,12 +388,17 @@ export default function Home({ setCurrentPage }) {
             ],
             cta: 'View Construction Fleet',
             page: 'showcase',
+            filter: 'tipper',
+            models: [
+              { name: 'Blazo X Tipper m Dura 28', img: modelBlazoTipperMDura },
+              { name: 'LoadKing Optimo Tipper 2.5', img: modelLoadkingTipper },
+            ],
           },
           light: {
             label: 'Small Commercials',
             tag: 'Last-Mile & City Logistics',
             headline: 'Smart. Agile. Always On Time.',
-            desc: 'The Supro Mini Truck and Cargo range are purpose-built for urban last-mile delivery — compact enough for narrow city roads, strong enough to carry a full commercial payload every single day.',
+            desc: 'The Supro Mini Truck and Cargo range are purpose-built for urban last-mile delivery: compact enough for narrow city roads, strong enough to carry a full commercial payload every single day.',
             img: suproMiniTruck,
             stats: [
               { label: 'Payload Cap.', value: '900 kg' },
@@ -370,12 +408,17 @@ export default function Home({ setCurrentPage }) {
             ],
             cta: 'View Light Commercials',
             page: 'showcase',
+            filter: 'light',
+            models: [
+              { name: 'Supro Mini Profit Truck VX', img: suproMiniTruck },
+              { name: 'Supro Maxi Profit Truck VX/LX', img: modelSuproMaxi },
+            ],
           },
           bus: {
             label: 'Buses',
             tag: 'Passenger Transport',
             headline: 'Safe Journeys, Every Day.',
-            desc: 'Mahindra school buses are built with passenger safety at the core — featuring ABS, fire detection systems, and a robust 2.5L mDI CRDe engine designed for reliable daily school runs across Nepal.',
+            desc: 'Mahindra school buses are built with passenger safety at the core, featuring ABS, fire detection systems, and a robust 2.5L mDI CRDe engine designed for reliable daily school runs across Nepal.',
             img: gallery3,
             stats: [
               { label: 'Seating', value: '32 + Driver' },
@@ -385,13 +428,17 @@ export default function Home({ setCurrentPage }) {
             ],
             cta: 'Book a Test Drive',
             page: 'booking',
-            imgs: [gallery3, busAlt],
+            filter: 'bus',
+            models: [
+              { name: 'Cruzio Grande Bus', img: modelCruzioGrande },
+              { name: 'Cruzio School Bus', img: modelCruzioSchool },
+            ],
           },
           earthmaster: {
             label: 'Construction Equipment',
             tag: 'Heavy Construction',
             headline: 'Power Meets Precision.',
-            desc: 'The Mahindra EarthMaster SX backhoe loader delivers class-leading dig depth, high breakout force, and DigiSense telematics — engineered for Nepal\'s most demanding construction and quarrying projects.',
+            desc: 'The Mahindra EarthMaster SX backhoe loader delivers class-leading dig depth, high breakout force, and DigiSense telematics, engineered for Nepal\'s most demanding construction and quarrying projects.',
             img: backhoeLoader,
             stats: [
               { label: 'Engine', value: '74 HP CRDI' },
@@ -401,6 +448,11 @@ export default function Home({ setCurrentPage }) {
             ],
             cta: 'View EarthMaster',
             page: 'showcase',
+            filter: 'construction',
+            // Only one model in this division — no slideshow, still clickable.
+            models: [
+              { name: 'Mahindra EarthMaster SX90', img: modelEarthmasterSx90 },
+            ],
           },
         };
         const tab = divisions[activeTab];
@@ -467,7 +519,9 @@ export default function Home({ setCurrentPage }) {
 
                   <button
                     id={`tab-cta-${activeTab}`}
-                    onClick={() => setCurrentPage(tab.page)}
+                    onClick={() =>
+                      setCurrentPage(tab.page, tab.page === 'showcase' ? { showcaseFilter: tab.filter } : {})
+                    }
                     className="inline-flex items-center gap-3 bg-transparent border border-gray-800 hover:bg-[#e31837] hover:border-[#e31837] text-gray-900 hover:text-white font-bold uppercase tracking-wider text-sm px-8 py-4 transition-all duration-300"
                   >
                     {tab.cta}
@@ -477,12 +531,19 @@ export default function Home({ setCurrentPage }) {
 
                 {/* Right: Vehicle Image */}
                 <div className="relative h-[540px] rounded-2xl overflow-hidden shadow-xl">
-                  <TabImage tab={tab} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-6 left-6">
-                    <span className="text-white/60 text-xs font-bold uppercase tracking-widest block">Division</span>
-                    <span className="text-white text-2xl font-black uppercase">{tab.label}</span>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none z-10" />
+                  <TabImage
+                    tab={tab}
+                    onSelectModel={(model) =>
+                      setCurrentPage('showcase', { showcaseFilter: tab.filter, vehicleName: model.name })
+                    }
+                  />
+                  {!tab.models && (
+                    <div className="absolute bottom-6 left-6 z-20">
+                      <span className="text-white/60 text-xs font-bold uppercase tracking-widest block">Division</span>
+                      <span className="text-white text-2xl font-black uppercase">{tab.label}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

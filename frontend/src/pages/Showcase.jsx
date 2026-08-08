@@ -154,12 +154,17 @@ const blazoX35Gallery = [
   { image: blazoRearAxle, label: 'Heavy Duty Rear Axle' },
 ];
 
-export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
+export default function Showcase({ setCurrentPage, initialFilter = 'all', initialVehicleName = null }) {
   const [filter, setFilter] = useState(initialFilter);
 
   // Resync if the parent requests a different filter (e.g., footer Divisions click while already on this page).
   useEffect(() => { setFilter(initialFilter); }, [initialFilter]);
   const [activeVehicle, setActiveVehicle] = useState(null);
+  // Vehicle requested by name from another page (home divisions slideshow).
+  // Held until the catalog resolves, then consumed once — so the in-page Back
+  // button returns to the grid instead of re-opening the detail view.
+  const [pendingVehicleName, setPendingVehicleName] = useState(initialVehicleName);
+  useEffect(() => { setPendingVehicleName(initialVehicleName); }, [initialVehicleName]);
   const [brochureUrl, setBrochureUrl] = useState(null);
   const t = useT();
 
@@ -349,6 +354,9 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
   // Live catalog managed from the /admin portal. Vehicles come from the
   // Express + MongoDB backend; images are served by the same API.
   const [dbVehicles, setDbVehicles] = useState(null);
+  // True once the API call has settled either way, so a deep link waits for
+  // the live catalog instead of opening the (possibly stale) fallback entry.
+  const [catalogSettled, setCatalogSettled] = useState(false);
   useEffect(() => {
     let cancelled = false;
     fetch(`${apiBase}/api/vehicles`)
@@ -373,13 +381,28 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
           }))
         );
       })
-      .catch(() => {}); // API down → keep the fallback list
+      .catch(() => {}) // API down → keep the fallback list
+      .finally(() => {
+        if (!cancelled) setCatalogSettled(true);
+      });
     return () => {
       cancelled = true;
     };
   }, []);
 
   const vehicles = dbVehicles ?? fallbackVehicles;
+
+  // Open the deep-linked vehicle as soon as it exists in the active catalog.
+  // Matching on name (not id) because DB records carry Mongo ids while the
+  // fallback list uses hand-written slugs — the name is the stable key.
+  useEffect(() => {
+    if (!pendingVehicleName || !catalogSettled) return;
+    const wanted = pendingVehicleName.trim().toLowerCase();
+    const match = vehicles.find((v) => v.name.trim().toLowerCase() === wanted);
+    if (!match) return;
+    setActiveVehicle(match);
+    setPendingVehicleName(null);
+  }, [pendingVehicleName, catalogSettled, vehicles]);
 
   const filterCategories = [
     { key: 'all', labelKey: 'showcase.filter.all' },
@@ -408,7 +431,7 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
           <div className="flex items-center gap-2 text-gray-900">
             <FileText className="w-4 h-4 text-[#e31837]" />
             <span className="font-bold uppercase tracking-wider text-xs">
-              {activeVehicle ? `${activeVehicle.name} — Brochure` : 'Brochure'}
+              {activeVehicle ? `${activeVehicle.name} Brochure` : 'Brochure'}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -458,7 +481,8 @@ export default function Showcase({ setCurrentPage, initialFilter = 'all' }) {
         {BrochureModal}
         <div className="pb-20 bg-white text-gray-800 min-h-screen">
           {/* Title strip on white — minimal, no dark hero */}
-          <section className="relative pt-[120px] pb-10 w-full">
+          {/* pt clears the fixed navbar (120px) plus breathing room below it */}
+          <section className="relative pt-[160px] pb-10 w-full">
             {/* Back button — pinned to the left edge of the page */}
             <button
               onClick={() => setActiveVehicle(null)}

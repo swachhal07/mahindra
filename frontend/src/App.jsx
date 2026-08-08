@@ -15,6 +15,8 @@ const AboutUs = lazy(() => import('./pages/AboutUs'));
 const Booking = lazy(() => import('./pages/Booking'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Leadership = lazy(() => import('./pages/Leadership'));
+const Legal = lazy(() => import('./pages/Legal'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Lightweight placeholder shown while a page chunk is being fetched. Kept
 // minimal so it doesn't look heavier than the page it's standing in for.
@@ -32,6 +34,9 @@ function PageLoader() {
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [showcaseFilter, setShowcaseFilter] = useState('all');
+  // Name of a vehicle to open directly on the Showcase page (deep link from
+  // the home page divisions slideshow). Null → show the normal grid.
+  const [showcaseVehicleName, setShowcaseVehicleName] = useState(null);
 
   // Scroll BEFORE the new page mounts. Doing it inside setCurrentPage means
   // the browser is already at scrollY=0 when React commits the new DOM, so
@@ -40,6 +45,7 @@ export default function App() {
   const changePage = (page, opts = {}) => {
     if (page === 'showcase') {
       setShowcaseFilter(opts.showcaseFilter ?? 'all');
+      setShowcaseVehicleName(opts.vehicleName ?? null);
     }
     window.scrollTo(0, 0);
     setCurrentPage(page);
@@ -56,7 +62,13 @@ export default function App() {
       case 'home':
         return <Home setCurrentPage={changePage} />;
       case 'showcase':
-        return <Showcase setCurrentPage={changePage} initialFilter={showcaseFilter} />;
+        return (
+          <Showcase
+            setCurrentPage={changePage}
+            initialFilter={showcaseFilter}
+            initialVehicleName={showcaseVehicleName}
+          />
+        );
       case 'about':
         return <AboutUs setCurrentPage={changePage} />;
       case 'leadership':
@@ -65,8 +77,12 @@ export default function App() {
         return <Booking />;
       case 'blog':
         return <Blog />;
+      case 'privacy':
+        return <Legal doc="privacy" />;
+      case 'terms':
+        return <Legal doc="terms" />;
       default:
-        return <Home setCurrentPage={changePage} />;
+        return <NotFound setCurrentPage={changePage} />;
     }
   };
 

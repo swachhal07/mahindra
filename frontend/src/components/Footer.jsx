@@ -1,13 +1,15 @@
 import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors-net_-640x400.png';
-import { PAPER_BG_STYLE } from '../utils/paperTexture';
 import { useT } from '../utils/i18n';
 
 export default function Footer({ setCurrentPage, currentPage }) {
   const t = useT();
-  const textured = currentPage === 'about';
-  const whiteBackdrop = currentPage === 'booking' || currentPage === 'showcase' || currentPage === 'blog' || currentPage === 'leadership';
+  // Pages whose last section is plain white; the CTA backdrop matches it so
+  // there is no off-white band between the section and the banner.
+  // Every page except home ends on plain white, so the CTA backdrop matches it
+  // and there is no off-white band between the last section and the banner.
+  const whiteBackdrop = currentPage !== 'home';
   const showCtaBanner = currentPage !== 'showcase';
   return (
     <footer className="w-full relative">
@@ -19,7 +21,6 @@ export default function Footer({ setCurrentPage, currentPage }) {
           {/* Backdrop ends at the overlap line so the banner bleeds into the dark footer */}
           <div
             className={`absolute inset-x-0 top-0 bottom-16 -z-10 ${whiteBackdrop ? 'bg-white' : 'bg-[#FAF7F2]'}`}
-            style={textured ? PAPER_BG_STYLE : undefined}
           />
           <div className="max-w-6xl mx-auto bg-[#e31837] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
             <div className="w-full lg:w-auto text-left">
@@ -68,7 +69,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 </span>
               </div>
               <p className="text-sm leading-relaxed text-neutral-400 max-w-sm">
-                Authorised Mahindra dealer in Nepal serving fleet operators and individuals with commercial trucks, tippers, buses, and earthmoving machinery — backed by certified service and genuine spare parts.
+                Authorised Mahindra dealer in Nepal serving fleet operators and individuals with commercial trucks, tippers, buses, and earthmoving machinery, backed by certified service and genuine spare parts.
               </p>
             </div>
 
@@ -129,7 +130,7 @@ export default function Footer({ setCurrentPage, currentPage }) {
                 </li>
                 <li className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-[#e31837] flex-shrink-0 mt-0.5" />
-                  <span className="text-neutral-400 leading-snug">MV Dugar Building, Kathmandu, Nepal</span>
+                  <span className="text-neutral-400 leading-snug">Balaju Industrial Area, Kathmandu, Nepal</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[#e31837] flex-shrink-0" />
@@ -148,7 +149,34 @@ export default function Footer({ setCurrentPage, currentPage }) {
       <div className="bg-[#080808] py-6 border-t border-neutral-900 text-xs text-neutral-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p>© {new Date().getFullYear()} MV DUGAR. All rights reserved.</p>
-          <p className="tracking-widest uppercase font-semibold text-neutral-600 text-[10px]">Rise. Accept No Limits.</p>
+          <div className="flex items-center gap-5">
+            <button
+              id="footer-legal-privacy"
+              onClick={() => setCurrentPage('privacy')}
+              className="hover:text-white transition-colors duration-300 cursor-pointer"
+            >
+              Privacy Policy
+            </button>
+            <span aria-hidden="true" className="w-px h-3 bg-neutral-800" />
+            <button
+              id="footer-legal-terms"
+              onClick={() => setCurrentPage('terms')}
+              className="hover:text-white transition-colors duration-300 cursor-pointer"
+            >
+              Terms &amp; Conditions
+            </button>
+          </div>
+          <p className="text-neutral-600">
+            Developed by{' '}
+            <a
+              href="https://swachhalportfolio.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors duration-300"
+            >
+              Swachhal Lamsal
+            </a>
+          </p>
         </div>
       </div>
     </footer>

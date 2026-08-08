@@ -46,7 +46,7 @@ const translations = {
 
   // Home — section eyebrows + titles
   'home.whatWeDo.eyebrow': 'WHAT WE DO',
-  'home.whatWeDo.title': "POWERING NEPAL'S\nCOMMERCIAL & CONSTRUCTION FLEET.",
+  'home.whatWeDo.title': "POWERING NEPAL'S\nCOMMERCIAL & CONSTRUCTION FLEET\nSINCE 1992.",
   'home.divisions.eyebrow': 'OUR DIVISIONS',
   'home.divisions.title': 'VEHICLES ENGINEERED\nTO PERFORM.',
   'home.reviews.eyebrow': 'CUSTOMER REVIEWS',
@@ -81,12 +81,10 @@ const translations = {
   'about.eyebrow': 'About Dugar Brothers and Sons Pvt LTD',
   'about.headline1': "Nepal's Trusted.",
   'about.headline2': 'Mahindra Partner.',
-  'about.sub': 'We deliver world-class Mahindra vehicles and after-sales service across Nepal — from heavy commercial trucks to light city movers, all under one roof.',
+  'about.sub': 'We deliver world-class Mahindra vehicles and after-sales service across Nepal, from heavy commercial trucks to light city movers, all under one roof.',
   'about.ourStory': 'Our Story',
   'about.trustedPartners': 'Trusted Partners',
   'about.trustedPartners.title': "Working with Nepal's best.",
-  'about.ourTeam': 'Meet Our Team',
-  'about.ourTeam.title': 'The people behind every Mahindra you drive.',
   'about.whoWeServe': 'Who We Serve',
   'about.whoWeServe.title': 'Mahindra for every kind of work.',
 
@@ -103,7 +101,7 @@ const translations = {
   'blog.eyebrow': 'Insights & Stories',
   'blog.headline1': 'From the Garage',
   'blog.headline2': 'to Your Fleet.',
-  'blog.sub': 'Practical knowledge for fleet operators, builders, and drivers — written by our team in Kathmandu.',
+  'blog.sub': 'Practical knowledge for fleet operators, builders, and drivers, written by our team in Kathmandu.',
   'blog.readMore': 'Read Article',
   'blog.back': 'Back to Blog',
 };

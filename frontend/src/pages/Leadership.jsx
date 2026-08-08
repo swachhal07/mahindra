@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { apiBase } from '../utils/adminApi';
 import photoMotiLal from '../assets/af0b8ecf-4ddc-41f9-9dd1-ba5c0df1b212.webp';
 import photoVivek from '../assets/ae68fbad-4028-45aa-81d5-44d526f4f5af.webp';
 import photoShubham from '../assets/af5ea000-e8c5-4f03-ac64-9fd3a8bb8009.webp';
@@ -12,7 +13,9 @@ import photoLaxmiYadav from '../assets/mgmt-laxmi-yadav.jpeg';
 
 const RED = 'rgb(227, 24, 55)';
 
-const boardOfDirectors = [
+// Board of Directors. Used only until the API answers, or if it is
+// unreachable; the live list is managed from the Leadership tab in /admin.
+const FALLBACK_BOARD = [
   {
     index: '01',
     name: 'Moti Lal Dugar',
@@ -51,9 +54,10 @@ const boardOfDirectors = [
   },
 ];
 
-// Management Team — Automotive Division. Photo paths are placeholders until
-// portraits are dropped into src/assets and imported here.
-const managementTeam = [
+// Management Team — Automotive Division. Used only until the API answers, or
+// if it is unreachable; the live list is managed from the Management Team tab
+// in /admin.
+const FALLBACK_MANAGEMENT_TEAM = [
   { name: 'Sudeep Raj Subedi', role: 'Business Head', photo: photoSudipSubedi },
   { name: 'Sudeep Singh', role: 'Sales Head', photo: photoSudeepSingh },
   { name: 'Abhisheek Mishary', role: 'Spare Parts Head', photo: photoMishra },
@@ -71,6 +75,37 @@ function initialsOf(name) {
 }
 
 export default function Leadership() {
+  // Live board + management team from the backend. Each section falls back to
+  // its hardcoded list when the API is down or that group is empty, so neither
+  // section is ever blank.
+  const [dbPeople, setDbPeople] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${apiBase}/api/team`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((data) => {
+        if (cancelled || !data?.members?.length) return;
+        setDbPeople(
+          data.members.map((m) => ({
+            group: m.group ?? 'management',
+            name: m.name,
+            role: m.role,
+            photo: m.photoUrl ? `${apiBase}${m.photoUrl}` : null,
+            focal: m.focal,
+          }))
+        );
+      })
+      .catch(() => {}); // API down → keep the fallback lists
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const dbBoard = dbPeople?.filter((m) => m.group === 'board') ?? [];
+  const dbManagement = dbPeople?.filter((m) => m.group === 'management') ?? [];
+  const boardOfDirectors = dbBoard.length ? dbBoard : FALLBACK_BOARD;
+  const managementTeam = dbManagement.length ? dbManagement : FALLBACK_MANAGEMENT_TEAM;
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#0a0807' }}>
       {/* ============================================================
@@ -287,71 +322,104 @@ export default function Leadership() {
             </h2>
           </div>
 
-          {/* Grid — flex-wrap so an incomplete last row stays centered */}
-          <div className="flex flex-wrap justify-center gap-x-6 lg:gap-x-7 gap-y-14">
-            {managementTeam.map((m, i) => (
-              <article
-                key={m.name}
-                className="group relative flex flex-col basis-full sm:basis-[calc((100%_-_1.5rem)/2)] lg:basis-[calc((100%_-_3.5rem)/3)]"
-                style={{ animation: `leadFadeUp 700ms cubic-bezier(0.16,1,0.3,1) ${i * 100}ms backwards` }}
-              >
-                <div
-                  className="relative z-10 aspect-[3/4] overflow-hidden bg-gray-100 border border-black/[0.06]"
-                  style={{ boxShadow: '0 24px 50px -30px rgba(0,0,0,0.35)' }}
-                >
-                  {/* Red corner accent */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute top-0 left-0 z-20 h-1 w-12 transition-all duration-500 group-hover:w-24"
-                    style={{ background: RED }}
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute top-0 left-0 z-20 w-1 h-12 transition-all duration-500 group-hover:h-24"
-                    style={{ background: RED }}
-                  />
-
-                  {m.photo ? (
-                    <img
-                      src={m.photo}
-                      alt={m.name}
-                      loading="lazy"
-                      className="mgmt-portrait w-full h-full object-cover transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-                      style={{ objectPosition: m.focal || 'center 25%' }}
-                    />
-                  ) : (
-                    <div
-                      className="w-full h-full flex items-center justify-center"
-                      style={{ background: 'radial-gradient(ellipse 75% 60% at 50% 38%, #f3f4f6 0%, #e5e7eb 75%)' }}
-                    >
-                      <span
-                        className="font-black tracking-[-0.04em]"
-                        style={{ fontSize: 'clamp(56px, 6vw, 88px)', color: 'rgba(17,17,17,0.14)' }}
-                      >
-                        {initialsOf(m.name)}
-                      </span>
+          {/* The Business Head leads on their own row; the rest follow below.
+              Falls back to the first member if no one holds that title. */}
+          {(() => {
+            const leadIndex = Math.max(
+              0,
+              managementTeam.findIndex((m) => /business head/i.test(m.role || ''))
+            );
+            const lead = managementTeam[leadIndex];
+            const rest = managementTeam.filter((_, i) => i !== leadIndex);
+            return (
+              <>
+                {lead && (
+                  <div className="flex justify-center mb-14">
+                    <div className="basis-full sm:basis-[calc((100%_-_1.5rem)/2)] lg:basis-[calc((100%_-_3.5rem)/3)] shrink-0">
+                      <ManagementCard m={lead} index={0} />
                     </div>
-                  )}
-
-                </div>
-
-                <div className="relative z-10 pt-5">
-                  <div className="text-[10px] uppercase tracking-[0.3em] font-bold mb-3 flex items-center gap-2" style={{ color: RED }}>
-                    <span className="inline-block w-5 h-px transition-all duration-500 group-hover:w-10" style={{ background: RED }} />
-                    {m.role}
                   </div>
-                  <h3
-                    className="font-black uppercase tracking-[-0.02em] leading-[0.95] whitespace-nowrap"
-                    style={{ fontSize: 'clamp(14px, 1.35vw, 19px)', color: '#111' }}
-                  >
-                    {m.name}
-                  </h3>
+                )}
+
+                {/* The remaining four sit on one row from lg up; two per row
+                    on tablets, stacked on phones. */}
+                <div className="flex flex-wrap justify-center gap-x-6 lg:gap-x-7 gap-y-14">
+                  {rest.map((m, i) => (
+                    <div
+                      key={m.name}
+                      className="basis-full sm:basis-[calc((100%_-_1.5rem)/2)] lg:basis-[calc((100%_-_5.25rem)/4)]"
+                    >
+                      <ManagementCard m={m} index={i + 1} />
+                    </div>
+                  ))}
                 </div>
-              </article>
-            ))}
-          </div>
+              </>
+            );
+          })()}
         </div>
       </section>
     </div>
+  );
+}
+
+// One management-team portrait tile.
+function ManagementCard({ m, index }) {
+  return (
+    <article
+      className="group relative flex flex-col"
+      style={{ animation: `leadFadeUp 700ms cubic-bezier(0.16,1,0.3,1) ${index * 100}ms backwards` }}
+    >
+      <div
+        className="relative z-10 aspect-[3/4] overflow-hidden bg-gray-100 border border-black/[0.06]"
+        style={{ boxShadow: '0 24px 50px -30px rgba(0,0,0,0.35)' }}
+      >
+        {/* Red corner accent */}
+        <span
+          aria-hidden="true"
+          className="absolute top-0 left-0 z-20 h-1 w-12 transition-all duration-500 group-hover:w-24"
+          style={{ background: RED }}
+        />
+        <span
+          aria-hidden="true"
+          className="absolute top-0 left-0 z-20 w-1 h-12 transition-all duration-500 group-hover:h-24"
+          style={{ background: RED }}
+        />
+
+        {m.photo ? (
+          <img
+            src={m.photo}
+            alt={m.name}
+            loading="lazy"
+            className="mgmt-portrait w-full h-full object-cover transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{ objectPosition: m.focal || 'center 25%' }}
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ background: 'radial-gradient(ellipse 75% 60% at 50% 38%, #f3f4f6 0%, #e5e7eb 75%)' }}
+          >
+            <span
+              className="font-black tracking-[-0.04em]"
+              style={{ fontSize: 'clamp(56px, 6vw, 88px)', color: 'rgba(17,17,17,0.14)' }}
+            >
+              {initialsOf(m.name)}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="relative z-10 pt-5">
+        <div className="text-[10px] uppercase tracking-[0.3em] font-bold mb-3 flex items-center gap-2" style={{ color: RED }}>
+          <span className="inline-block w-5 h-px transition-all duration-500 group-hover:w-10" style={{ background: RED }} />
+          {m.role}
+        </div>
+        <h3
+          className="font-black uppercase tracking-[-0.02em] leading-[0.95] whitespace-nowrap"
+          style={{ fontSize: 'clamp(14px, 1.35vw, 19px)', color: '#111' }}
+        >
+          {m.name}
+        </h3>
+      </div>
+    </article>
   );
 }

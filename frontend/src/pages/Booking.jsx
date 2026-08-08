@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Compass, ShieldAlert, Award, FileText, CheckCircle2, Trash2, Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { Map, MapMarker, MarkerContent, MarkerPopup, MapControls, Buildings3D } from '../components/Map';
 import { useT } from '../utils/i18n';
+import { apiBase } from '../utils/adminApi';
 
 export default function Booking() {
   const t = useT();
@@ -156,14 +157,14 @@ export default function Booking() {
               {t('booking.reachUs.title')}
             </h2>
             <p className="text-gray-500 text-base leading-relaxed mb-10">
-              We respond to every inquiry within one business day. Our Mahindra team covers Nepal end-to-end — sales, service, and parts under one roof.
+              We respond to every inquiry within one business day. Our Mahindra team covers Nepal end-to-end: sales, service, and parts under one roof.
             </p>
 
             <div className="space-y-5 border-t border-gray-200 pt-6">
               {[
                 { icon: <Phone className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Sales', value: '+977 9802748575' },
                 { icon: <Mail className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Email', value: 'Sales.Mahindra@mvdugar.com' },
-                { icon: <MapPin className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Office', value: 'MV Dugar Building, Kathmandu, Nepal' },
+                { icon: <MapPin className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Office', value: 'Balaju Industrial Area, Kathmandu, Nepal' },
                 { icon: <Clock className="w-5 h-5 text-[rgb(213,59,59)]" />, label: 'Hours', value: 'Sun – Fri, 9:30 AM – 6:00 PM' },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-4 pb-5 border-b border-gray-200 last:border-b-0">
@@ -314,8 +315,10 @@ export default function Booking() {
         </div>
       </section>
 
-      {/* Map */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Map — scroll-mt keeps the heading clear of the 120px fixed navbar when
+          the section is jumped to, and the map height is capped to the visible
+          area below it so the top edge never sits under the bar. */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 scroll-mt-[140px]">
         <div className="mb-6">
           <p className="text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.3em] mb-3">
             Find Us
@@ -324,7 +327,7 @@ export default function Booking() {
             Our Office in Kathmandu.
           </h2>
         </div>
-        <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
+        <div className="relative w-full h-[clamp(320px,calc(100vh-220px),500px)] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
           <Map
             theme="light"
             zoom={16}
@@ -356,7 +359,7 @@ export default function Booking() {
                     Kathmandu Showroom
                   </h4>
                   <p className="text-gray-600 text-xs leading-relaxed">
-                    MV Dugar Building, Kathmandu, Nepal
+                    Balaju Industrial Area, Kathmandu, Nepal
                   </p>
                 </div>
               </MarkerPopup>
@@ -384,9 +387,9 @@ export default function Booking() {
   );
 }
 
-// Nationwide branch list. Static for now — if your client adds branches
-// often we can move it to MongoDB the same way vehicles/blog are managed.
-const BRANCHES = [
+// Fallback branch list, used only until the API answers or if it is
+// unreachable. The live list is managed from the Branches tab in /admin.
+const FALLBACK_BRANCHES = [
   { city: 'Kathmandu', district: 'Kathmandu', province: 'Bagmati', phone: '01-4380639', lng: 85.3240, lat: 27.7172 },
   { city: 'Jeetpur', district: 'Bara', province: 'Madesh', phone: '9802538774', lng: 84.9761, lat: 27.2213 },
   { city: 'Hetauda', district: 'Makwanpur', province: 'Bagmati', phone: '9802750827', lng: 85.0322, lat: 27.4287 },
@@ -401,11 +404,34 @@ const BRANCHES = [
   { city: 'Biratnagar', district: 'Biratnagar', province: 'Koshi', phone: '9802701803', lng: 87.2718, lat: 26.4525 },
 ];
 
-const PROVINCES = ['All', 'Bagmati', 'Madesh', 'Lumbini', 'Koshi', 'Sudur Paschim'];
-
 function ServiceNetwork() {
   const [filter, setFilter] = useState('All');
-  const filtered = filter === 'All' ? BRANCHES : BRANCHES.filter((b) => b.province === filter);
+
+  // Live branch list from the backend; falls back to the hardcoded list when
+  // the API is down or the collection is empty, so the map is never blank.
+  const [dbBranches, setDbBranches] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${apiBase}/api/branches`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((data) => {
+        if (cancelled || !data?.branches?.length) return;
+        setDbBranches(data.branches);
+      })
+      .catch(() => {}); // API down → keep the fallback list
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const branches = dbBranches ?? FALLBACK_BRANCHES;
+
+  // Province buttons follow the data, so a branch in a new province shows up
+  // as a filter without a code change.
+  const provinces = ['All', ...Array.from(new Set(branches.map((b) => b.province).filter(Boolean)))];
+  const activeFilter = provinces.includes(filter) ? filter : 'All';
+  const filtered =
+    activeFilter === 'All' ? branches : branches.filter((b) => b.province === activeFilter);
 
   return (
     <section className="bg-white border-t border-gray-200">
@@ -418,8 +444,8 @@ function ServiceNetwork() {
             Find a Dealership Near You
           </h2>
           <p className="text-gray-500 text-sm sm:text-base mt-5 max-w-2xl mx-auto">
-            12 Dugar Brothers &amp; Sons branches across Nepal — sales, service, and genuine parts
-            wherever you operate.
+            {branches.length} Dugar Brothers &amp; Sons branch{branches.length === 1 ? '' : 'es'} across
+            Nepal: sales, service, and genuine parts wherever you operate.
           </p>
         </div>
 
@@ -436,7 +462,7 @@ function ServiceNetwork() {
           >
             <MapControls position="bottom-right" showZoom showFullscreen />
             {filtered.map((b) => (
-              <MapMarker key={b.city + b.phone} longitude={b.lng} latitude={b.lat}>
+              <MapMarker key={b.id ?? `${b.city}-${b.lat}-${b.lng}`} longitude={b.lng} latitude={b.lat}>
                 <MarkerContent>
                   <div className="relative flex items-center justify-center">
                     <div className="absolute w-8 h-8 rounded-full bg-[rgb(213,59,59)]/20 animate-ping" />
@@ -447,16 +473,18 @@ function ServiceNetwork() {
                 </MarkerContent>
                 <MarkerPopup>
                   <div className="min-w-[180px]">
-                    <p className="text-[rgb(213,59,59)] text-[10px] font-bold uppercase tracking-[0.2em] mb-1">
-                      {b.province} Province
-                    </p>
+                    {b.province && (
+                      <p className="text-[rgb(213,59,59)] text-[10px] font-bold uppercase tracking-[0.2em] mb-1">
+                        {b.province} Province
+                      </p>
+                    )}
                     <h4 className="text-gray-950 font-extrabold text-sm uppercase mb-1">
                       {b.city}
                     </h4>
                     <p className="text-gray-600 text-xs leading-relaxed mb-1">
-                      {b.district} · Dugar Brothers &amp; Sons Pvt. Ltd.
+                      {b.district ? `${b.district} · ` : ''}Dugar Brothers &amp; Sons Pvt. Ltd.
                     </p>
-                    <p className="text-gray-900 text-xs font-bold">{b.phone}</p>
+                    {b.phone && <p className="text-gray-900 text-xs font-bold">{b.phone}</p>}
                   </div>
                 </MarkerPopup>
               </MapMarker>
@@ -466,12 +494,12 @@ function ServiceNetwork() {
 
         {/* Province filter */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {PROVINCES.map((p) => (
+          {provinces.map((p) => (
             <button
               key={p}
               onClick={() => setFilter(p)}
               className={`px-5 py-2 rounded font-bold uppercase tracking-wider text-xs border transition-all duration-300 ${
-                filter === p
+                activeFilter === p
                   ? 'bg-transparent border-[rgb(213,59,59)] text-[rgb(213,59,59)]'
                   : 'bg-white border-black/10 hover:border-black/30 text-gray-600 hover:text-black'
               }`}
@@ -485,7 +513,7 @@ function ServiceNetwork() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.map((b) => (
             <div
-              key={b.city + b.phone}
+              key={b.id ?? `${b.city}-${b.lat}-${b.lng}`}
               className="bg-white rounded-xl border border-gray-200 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-12px_rgba(0,0,0,0.15)] hover:border-gray-300"
             >
               <div className="flex items-start justify-between gap-3 mb-4">
@@ -494,7 +522,7 @@ function ServiceNetwork() {
                     {b.city}
                   </h3>
                   <p className="text-gray-500 text-xs mt-1">
-                    {b.district}, {b.province} Province
+                    {[b.district, b.province && `${b.province} Province`].filter(Boolean).join(', ')}
                   </p>
                 </div>
                 <span className="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-[rgb(213,59,59)]/10 text-[rgb(213,59,59)]">
@@ -504,13 +532,15 @@ function ServiceNetwork() {
 
               <p className="text-gray-500 text-xs mb-4">Dugar Brothers &amp; Sons Pvt. Ltd.</p>
 
-              <a
-                href={`tel:${b.phone.replace(/[^+\d]/g, '')}`}
-                className="inline-flex items-center gap-2 text-gray-900 hover:text-[rgb(213,59,59)] font-bold text-sm transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                {b.phone}
-              </a>
+              {b.phone && (
+                <a
+                  href={`tel:${b.phone.replace(/[^+\d]/g, '')}`}
+                  className="inline-flex items-center gap-2 text-gray-900 hover:text-[rgb(213,59,59)] font-bold text-sm transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  {b.phone}
+                </a>
+              )}
             </div>
           ))}
         </div>

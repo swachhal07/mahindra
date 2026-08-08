@@ -8,17 +8,22 @@ import partnerVianet from '../assets/vianet-aba-sabai_connected-red-4x.png';
 import partnerJagdamba from '../assets/jagdamba-steels.png';
 import partnerAboutUs from '../assets/about-us-logo-image-1024x1024.png';
 import partnerLogo from '../assets/logo.png';
-import teamSales from '../assets/salesteam.webp';
-import teamTechnical from '../assets/technicalteam.webp';
-import teamService from '../assets/img_0320.webp';
+// Background knocked out of the supplied JPEGs so they sit on the paper
+// texture like the rest of the strip.
+import partnerSumo from '../assets/partner-sumo-construction.webp';
+import partnerShivam from '../assets/partner-shivam-cement.webp';
+import partnerUnited from '../assets/partner-united-cements.webp';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
 import { PAPER_BG_STYLE, PAPER_TEXTURE } from '../utils/paperTexture';
 
 const partnerLogos = [
-  { id: 'vianet', src: partnerVianet, alt: 'Vianet', className: 'h-10 sm:h-12' },
-  { id: 'jagdamba', src: partnerJagdamba, alt: 'Jagdamba Steels', className: 'h-16 sm:h-20' },
-  { id: 'about-us', src: partnerAboutUs, alt: 'Partner', className: 'h-16 sm:h-20' },
-  { id: 'logo', src: partnerLogo, alt: 'Partner', className: 'h-12 sm:h-14' },
+  { id: 'vianet', src: partnerVianet, alt: 'Vianet' },
+  { id: 'jagdamba', src: partnerJagdamba, alt: 'Jagdamba Steels' },
+  { id: 'about-us', src: partnerAboutUs, alt: 'Partner' },
+  { id: 'logo', src: partnerLogo, alt: 'Partner' },
+  { id: 'sumo', src: partnerSumo, alt: 'Sumo Construction & Engineering' },
+  { id: 'shivam', src: partnerShivam, alt: 'Shivam Cement' },
+  { id: 'united', src: partnerUnited, alt: 'United Cements' },
 ];
 
 const storySlides = [storyImage1, storyImage2, storyImage3, storyImage4];
@@ -137,7 +142,7 @@ export default function AboutUs({ setCurrentPage }) {
        </div>
       </div>
 
-      {/* Trusted Partners — auto-scrolling logo strip */}
+      {/* Trusted Partners: auto-scrolling logo strip */}
       <div style={PAPER_BG_STYLE}>
        <div className="pt-24 pb-14">
         <div className="max-w-6xl mx-auto px-6 lg:px-10 text-center mb-14">
@@ -161,7 +166,7 @@ export default function AboutUs({ setCurrentPage }) {
                   decoding="async"
                   src={logo.src}
                   alt={logo.alt}
-                  className={`${logo.className} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300`}
+                  className="h-20 sm:h-24 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
             ))}
@@ -190,76 +195,9 @@ export default function AboutUs({ setCurrentPage }) {
        `}</style>
       </div>
 
-      {/* Meet Our Team */}
-      <div className="bg-white relative overflow-hidden">
-       <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg">
-         <path d={TOPO_CONTOUR_PATH} stroke="#d4d4d4" strokeWidth="0.7" fill="none" opacity="0.5" strokeLinecap="round" strokeLinejoin="round" />
-       </svg>
-       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24 relative z-10">
-        <div className="text-center mb-16">
-          <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
-            {t('about.ourTeam')}
-          </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] mb-6 after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
-            {t('about.ourTeam.title')}
-          </h2>
-          <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
-            Three teams, one promise. From the first conversation to long after delivery, the same people stay with your vehicle.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {[
-            {
-              num: '01',
-              title: 'Sales Team',
-              desc: 'Your first point of contact. Walks you through the lineup, matches the right Mahindra to your work, and writes you a clear, no-surprise quote.',
-              image: teamSales,
-            },
-            {
-              num: '02',
-              title: 'Services Team',
-              desc: 'Specs, demos, and the harder questions. They know payloads, mileage figures, and the difference one gear ratio makes on a hill route.',
-              image: teamTechnical,
-            },
-            {
-              num: '03',
-              title: 'Spare Parts Team',
-              desc: 'Genuine parts, trained technicians, scheduled visits. We do not disappear after delivery — we stay with the vehicle, for the long haul.',
-              image: teamService,
-            },
-          ].map((team) => (
-            <div
-              key={team.num}
-              className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.15)]"
-            >
-              {/* Image */}
-              <div className="overflow-hidden h-72 lg:h-80 bg-gray-100">
-                <img
-                  src={team.image}
-                  alt={`${team.title} at Mahindra Nepal`}
-                  className={`w-full h-full ${team.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center transition-transform duration-500 group-hover:scale-105`}
-                  style={{ filter: 'brightness(0.9) contrast(1.08)', objectPosition: team.fit === 'contain' ? 'center center' : 'center 40%' }}
-                  loading="lazy"
-                />
-              </div>
-              {/* Content */}
-              <div className="px-8 pt-7 pb-7">
-                <span className="text-[#e31837] text-sm font-black block mb-3">{team.num}</span>
-                <h3 className="text-gray-950 text-xl font-black uppercase tracking-tight leading-tight mb-4">
-                  {team.title}
-                </h3>
-                <p className="text-gray-500 text-sm leading-relaxed font-light">
-                  {team.desc}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-       </div>
-      </div>
 
       {/* Who We Serve */}
-      <div style={PAPER_BG_STYLE}>
+      <div className="bg-white">
        <div className="max-w-6xl mx-auto px-6 lg:px-10 py-20">
         <div className="text-center mb-12">
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
@@ -269,14 +207,14 @@ export default function AboutUs({ setCurrentPage }) {
             {t('about.whoWeServe.title')}
           </h2>
           <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
-            If it moves goods, people, or earth across Nepal — we have likely put a Mahindra to work doing it.
+            If it moves goods, people, or earth across Nepal, we have likely put a Mahindra to work doing it.
           </p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-5xl mx-auto">
           {serveCategories.map((category) => (
             <div
               key={category}
-              className="group bg-white border border-gray-100 rounded-lg px-6 py-7 text-center shadow-sm hover:shadow-md hover:border-[rgb(213,59,59)]/30 transition-all duration-300 cursor-pointer"
+              className="group bg-white border border-gray-200 rounded-lg px-6 py-7 text-center shadow-sm hover:shadow-md hover:border-[rgb(213,59,59)]/30 transition-all duration-300 cursor-pointer"
             >
               <p className="text-gray-950 text-sm font-extrabold uppercase tracking-tight leading-tight transition-colors duration-300 group-hover:text-[rgb(213,59,59)]">
                 {category}

@@ -117,7 +117,7 @@ export default function VehicleForm({ vehicle, onDone }) {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className="font-black uppercase tracking-tight text-lg">
-            {isEdit ? `Edit — ${vehicle.name}` : 'Add Vehicle'}
+            {isEdit ? `Edit: ${vehicle.name}` : 'Add Vehicle'}
           </h1>
         </div>
       </header>
@@ -223,7 +223,7 @@ export default function VehicleForm({ vehicle, onDone }) {
               </div>
             ))}
             {specs.length === 0 && (
-              <p className="text-neutral-600 text-xs">No specs — click “Add Spec”.</p>
+              <p className="text-neutral-600 text-xs">No specs yet, click “Add Spec”.</p>
             )}
           </div>
         </section>
@@ -281,7 +281,7 @@ export default function VehicleForm({ vehicle, onDone }) {
 
           {existingGallery.length === 0 && newGallery.length === 0 && (
             <p className="text-neutral-600 text-xs">
-              Optional — photos of the engine, cabin, chassis etc., shown on the vehicle's detail
+              Optional: photos of the engine, cabin, chassis etc., shown on the vehicle's detail
               page with a caption each.
             </p>
           )}

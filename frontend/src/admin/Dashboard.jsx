@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { LogOut, Car, Newspaper } from 'lucide-react';
+import { LogOut, Car, Newspaper, MapPin, Users } from 'lucide-react';
 import VehicleList from './VehicleList';
 import BlogList from './BlogList';
+import BranchList from './BranchList';
+import TeamList from './TeamList';
 
 const TABS = [
   { key: 'vehicles', label: 'Vehicles', Icon: Car },
   { key: 'blog', label: 'Blog Posts', Icon: Newspaper },
+  { key: 'branches', label: 'Branches', Icon: MapPin },
+  { key: 'team', label: 'Leadership', Icon: Users },
 ];
 
 // Thin shell for the admin portal — top bar with the brand, the signed-in
@@ -64,6 +68,8 @@ export default function Dashboard({ adminEmail, onLogout }) {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {tab === 'vehicles' && <VehicleList />}
         {tab === 'blog' && <BlogList />}
+        {tab === 'branches' && <BranchList />}
+        {tab === 'team' && <TeamList />}
       </main>
 
       {confirmLogout && (

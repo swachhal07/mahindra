@@ -83,7 +83,7 @@ export default function BlogForm({ post, onDone }) {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className="font-black uppercase tracking-tight text-lg">
-            {isEdit ? `Edit — ${post.title}` : 'Add Blog Post'}
+            {isEdit ? `Edit: ${post.title}` : 'Add Blog Post'}
           </h1>
         </div>
       </header>
@@ -174,7 +174,7 @@ export default function BlogForm({ post, onDone }) {
             value={bodyText}
             onChange={(e) => setBodyText(e.target.value)}
             placeholder={
-              'Write the full article here.\n\nSeparate paragraphs with a blank line — each block of text becomes one paragraph on the page.\n\nLike this.'
+              'Write the full article here.\n\nSeparate paragraphs with a blank line, and each block of text becomes one paragraph on the page.\n\nLike this.'
             }
           />
           <p className="text-neutral-600 text-[11px]">

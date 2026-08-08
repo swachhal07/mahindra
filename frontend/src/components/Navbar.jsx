@@ -1,36 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, MapPin, ChevronDown } from 'lucide-react';
 import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors-net_-640x400.png';
+import dugarLogo from '../assets/dugar-logo.png';
 import { useT } from '../utils/i18n';
 
 export default function Navbar({ currentPage, setCurrentPage }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const [ctaHovered, setCtaHovered] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
-  const lastScrollY = React.useRef(0);
   const t = useT();
 
   useEffect(() => {
     const onScroll = () => {
-      const current = window.scrollY;
-      setScrolled(current > 40);
-      setHidden(current > lastScrollY.current && current > 80);
-      lastScrollY.current = current;
+      setScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // On page change, make sure the navbar is visible and the scroll baseline
-  // is reset — otherwise it stays hidden (stale state from the previous page).
+  // On page change, reset the scrolled flag and transient hover state.
   useEffect(() => {
-    setHidden(false);
     setScrolled(false);
-    setCtaHovered(false);
     setNavHovered(false);
-    lastScrollY.current = 0;
   }, [currentPage]);
 
   const navItems = [
@@ -52,12 +43,28 @@ export default function Navbar({ currentPage, setCurrentPage }) {
     setIsOpen(false);
   };
 
-  const useDarkContent = currentPage !== 'home' || navHovered;
+  // Solid white nav (with dark link colours) on inner pages, on hover, and as
+  // soon as the home page scrolls past the hero.
+  const useDarkContent = currentPage !== 'home' || navHovered || scrolled;
 
   return (
+    // The white backdrop lives on this fixed wrapper, not on the <nav> below.
+    // The nav's background is animated, and over a WebGL map canvas the
+    // browser can keep showing the pre-transition (transparent) layer, so the
+    // map bleeds through the bar. Painting an opaque colour here — on a
+    // promoted layer that always sits above the canvas — keeps the bar solid.
     <div
-      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ${hidden ? '-translate-y-full' : 'translate-y-0'}`}
+      className="fixed top-0 left-0 right-0 z-50 isolate"
+      style={{ transform: 'translateZ(0)', willChange: 'transform' }}
     >
+      {/* Opaque backdrop. Fading opacity (rather than animating the nav's own
+          background-color) keeps this on the compositor, so it stays solid
+          even while it sits over the WebGL map canvas. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-white pointer-events-none transition-opacity duration-500"
+        style={{ opacity: useDarkContent ? 1 : 0 }}
+      />
       {/* Top utility strip — solid red, contact quick-links */}
       <div className="hidden md:block" style={{ background: 'rgb(227, 24, 55)' }}>
         <div className="w-full px-6 lg:px-10 h-8 flex items-center justify-center gap-6 text-white text-[11px] font-medium tracking-wide">
@@ -71,22 +78,18 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           </a>
           <span className="inline-flex items-center gap-1.5 text-white/85">
             <MapPin className="w-3 h-3" />
-            <span>Kathmandu, Nepal</span>
+            <span>Nationwide</span>
           </span>
         </div>
       </div>
     <nav
-      className="relative transition-all duration-500"
+      onMouseEnter={() => setNavHovered(true)}
+      onMouseLeave={() => setNavHovered(false)}
+      className="relative transition-[border-color,box-shadow] duration-500"
       style={
-        currentPage !== 'home' || navHovered
-          ? { background: '#ffffff', borderBottom: '1px solid #e5e5e5', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }
-          : {
-              background: scrolled ? 'rgba(240, 240, 248, 0.25)' : 'transparent',
-              backdropFilter: scrolled ? 'blur(24px) saturate(200%)' : 'none',
-              WebkitBackdropFilter: scrolled ? 'blur(24px) saturate(200%)' : 'none',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.25)',
-              boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.12)' : 'none',
-            }
+        useDarkContent
+          ? { borderBottom: '1px solid #e5e5e5', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }
+          : { borderBottom: '1px solid rgba(255, 255, 255, 0.25)', boxShadow: 'none' }
       }
     >
       <div className="w-full px-6 lg:px-10">
@@ -94,9 +97,6 @@ export default function Navbar({ currentPage, setCurrentPage }) {
 
 
           {(() => {
-            const half = Math.ceil(navItems.length / 2);
-            const leftItems = navItems.slice(0, half);
-            const rightItems = navItems.slice(half);
             const renderLink = (item) => {
               const isActive =
                 currentPage === item.id ||
@@ -108,11 +108,9 @@ export default function Navbar({ currentPage, setCurrentPage }) {
                   className={`group relative px-4 py-2 text-lg font-semibold tracking-wide transition-colors duration-200 rounded-md whitespace-nowrap ${
                     useDarkContent
                       ? isActive
-                        ? 'text-gray-950'
+                        ? 'text-[#e31837]'
                         : 'text-gray-500 hover:text-gray-900'
-                      : isActive
-                        ? 'text-white'
-                        : 'text-white hover:text-white/80'
+                      : 'text-white hover:text-white/80'
                   }`}
                 >
                   {t(item.labelKey)}
@@ -139,11 +137,9 @@ export default function Navbar({ currentPage, setCurrentPage }) {
                     className={`group relative flex items-center gap-1.5 px-4 py-2 text-lg font-semibold tracking-wide transition-colors duration-200 rounded-md whitespace-nowrap ${
                       useDarkContent
                         ? isActive
-                          ? 'text-gray-950'
+                          ? 'text-[#e31837]'
                           : 'text-gray-500 hover:text-gray-900'
-                        : isActive
-                          ? 'text-white'
-                          : 'text-white hover:text-white/80'
+                        : 'text-white hover:text-white/80'
                     }`}
                   >
                     {t(item.labelKey)}
@@ -193,64 +189,48 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             };
             return (
               <>
-                {/* LEFT — first half of nav links, ending at fixed distance from logo */}
+                {/* LEFT — MV Dugar Group mark + divider + Mahindra wordmark */}
                 <div
-                  className="hidden md:flex flex-1 items-center justify-end gap-2 pr-[120px]"
-                  onMouseEnter={() => setNavHovered(true)}
-                  onMouseLeave={() => setNavHovered(false)}
-                >
-                  {leftItems.map(renderLink)}
-                </div>
-
-                {/* CENTER — Logo (absolutely centered) */}
-                <div
-                  className="flex items-center gap-3 cursor-pointer select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  className="flex items-center gap-4 cursor-pointer select-none flex-shrink-0"
                   onClick={() => handleNavClick('home')}
                 >
-                  <div className="h-20 flex items-center justify-center flex-shrink-0">
-                    <img
-                      src={mahindraLogo}
-                      alt="Mahindra Logo"
-                      className={`h-20 w-auto object-contain filter brightness-0 ${useDarkContent ? '' : 'invert'}`}
-                    />
-                  </div>
+                  <img
+                    src={dugarLogo}
+                    alt="MV Dugar Group"
+                    className="h-11 md:h-14 w-auto object-contain"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="h-8 md:h-10 w-px"
+                    style={{ background: useDarkContent ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.4)' }}
+                  />
+                  <img
+                    src={mahindraLogo}
+                    alt="Mahindra Logo"
+                    className={`h-[3.25rem] md:h-[4.5rem] w-auto object-contain filter brightness-0 ${useDarkContent ? '' : 'invert'}`}
+                  />
                 </div>
 
-                {/* RIGHT-OF-LOGO — second half of nav links, starting at fixed distance from logo */}
+                {/* CENTER — all nav links, centred on the bar independently of
+                    the logo and CTA widths so they never shift the row. */}
                 <div
-                  className="hidden md:flex flex-1 items-center justify-start gap-2 pl-[120px]"
-                  onMouseEnter={() => setNavHovered(true)}
-                  onMouseLeave={() => setNavHovered(false)}
+                  className="hidden md:flex items-center gap-2 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                 >
-                  {rightItems.map(renderLink)}
+                  {navItems.map(renderLink)}
                 </div>
               </>
             );
           })()}
 
-          {/* RIGHT — Contact Us CTA (absolutely positioned so the two flex
-              halves remain perfectly symmetric around the centered logo) */}
-          <div className="hidden md:flex items-center gap-3 absolute right-0 top-1/2 -translate-y-1/2">
-            {(() => {
-              const ctaStyle = ctaHovered
-                ? { background: 'rgb(227, 24, 55)', border: '1px solid rgb(227, 24, 55)', color: 'white' }
-                : useDarkContent
-                  ? { background: 'transparent', border: '1px solid rgba(0,0,0,0.3)', color: '#111' }
-                  : { background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.6)', color: 'white' };
-              return (
-                <button
-                  id="nav-cta-contact"
-                  onClick={() => handleNavClick('booking')}
-                  onMouseEnter={() => setCtaHovered(true)}
-                  onMouseLeave={() => setCtaHovered(false)}
-                  className="text-lg font-bold px-6 py-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-100"
-                  style={ctaStyle}
-                >
-                  {t('nav.contact')}
-                </button>
-              );
-            })()}
-
+          {/* RIGHT — solid red Contact Us pill */}
+          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+            <button
+              id="nav-cta-contact"
+              onClick={() => handleNavClick('booking')}
+              className="bg-[#e31837] hover:bg-[#c01430] text-white text-lg font-bold px-7 py-2.5 rounded-full transition-all duration-300 hover:scale-105 active:scale-100"
+            >
+              {t('nav.contact')}
+            </button>
           </div>
 
           {/* Mobile Hamburger */}

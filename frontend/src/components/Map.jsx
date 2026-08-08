@@ -243,9 +243,13 @@ export const Map = forwardRef(function Map(
 
   return (
     <MapContext.Provider value={contextValue}>
+      {/* `isolate` + an explicit z-index pins the WebGL canvas and every
+          maplibre overlay inside their own stacking context at z-0. Without
+          it the composited canvas can paint over fixed page chrome (the site
+          navbar showed the map through it). */}
       <div
         ref={containerRef}
-        className={cn("relative h-full w-full", className)}
+        className={cn("relative isolate z-0 h-full w-full", className)}
       >
         {(!isLoaded || loading) && <DefaultLoader />}
         {mapInstance && children}

@@ -2,14 +2,15 @@ import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import mahindraLogo from '../assets/mahindra-logo-03-freelogovectors-net_-640x400.png';
 import { useT } from '../utils/i18n';
+import { PAPER_FLAT_STYLE } from '../utils/paperTexture';
 
 export default function Footer({ setCurrentPage, currentPage }) {
   const t = useT();
-  // Pages whose last section is plain white; the CTA backdrop matches it so
-  // there is no off-white band between the section and the banner.
-  // Every page except home ends on plain white, so the CTA backdrop matches it
-  // and there is no off-white band between the last section and the banner.
-  const whiteBackdrop = currentPage !== 'home';
+  // The CTA backdrop matches whatever the page's last section ends on, so
+  // there is no mismatched band between that section and the banner. Home and
+  // About both close on the cream paper texture; every other page ends white.
+  const creamBackdropPages = ['home', 'about'];
+  const whiteBackdrop = !creamBackdropPages.includes(currentPage);
   const showCtaBanner = currentPage !== 'showcase';
   return (
     <footer className="w-full relative">
@@ -20,7 +21,8 @@ export default function Footer({ setCurrentPage, currentPage }) {
         <div className="relative z-10 px-4 sm:px-6 lg:px-8 pt-0 -mb-16">
           {/* Backdrop ends at the overlap line so the banner bleeds into the dark footer */}
           <div
-            className={`absolute inset-x-0 top-0 bottom-16 -z-10 ${whiteBackdrop ? 'bg-white' : 'bg-[#FAF7F2]'}`}
+            className={`absolute inset-x-0 top-0 bottom-16 -z-10 ${whiteBackdrop ? 'bg-white' : ''}`}
+            style={whiteBackdrop ? undefined : PAPER_FLAT_STYLE}
           />
           <div className="max-w-6xl mx-auto bg-[#e31837] text-white px-12 py-16 flex flex-col lg:flex-row items-center justify-between gap-8 rounded-sm shadow-2xl">
             <div className="w-full lg:w-auto text-left">

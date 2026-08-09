@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight, Compass, Zap, Milestone, Star, Quote } from 'lucide-react';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
-import { PAPER_BG_STYLE } from '../utils/paperTexture';
+import { PAPER_BG_STYLE, PAPER_FLAT_STYLE } from '../utils/paperTexture';
 import { useT } from '../utils/i18n';
 import untitledDesign4 from '../assets/untitled-design-4.webp';
 import blazoCargo from '../assets/mahindra-blazo-x-35-cargo.avif';
@@ -748,7 +748,7 @@ export default function Home({ setCurrentPage }) {
       </section>
 
       {/* ── FAQ Section ── */}
-      <section className="py-24 text-gray-800 border-t border-gray-100 bg-[#FAF7F2]" id="faq-section">
+      <section className="py-24 text-gray-800 border-t border-gray-100" id="faq-section" style={PAPER_FLAT_STYLE}>
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16 space-y-4">

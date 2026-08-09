@@ -8,13 +8,14 @@ import partnerVianet from '../assets/vianet-aba-sabai_connected-red-4x.png';
 import partnerJagdamba from '../assets/jagdamba-steels.png';
 import partnerAboutUs from '../assets/about-us-logo-image-1024x1024.png';
 import partnerLogo from '../assets/logo.png';
+import dugarLogo from '../assets/dugar-logo.png';
 // Background knocked out of the supplied JPEGs so they sit on the paper
 // texture like the rest of the strip.
 import partnerSumo from '../assets/partner-sumo-construction.webp';
 import partnerShivam from '../assets/partner-shivam-cement.webp';
 import partnerUnited from '../assets/partner-united-cements.webp';
 import { TOPO_CONTOUR_PATH } from '../utils/topoContour';
-import { PAPER_BG_STYLE, PAPER_TEXTURE } from '../utils/paperTexture';
+import { PAPER_FLAT_STYLE } from '../utils/paperTexture';
 
 const partnerLogos = [
   { id: 'vianet', src: partnerVianet, alt: 'Vianet' },
@@ -51,7 +52,7 @@ export default function AboutUs({ setCurrentPage }) {
   }, []);
 
   return (
-    <div className="min-h-screen" style={PAPER_BG_STYLE}>
+    <div className="min-h-screen" style={PAPER_FLAT_STYLE}>
 
       {/* Hero */}
       <div
@@ -143,7 +144,7 @@ export default function AboutUs({ setCurrentPage }) {
       </div>
 
       {/* Trusted Partners: auto-scrolling logo strip */}
-      <div style={PAPER_BG_STYLE}>
+      <div style={PAPER_FLAT_STYLE}>
        <div className="pt-24 pb-14">
         <div className="max-w-6xl mx-auto px-6 lg:px-10 text-center mb-14">
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
@@ -195,9 +196,55 @@ export default function AboutUs({ setCurrentPage }) {
        `}</style>
       </div>
 
+      {/* Established — the company in one line, sat between the partner strip
+          and Who We Serve so it reads as a full-width statement. */}
+      <div className="bg-white">
+        <div className="max-w-6xl mx-auto px-6 lg:px-10 py-20 sm:py-24">
+          <div className="text-center mb-14">
+            <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">
+              Our Foundation
+            </p>
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-950 uppercase tracking-tight leading-[1.05] after:content-[''] after:block after:w-14 after:h-1 after:bg-[#e31837] after:rounded-full after:mt-5 after:mx-auto">
+              Where it all started.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-16 items-center">
+            <div className="flex items-center gap-6">
+              <img
+                src={dugarLogo}
+                alt="MV Dugar Group"
+                className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 object-contain"
+              />
+              <div>
+                <p className="text-gray-400 text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em]">
+                  Established
+                </p>
+                <p className="text-gray-950 text-6xl sm:text-7xl font-black tracking-tight leading-none mt-1 mb-2 tabular-nums">
+                  1992
+                </p>
+                <p className="text-gray-500 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em]">
+                  Kathmandu, Nepal
+                </p>
+              </div>
+            </div>
+
+            <div className="lg:pl-16 lg:border-l lg:border-gray-200">
+              <p className="text-gray-500 text-lg sm:text-xl leading-relaxed max-w-2xl">
+                Dugar Brothers and Sons Pvt. Ltd has spent three decades supplying,
+                servicing, and standing behind the Mahindra vehicles that move Nepal&apos;s
+                goods, people, and earth.
+              </p>
+              <p className="mt-6 text-[rgb(213,59,59)] text-xs font-bold uppercase tracking-[0.25em]">
+                Authorised Mahindra Distributor
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       {/* Who We Serve */}
-      <div className="bg-white">
+      <div style={PAPER_FLAT_STYLE}>
        <div className="max-w-6xl mx-auto px-6 lg:px-10 py-20">
         <div className="text-center mb-12">
           <p className="text-[rgb(213,59,59)] text-base sm:text-lg font-black uppercase tracking-[0.3em] mb-5">

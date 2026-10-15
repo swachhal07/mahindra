@@ -11,5 +11,17 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Omni chatbot widget (supplied by the vendor, hosted on backend-omni.mvdugar.com).
+         Loads once for the whole SPA and persists across client-side route changes. -->
+    <script>
+      (function () {
+        var script = document.createElement('script');
+        script.src = 'https://backend-omni.mvdugar.com/widget.js';
+        script.setAttribute('data-chatbot-key', '353b222de4912da45ec99d42a1d9badd');
+        script.async = true;
+        document.head.appendChild(script);
+      })();
+    </script>
   </body>
 </html>
